@@ -86,26 +86,40 @@ trait ManageBooking
 
     $datepickerFormat = 'd-M-Y h:i A';
     $dateString = explode('To', $request->date);
-    $checkinDateTime = Carbon::createFromFormat($datepickerFormat, trim($dateString[0]));
-    $checkoutDateTime = Carbon::createFromFormat($datepickerFormat, trim($dateString[1]));
+    $checkInDate = trim($dateString[0]);
+$checkOutDate = trim($dateString[1]);
 
-    // Adjust check-in date if before 12 PM
-    if ($checkinDateTime->hour < 12) {
-        $checkinDateTime->subDay()->setHour(12)->setMinute(0);
-    } else {
-        $checkinDateTime->setHour(12)->setMinute(0);
-    }
+// Define the check-in time threshold (12 PM)
+$checkInThreshold = Carbon::createFromTime(12, 0, 0);
 
-    // Adjust checkout date if after 12 PM
-    if ($checkoutDateTime->hour >= 12) {
-        $checkoutDateTime->setHour(23)->setMinute(59);
-    } else {
-        $checkoutDateTime->setHour(12)->setMinute(0);
-    }
+// Parse the check-in time
+$checkInCarbon = Carbon::createFromFormat('d-M-Y h:i A', $checkInDate);
+
+// Adjust the check-in date based on the threshold
+if ($checkInCarbon->lessThan($checkInThreshold->copy()->setDate($checkInCarbon->year, $checkInCarbon->month, $checkInCarbon->day))) {
+    // If the check-in time is before 12 PM, subtract one day
+    $checkInCarbon->subDay();
+}
+// Set time to 00:00:00
+$finalCheckInDate = $checkInCarbon->format('Y-m-d 00:00:00');
+
+// Parse the check-out time
+$checkOutCarbon = Carbon::createFromFormat('d-M-Y h:i A', $checkOutDate);
+
+// Adjust the check-out date based on the threshold
+if ($checkOutCarbon->lessThan($checkInThreshold->copy()->setDate($checkOutCarbon->year, $checkOutCarbon->month, $checkOutCarbon->day))) {
+    // If the check-out time is before 12 PM, subtract one day
+    $checkOutCarbon->subDay();
+}
+// Set time to 00:00:00
+$finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
+
+// Output the final check-in and check-out dates
+// dd($finalCheckInDate, $finalCheckOutDate);
 
     $request->merge([
-        'checkin_date'  => $checkinDateTime->format('Y-m-d H:i:s'),
-        'checkout_date' => $checkoutDateTime->format('Y-m-d H:i:s'),
+        'checkin_date'  => $finalCheckInDate,
+        'checkout_date' => $finalCheckOutDate,
     ]);
 
     $view = $this->getRooms($request);
