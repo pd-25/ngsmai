@@ -121,7 +121,7 @@
                             <li class="sidebar-menu-item {{ menuActive('admin.hotel.bed.all') }}">
                                 <a href="{{ route('admin.hotel.bed.all') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
-                                    <span class="menu-title">@lang('Bed Types')</span>
+                                    <span class="menu-title">@lang('Boarder Type')</span>
                                 </a>
                             </li>
 
@@ -129,14 +129,14 @@
                             <li class="sidebar-menu-item {{ menuActive('admin.hotel.room.type.*') }}">
                                 <a href="{{ route('admin.hotel.room.type.all') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
-                                    <span class="menu-title">@lang('Hostel Types')</span>
+                                    <span class="menu-title">@lang('Bed Types')</span>
                                 </a>
                             </li>
 
                             <li class="sidebar-menu-item {{ menuActive('admin.hotel.room.all*') }}">
                                 <a href="{{ route('admin.hotel.room.all') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
-                                    <span class="menu-title">@lang('Hostel Room')</span>
+                                    <span class="menu-title">@lang('Bed Allocation')</span>
                                 </a>
                             </li>
 

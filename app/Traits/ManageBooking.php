@@ -68,8 +68,32 @@ trait ManageBooking
         $occupiedRooms_1 = Room::whereNotIn('id', $bookedRooms)->where('room_type_id', 1)->count();
         $occupiedRooms_2 = Room::whereNotIn('id', $bookedRooms)->where('room_type_id', 2)->count();
         $occupiedRooms_3 = Room::whereNotIn('id', $bookedRooms)->where('room_type_id', 3)->count();
+        $today = Carbon::today()->toDateString();
+        $tomorrow = Carbon::tomorrow()->toDateString();
+       $todaysCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
+    ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
+    ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
+    ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
+        $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
+             ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
+    })
+    ->whereDate('max_dates.last_date', $today)
+    ->where('bookings.receptionist_id', auth()->guard('receptionist')->id())
+    ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
+    ->get();
+$tomorrowsCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
+    ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
+    ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
+    ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
+        $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
+             ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
+    })
+    ->whereDate('max_dates.last_date', $tomorrow)
+     ->where('bookings.receptionist_id', auth()->guard('receptionist')->id())
+    ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
+    ->get();
 
-        return view($this->userType . '.booking.todays_booked', compact('pageTitle', 'rooms', 'emptyRooms', 'totalRooms_1', 'totalRooms_2', 'totalRooms_3', 'occupiedRooms_1', 'occupiedRooms_2', 'occupiedRooms_3', 'ExtraService', 'selectedDate'));
+        return view($this->userType . '.booking.todays_booked', compact('pageTitle', 'rooms', 'emptyRooms', 'totalRooms_1', 'totalRooms_2', 'totalRooms_3', 'occupiedRooms_1', 'occupiedRooms_2', 'occupiedRooms_3', 'ExtraService', 'selectedDate', 'todaysCheckout', 'tomorrowsCheckout'));
     }
 
     public function searchRoom(Request $request)
@@ -447,7 +471,7 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
                 return response()->json(['error' => ['User not found']]);
             }
             return [
-                'name' => $user->guest_name,
+                'name' => ($user->firstname ?? ''). ' '. ($user->lastname ?? ''),
                 'email' => $user->email,
                 'mobile' => $user->mobile,
                 'dob' => $user->dob,
@@ -458,21 +482,10 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
                 'c_d_c_number' => $user->c_d_c_number,
                 'cheak_in_time' => $request->cheak_in_time,
                 'payment_mode' => $request->payment_mode,
+                'id' => $user->id
             ];
         } else {
-            $guest = [
-                'name' => $request->guest_name,
-                'email' => $request->email,
-                'mobile' => $request->mobile,
-                'dob' => $request->dob,
-                'address' => $request->address,
-                'state' => $request->state,
-                'city' => $request->city,
-                'pincode' => $request->pincode,
-                'c_d_c_number' => $request->c_d_c_number,
-                'cheak_in_time' => $request->cheak_in_time,
-                'payment_mode' => $request->payment_mode,
-            ];
+            
 
             $userData = new User();
             $userData->firstname = $request->guest_name;
@@ -486,6 +499,21 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
             $userData->cdc = $request->c_d_c_number;
             $userData->rank = $request->rank;
             $userData->save();
+            
+            $guest = [
+                'name' => $request->guest_name,
+                'email' => $request->email,
+                'mobile' => $request->mobile,
+                'dob' => $request->dob,
+                'address' => $request->address,
+                'state' => $request->state,
+                'city' => $request->city,
+                'pincode' => $request->pincode,
+                'c_d_c_number' => $request->c_d_c_number,
+                'cheak_in_time' => $request->cheak_in_time,
+                'payment_mode' => $request->payment_mode,
+                'id' => $userData->id
+            ];
 
             return $guest;
         }
@@ -535,9 +563,12 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
 
     private function createBooking($request, $guest, $roomNumber, $fileName)
     {
+        // $getUserId = json_decode($guest);
         $booking = new Booking();
         $booking->booking_number = $this->generateBookingNumber();
-        $booking->user_id = $request->booked_user_id ? $request->booked_user_id : 0;
+        // $booking->user_id = $request->booked_user_id ? $request->booked_user_id : 0;
+        $booking->receptionist_id = $request->booked_user_id ? $request->booked_user_id : 0;
+        $booking->user_id = isset($guest["id"]) ? $guest["id"] : 0;
         $booking->guest_details = $guest;
         $booking->total_amount = $request->total_amount;
         $booking->paid_amount = $request->paid_amount ?? 0;

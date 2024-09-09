@@ -17,6 +17,8 @@ use App\Rules\FileTypeValidate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 
 class AdminController extends Controller
 {
@@ -118,8 +120,32 @@ class AdminController extends Controller
                 }
             }
         }
+        
+        $today = Carbon::today()->toDateString();
+        $tomorrow = Carbon::tomorrow()->toDateString();
+       $todaysCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
+    ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
+    ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
+    ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
+        $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
+             ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
+    })
+    ->whereDate('max_dates.last_date', $today)
+    ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
+    ->get();
+$tomorrowsCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
+    ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
+    ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
+    ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
+        $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
+             ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
+    })
+    ->whereDate('max_dates.last_date', $tomorrow)
+    ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
+    ->get();
+    // dd($tomorrowsCheckout);
 
-        return view('admin.dashboard', compact('pageTitle', 'widget', 'chart', 'deposit', 'report', 'bookingMonth', 'months', 'hotel','trxReport','plusTrx','minusTrx'));
+        return view('admin.dashboard', compact('pageTitle', 'widget', 'chart', 'deposit', 'report', 'bookingMonth', 'months', 'hotel','trxReport','plusTrx','minusTrx', 'todaysCheckout', 'tomorrowsCheckout'));
     }
 
 

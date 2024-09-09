@@ -67,6 +67,114 @@
 
 
 </div>
+<!--pd-->
+<div class="row">
+<div class="col-lg-12">
+      <h5 class="card-title mt-3 p-2">Today's Checkout</h5>
+    <div class="card b-radius--10">
+        <div class="card-body p-0">
+            <div class="table-responsive--md table-responsive" id="printContainer">
+                <table class="table--light table" id="printTable">
+                    <thead>
+                        <tr>
+                            <th>@lang('S.N.')</th>
+                            <th style="text-align:left;">@lang('Booking Number')</th>
+                            <th style="text-align:left;">@lang('Last Date')</th>
+                            <th style="text-align:left;">@lang('Room Numbers')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                        @forelse ($todaysCheckout as $item)
+                            <tr>
+                                <td data-label="@lang('S.N.')">{{ $loop->iteration }}</td>
+                                <td style="text-align:left;" data-label="@lang('Booking Number')">
+                                    <a href="{{ route('receptionist.booking.details', $item->booking_id) }}"> {{ __($item->booking_number) }}
+                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                    </svg>
+
+                                   </a>
+                                </td>
+                                <td style="text-align:left;" data-label="@lang('Checkout date')">
+                                    {{ showDateTime($item->last_date, 'd M, Y') }} 
+                                   
+                                </td>
+                                <td style="text-align:left;" data-label="@lang('Checkout date')">
+                                    {{ $item->rooms }} 
+                                   
+                                </td>
+                                
+                            </tr>
+                            
+                        @empty
+                            <tr>
+                                <td class="text-muted text-center" colspan="100%">{{ "No checkout today" }}</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer py-4"></div>
+    </div>
+    <!-- card end -->
+</div>
+</div>
+
+<div class="row">
+<div class="col-lg-12">
+      <h5 class="card-title mt-3 p-2">Tomorrow's Checkout</h5>
+    <div class="card b-radius--10">
+        <div class="card-body p-0">
+            <div class="table-responsive--md table-responsive" id="printContainer">
+                <table class="table--light table" id="printTable">
+                    <thead>
+                        <tr>
+                            <th>@lang('S.N.')</th>
+                            <th style="text-align:left;">@lang('Booking Number')</th>
+                            <th style="text-align:left;">@lang('Last Date')</th>
+                            <th style="text-align:left;">@lang('Room Numbers')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                        @forelse ($tomorrowsCheckout as $tomorrowsCheckou_t)
+                            <tr>
+                                <td data-label="@lang('S.N.')">{{ $loop->iteration }}</td>
+                                <td style="text-align:left;" data-label="@lang('Booking Number')">
+                                    <a href="{{ route('receptionist.booking.details', $tomorrowsCheckou_t->booking_id) }}"> {{ __($tomorrowsCheckou_t->booking_number) }}
+                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                    </svg>
+
+                                   </a>
+                                </td>
+                                <td style="text-align:left;" data-label="@lang('Checkout date')">
+                                    {{ showDateTime($tomorrowsCheckou_t->last_date, 'd M, Y') }} 
+                                   
+                                </td>
+                                <td style="text-align:left;" data-label="@lang('Checkout date')">
+                                    {{ $tomorrowsCheckou_t->rooms }} 
+                                   
+                                </td>
+                                
+                            </tr>
+                            
+                        @empty
+                            <tr>
+                                <td class="text-muted text-center" colspan="100%">{{ "No checkout today" }}</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer py-4"></div>
+    </div>
+    <!-- card end -->
+</div>
+</div>
 
 <div class="row gy-4">
     @forelse($rooms as $room)
