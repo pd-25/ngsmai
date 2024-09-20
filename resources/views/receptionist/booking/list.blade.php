@@ -155,13 +155,25 @@
                                                         {{-- @if (now() + 1 <= $booking->booked_room_max_booked_for) --}}
                                                         {{-- @if ($yesterday <= $booking->booked_room_max_booked_for &&
                                                                 (now() < $booking->booked_room_min_booked_for || $today == $booking->booked_room_min_booked_for)) --}}
-                                                        @if ($today <= $minBookedFor )
+                                                        {{-- @if ($today <= $minBookedFor )
                                                             <a href="javascript:void(0)"
                                                                 class="dropdown-item confirmationBtn"
                                                                 data-question="@lang('Are you sure, you want to cancel this booking?')
                                                             @if ($booking->paid_amount > 0) <br>
                                                             <small class='text--danger mt-3'> @lang('Please return the paid amount to the guest. The amount will be subtracted from this system automatically. If you click on the Yes button')</small> @endif"
                                                                 data-action="{{ route('receptionist.booking.cancel', $booking->id) }}">
+                                                                <i class="las la-times-circle"></i> @lang('Cancel Booking')
+                                                            </a>
+                                                        @endif --}}
+
+                                                        @if ($today <= $minBookedFor)
+                                                            <a href="javascript:void(0)"
+                                                                class="dropdown-item confirmationBtn"
+                                                                data-question="@lang('Are you sure, you want to cancel this booking?') 
+                                                                @if ($booking->paid_amount > 0) <br>
+                                                                <small class='text--danger mt-3'> @lang('Please return the paid amount to the guest. The amount will be subtracted from this system automatically. If you click on the Yes button')</small> @endif"
+                                                                data-action="{{ route('receptionist.booking.cancel', $booking->id) }}"
+                                                                data-toggle="modal" data-target="#cancelBookingModal">
                                                                 <i class="las la-times-circle"></i> @lang('Cancel Booking')
                                                             </a>
                                                         @endif
@@ -309,6 +321,31 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="cancelBookingModal" tabindex="-1" role="dialog" aria-labelledby="cancelBookingModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelBookingModalLabel">@lang('Cancel Booking')</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="cancelBookingForm">
+                        <div class="form-group">
+                            <label for="reason">@lang('Reason for Cancellation')</label>
+                            <textarea id="reason" class="form-control" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
+                    <button type="button" class="btn btn-danger" id="confirmCancelBtn">@lang('Delete')</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 @endsection
 
 @push('breadcrumb-plugins')
@@ -421,6 +458,47 @@
             });
 
         })(jQuery);
+    </script>
+
+    <script>
+        $(document).ready(function() {
+    let cancelActionUrl;
+
+    // Capture the click event on the cancel link
+    $('.confirmationBtn').on('click', function() {
+        cancelActionUrl = $(this).data('action');
+        $('#cancelBookingModal').modal('show');
+    });
+
+    // Handle the confirm cancel button click
+    $('#confirmCancelBtn').on('click', function() {
+        const reason = $('#reason').val();
+
+        if (reason.trim() === '') {
+            alert('@lang("Please provide a reason for cancellation.")');
+            return;
+        }
+
+        $.ajax({
+            url: cancelActionUrl,
+            type: 'DELETE', // or 'POST' based on your backend setup
+            data: {
+                reason: reason,
+                _token: '{{ csrf_token() }}' // Include CSRF token if needed
+            },
+            success: function(response) {
+                // Handle success (e.g., show a success message, reload the page, etc.)
+                $('#cancelBookingModal').modal('hide');
+                location.reload(); // or other actions based on your needs
+            },
+            error: function(xhr) {
+                // Handle error
+                alert('@lang("There was an error cancelling the booking. Please try again.")');
+            }
+        });
+    });
+});
+
     </script>
 @endpush
 
