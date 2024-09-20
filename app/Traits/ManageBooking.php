@@ -992,16 +992,16 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
                 $q->where('booked_for', '>=', $checkIn)->where('booked_for', '<=', $checkOut);
             });
         }
-        if ($request->filter) {
-            if ($request->filter == 9) {
-                $query->where('status', 9);
-            }
-            if ($request->filter == 1) {
-                $query->where('status', 1);
-            }
-        } else {
-            $query->where('status', 1);
-        }
+        // if ($request->filter) {
+        //     if ($request->filter == 9) {
+        //         $query->where('status', 9);
+        //     }
+        //     if ($request->filter == 1) {
+        //         $query->where('status', 1);
+        //     }
+        // } else {
+        //     $query->where('status', 1);
+        // }
 
         return $query->with('bookedRoom.room', 'user')
             ->withMin('bookedRoom', 'booked_for')
