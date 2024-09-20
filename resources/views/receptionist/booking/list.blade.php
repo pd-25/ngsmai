@@ -462,42 +462,40 @@
 
     <script>
         $(document).ready(function() {
-    let cancelActionUrl;
+            let cancelActionUrl;
 
-    // Capture the click event on the cancel link
-    $('.confirmationBtn').on('click', function() {
-        cancelActionUrl = $(this).data('action');
-        $('#cancelBookingModal').modal('show');
-    });
+            // Capture the click event on the cancel link
+            $('.confirmationBtn').on('click', function() {
+                cancelActionUrl = $(this).data('action');
+                $('#cancelBookingModal').modal('show');
+            });
 
-    // Handle the confirm cancel button click
-    $('#confirmCancelBtn').on('click', function() {
-        const reason = $('#reason').val();
+            // Handle the confirm cancel button click
+            $('#confirmCancelBtn').on('click', function() {
+                const reason = $('#reason').val();
 
-        if (reason.trim() === '') {
-            alert('@lang("Please provide a reason for cancellation.")');
-            return;
-        }
+                if (reason.trim() === '') {
+                    alert('@lang("Please provide a reason for cancellation.")');
+                    return;
+                }
 
-        $.ajax({
-            url: cancelActionUrl,
-            type: 'POST', // or 'POST' based on your backend setup
-            data: {
-                reason: reason,
-                _token: '{{ csrf_token() }}' // Include CSRF token if needed
-            },
-            success: function(response) {
-                // Handle success (e.g., show a success message, reload the page, etc.)
-                $('#cancelBookingModal').modal('hide');
-                location.reload(); // or other actions based on your needs
-            },
-            error: function(xhr) {
-                // Handle error
-                alert('@lang("There was an error cancelling the booking. Please try again.")');
-            }
+                $.ajax({
+                    url: cancelActionUrl,
+                    type: 'POST', 
+                    data: {
+                        reason: reason,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('#cancelBookingModal').modal('hide');
+                        location.reload(); 
+                    },
+                    error: function(xhr) {
+                        alert('@lang("There was an error cancelling the booking. Please try again.")');
+                    }
+                });
+            });
         });
-    });
-});
 
     </script>
 @endpush

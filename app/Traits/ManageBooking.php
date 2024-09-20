@@ -1043,42 +1043,45 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
 
     public function cancelBooking(Request $request, $id)
     {
-        dd($request->all());
         $booking = Booking::active()->withMin('bookedRoom', 'booked_for')->findOrFail($id);
-
-        $checkIn = $booking->booked_room_min_booked_for;
-        // dd($checkIn);
-
-        // if ($checkIn <= now()->toDateString()) {
-        //     $notify[] = ['error', 'Only future days bookings can be cancelled'];
-        //     return back()->withNotify($notify);
-        // }
-
-        $this->bookingActionHistory('cancel_booking', $booking->id);
-        $booking->bookedRoom()->update(['status' => 3]);
-        $booking->status = 3;
-        $booking->save();
-
-        $rooms = Room::whereIn('id', $booking->bookedRoom()->pluck('room_id')->toArray())->get()->pluck('room_number')->toArray();
-
-
-        // Return the paid amount to user
-        if ($booking->paid_amount > 0) {
-            $this->paymentLog($booking->id, $booking->paid_amount, 'RETURNED');
-            $booking->paid_amount = 0;
+        if($booking){
+            $checkIn = $booking->booked_room_min_booked_for;
+            // dd($checkIn);
+    
+            // if ($checkIn <= now()->toDateString()) {
+            //     $notify[] = ['error', 'Only future days bookings can be cancelled'];
+            //     return back()->withNotify($notify);
+            // }
+    
+            $this->bookingActionHistory('cancel_booking', $booking->id);
+            $booking->bookedRoom()->update(['status' => 3]);
+            $booking->status = 3;
+            $booking->cancel_reason = $request->reason;
+            $booking->save();
+    
+            $rooms = Room::whereIn('id', $booking->bookedRoom()->pluck('room_id')->toArray())->get()->pluck('room_number')->toArray();
+    
+    
+            // Return the paid amount to user
+            if ($booking->paid_amount > 0) {
+                $this->paymentLog($booking->id, $booking->paid_amount, 'RETURNED');
+                $booking->paid_amount = 0;
+            }
+    
+            if ($booking->user) {
+                notify($booking->user, 'BOOKING_CANCELLED', [
+                    'booking_number' => $booking->booking_number,
+                    'rooms' => implode(', ', $rooms),
+                    'check_in' => Carbon::parse($booking->bookedRoom->first()->booked_for)->format('d M, Y'),
+                    'check_out' => Carbon::parse($booking->bookedRoom->last()->booked_for)->format('d M, Y')
+                ]);
+            }
+    
+            $notify[] = ['success', 'Booking cancelled successfully'];
+            return back()->with($notify);
         }
 
-        if ($booking->user) {
-            notify($booking->user, 'BOOKING_CANCELLED', [
-                'booking_number' => $booking->booking_number,
-                'rooms' => implode(', ', $rooms),
-                'check_in' => Carbon::parse($booking->bookedRoom->first()->booked_for)->format('d M, Y'),
-                'check_out' => Carbon::parse($booking->bookedRoom->last()->booked_for)->format('d M, Y')
-            ]);
-        }
-
-        $notify[] = ['success', 'Booking cancelled successfully'];
-        return back()->with($notify);
+        
     }
 
 
