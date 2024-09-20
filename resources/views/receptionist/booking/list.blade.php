@@ -481,7 +481,7 @@
 
         $.ajax({
             url: cancelActionUrl,
-            type: 'DELETE', // or 'POST' based on your backend setup
+            type: 'POST', // or 'POST' based on your backend setup
             data: {
                 reason: reason,
                 _token: '{{ csrf_token() }}' // Include CSRF token if needed
