@@ -444,8 +444,8 @@
                     success: function(data) {
                         var user = JSON.parse(data);
                         if (user) {
-                            $("#guest_name").val(user.firstname + +user.lastname).prop('readonly', true);
-                            $("#email").val(user.email).prop('readonly', true);
+                            $("#guest_name").val(user.firstname + +user.lastname).prop('readonly',
+                            true);
                             $("#email").val(user.email).prop('readonly', true);
                             $("#c_d_c_number").val(user.cdc).prop('readonly', true);
                             $("#dob").val(user.dob).prop('readonly', true);
@@ -454,11 +454,19 @@
                             $("#state").val(user.address.state).prop('readonly', true);
                             $("#pincode").val(user.address.zip).prop('readonly', true);
                             $("#city").val(user.address.city).prop('readonly', true);
-
-                            $("#c_d_c_number").prop('readonly', true);
-                            $("#email").prop('readonly', true);
                             $("#guest_type").val('1');
 
+                        } else {
+                            $("#guest_name").val('').prop('readonly', false);
+                            $("#email").val('').prop('readonly', false);
+                            $("#c_d_c_number").val('').prop('readonly', false);
+                            $("#dob").val('').prop('readonly', false);
+                            $("#rank").val('').prop('readonly', false);
+                            $("#address").val('').prop('readonly', false);
+                            $("#state").val('').prop('readonly', false);
+                            $("#pincode").val('').prop('readonly', false);
+                            $("#city").val('').prop('readonly', false);
+                            $("#guest_type").val('');
                         }
 
                     }
