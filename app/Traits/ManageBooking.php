@@ -1041,8 +1041,9 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
 
 
 
-    public function cancelBooking($id)
+    public function cancelBooking(Request $request, $id)
     {
+        dd($request->all());
         $booking = Booking::active()->withMin('bookedRoom', 'booked_for')->findOrFail($id);
 
         $checkIn = $booking->booked_room_min_booked_for;
