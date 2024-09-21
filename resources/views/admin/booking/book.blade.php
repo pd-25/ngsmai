@@ -480,37 +480,28 @@
                         console.log(user);
                         if (user) {
                             $("#guest_name").val(user.firstname + +user.lastname).prop('readonly',
-                                true);
-                            $("#email").val(user.email).prop('readonly', true);
+                            true);
                             $("#email").val(user.email).prop('readonly', true);
                             $("#c_d_c_number").val(user.cdc).prop('readonly', true);
                             $("#dob").val(user.dob).prop('readonly', true);
                             $("#rank").val(user.rank).prop('readonly', true);
                             $("#address").val(user.address).prop('readonly', true);
-                            $("#state").val(user.address.state);
-                            $("#pincode").val(user.address.zip);
-                            $("#city").val(user.address.city);
-
-                            $("#c_d_c_number").prop('readonly', true);
-                            $("#email").prop('readonly', true);
+                            $("#state").val(user.address.state).prop('readonly', true);
+                            $("#pincode").val(user.address.zip).prop('readonly', true);
+                            $("#city").val(user.address.city).prop('readonly', true);
                             $("#guest_type").val('1');
 
-                        }else{
-                            $("#guest_name").val(user.firstname + +user.lastname).prop('readonly',
-                                false);
-                            $("#email").val(user.email).prop('readonly', false);
-                            $("#email").val(user.email).prop('readonly', false);
-                            $("#c_d_c_number").val(user.cdc).prop('readonly', false);
-                            $("#dob").val(user.dob).prop('readonly', false);
-                            $("#rank").val(user.rank).prop('readonly', false);
-                            $("#address").val(user.address).prop('readonly', false);
-                            $("#state").val(user.address.state);
-                            $("#pincode").val(user.address.zip);
-                            $("#city").val(user.address.city);
-
-                            $("#c_d_c_number").prop('readonly', false);
-                            $("#email").prop('readonly', false);
-                            $("#guest_type").val('0');
+                        } else {
+                            $("#guest_name").val('').prop('readonly', false);
+                            $("#email").val('').prop('readonly', false);
+                            $("#c_d_c_number").val('').prop('readonly', false);
+                            $("#dob").val('').prop('readonly', false);
+                            $("#rank").val('').prop('readonly', false);
+                            $("#address").val('').prop('readonly', false);
+                            $("#state").val('').prop('readonly', false);
+                            $("#pincode").val('').prop('readonly', false);
+                            $("#city").val('').prop('readonly', false);
+                            $("#guest_type").val('');
                         }
 
                     }
