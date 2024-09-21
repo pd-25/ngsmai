@@ -501,7 +501,7 @@
                             $("#state").val('').prop('readonly', false);
                             $("#pincode").val('').prop('readonly', false);
                             $("#city").val('').prop('readonly', false);
-                            $("#guest_type").val('');
+                            $("#guest_type").val('0');
                         }
 
                     }

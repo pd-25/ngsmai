@@ -719,7 +719,7 @@
             </div>
         </div>
     </main>
-    <div class="text-center footer">This is computer generated invoice. No signature is required </div>
+    <div class="text-center footer">This is computer generated invoice. Signature not required </div>
 </body>
 
 </html>
