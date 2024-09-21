@@ -113,7 +113,7 @@ class ManageUsersController extends Controller
 
         $request->validate([
             'firstname' => 'required',
-            'lastname'  => 'required',
+            // 'lastname'  => 'required',
             'email'     => 'required|email|unique:users,email,' . $user->id,
             'mobile'    => ['regex:/^([0-9]*)$/', 'unique:users,mobile,' . $user->id],
             'country'   => 'required|in:' . $countries,

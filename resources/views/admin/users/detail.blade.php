@@ -108,12 +108,12 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6" style="display:none;">
+                            {{-- <div class="col-md-6" style="display:none;">
                                 <div class="form-group">
                                     <label class="form-control-label">@lang('Last Name')</label>
                                     <input class="form-control" type="text" name="lastname" required value="{{ $user->lastname }}">
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="row">
