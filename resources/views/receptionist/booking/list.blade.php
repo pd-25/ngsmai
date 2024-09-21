@@ -61,7 +61,7 @@
                                                 <small class="ms-2"><i class="fa fa-circle text--warning"
                                                         aria-hidden="true"></i> @lang('Upcoming')</small>
                                             @elseif($booking->status == 3)
-                                                <small class="ms-2"><i class="fa fa-circle text--danger"
+                                                <small class="ms-2" title="{{$booking->cancel_reason}}"><i class="fa fa-circle text--danger"
                                                         aria-hidden="true"></i> @lang('Cancelled')</small>
                                             @else
                                                 <small class="ms-2"><i class="fa fa-circle text--dark"

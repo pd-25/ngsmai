@@ -48,7 +48,7 @@
                                             @elseif(now() < $booking->booked_room_min_booked_for && $booking->status == 1)
                                                 <small class="ms-2"><i class="fa fa-circle text--warning" aria-hidden="true"></i> @lang('Upcoming')</small>
                                             @elseif($booking->status == 3)
-                                                <small class="ms-2"><i class="fa fa-circle text--danger" aria-hidden="true"></i> @lang('Cancelled')</small>
+                                                <small class="ms-2" title="{{$booking->cancel_reason}}"><i class="fa fa-circle text--danger" aria-hidden="true"></i> @lang('Cancelled')</small>
                                             @else
                                                 <small class="ms-2"><i class="fa fa-circle text--dark" aria-hidden="true"></i> @lang('Checked Out')</small>
                                             @endif
