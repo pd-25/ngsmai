@@ -96,7 +96,7 @@ class BookingController extends Controller
     }
     public function mobile(Request $request)
     {
-        $UserData = User::where('mobile', $request->mobile)->first();
+        $UserData = User::where('mobile', '91'.$request->mobile)->first();
         echo json_encode($UserData);
     }
 }
