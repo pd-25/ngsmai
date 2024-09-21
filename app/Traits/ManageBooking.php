@@ -1043,7 +1043,8 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
 
     public function cancelBooking(Request $request, $id)
     {
-        $booking = Booking::active()->withMin('bookedRoom', 'booked_for')->findOrFail($id);
+        try {
+            $booking = Booking::active()->withMin('bookedRoom', 'booked_for')->findOrFail($id);
         if($booking){
             $checkIn = $booking->booked_room_min_booked_for;
             // dd($checkIn);
@@ -1077,8 +1078,16 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
                 ]);
             }
     
-            $notify[] = ['success', 'Booking cancelled successfully'];
-            return back()->with($notify);
+            // $notify[] = ['success', 'Booking cancelled successfully'];
+            // return back()->with($notify);
+            return response()->json(['success' => 'Booking cancelled successfully']);
+        }else{
+            return response()->json(['error' => 'Booking not found'], 404);
+        }
+        } catch (\Throwable $th) {
+            Log::debug("error --- ", [$th->getMessage()]);
+            return response()->json(['error' => $th->getMessage()], 500);
+            
         }
 
         
