@@ -8,6 +8,7 @@ use App\Models\BookedRoom;
 use App\Models\Room;
 use App\Models\Booking;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -96,7 +97,9 @@ class BookingController extends Controller
     }
     public function mobile(Request $request)
     {
-        $UserData = User::where('mobile', '91'.$request->mobile)->first();
+        // $UserData = User::where('mobile', '91'.$request->mobile)->first();
+        $UserData = User::where(DB::raw('RIGHT(mobile, 10)'), $request->mobile)->first();
+
         echo json_encode($UserData);
     }
 }

@@ -409,7 +409,6 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
             'room'             => 'required|array',
             'paid_amount'      => 'nullable|integer|gte:0'
         ]);
-        dd($request->all());
 
         if (!$validator->passes()) {
             return response()->json(['error' => $validator->errors()->all()]);
@@ -467,7 +466,7 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
     private function handleGuest($request)
     {
         if ($request->guest_type == 1) {
-            $user = User::where('email', $request->email)->first();
+            $user = User::where('mobile', $request->mobile)->first();
             if (!$user) {
                 return response()->json(['error' => ['User not found']]);
             }
