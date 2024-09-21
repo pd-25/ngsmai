@@ -362,7 +362,8 @@
                 <div class="col-12">
                     <div class="list--row">
                         <div class="logo float-left">
-                            <img src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" alt="@lang('image')" class="logo-img">
+                            {{-- <img src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" alt="@lang('image')" class="logo-img"> --}}
+                            <img src="{{ asset('assets/images/logoIcon/logo.png') }}" alt="@lang('image')" class="logo-img">
                         </div>
                         <h6 class="float-right m-0" style="margin: 0;">Date: {{ date('d/m/Y') }}</h6>
                     </div>
