@@ -437,7 +437,44 @@
         })(jQuery);
     </script>
 
-   
+    <script>
+        $(document).ready(function() {
+            let cancelActionUrl;
+
+            // Capture the click event on the cancel link
+            $('.confirmationBtn').on('click', function() {
+                cancelActionUrl = $(this).data('action');
+                $('#cancelBookingModal').modal('show');
+            });
+
+            // Handle the confirm cancel button click
+            $('#confirmCancelBtn').on('click', function() {
+                const reason = $('#reason').val();
+
+                if (reason.trim() === '') {
+                    alert('@lang("Please provide a reason for cancellation.")');
+                    return;
+                }
+
+                $.ajax({
+                    url: cancelActionUrl,
+                    type: 'POST', 
+                    data: {
+                        reason: reason,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('#cancelBookingModal').modal('hide');
+                        location.reload(); 
+                    },
+                    error: function(xhr) {
+                        alert('@lang("There was an error cancelling the booking. Please try again.")');
+                    }
+                });
+            });
+        });
+
+    </script>
 @endpush
 
 @push('style')
