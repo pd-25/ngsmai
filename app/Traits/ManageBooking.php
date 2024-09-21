@@ -409,6 +409,7 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
             'room'             => 'required|array',
             'paid_amount'      => 'nullable|integer|gte:0'
         ]);
+        dd($request->all());
 
         if (!$validator->passes()) {
             return response()->json(['error' => $validator->errors()->all()]);
