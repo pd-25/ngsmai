@@ -466,7 +466,7 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
     private function handleGuest($request)
     {
         if ($request->guest_type == 1) {
-            $user = User::where('mobile', $request->mobile)->first();
+            $user = User::where(DB::raw('RIGHT(mobile, 10)'), $request->mobile)->first();
             if (!$user) {
                 return response()->json(['error' => ['User not found']]);
             }
