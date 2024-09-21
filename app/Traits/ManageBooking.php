@@ -1078,9 +1078,9 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
                 ]);
             }
     
-            // $notify[] = ['success', 'Booking cancelled successfully'];
-            // return back()->with($notify);
-            return response()->json(['success' => 'Booking cancelled successfully']);
+            $notify[] = ['success', 'Booking cancelled successfully'];
+            return back()->with($notify);
+            // return response()->json(['success' => 'Booking cancelled successfully']);
         }else{
             return response()->json(['error' => 'Booking not found'], 404);
         }

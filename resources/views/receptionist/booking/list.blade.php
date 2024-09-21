@@ -1,6 +1,6 @@
 @php
-    $yesterday = \Carbon\Carbon::now()->subDay();
-    $today = \Carbon\Carbon::now()->startOfDay();
+      $yesterday = \Carbon\Carbon::now()->subDay();
+      $today = \Carbon\Carbon::now()->startOfDay();
 @endphp
 @extends('receptionist.layouts.app')
 @section('panel')
@@ -40,14 +40,10 @@
                             </thead>
                             <tbody style="background:#ffffff">
                                 @forelse($bookings as $booking)
-                                    @php
-                                        $maxBookedFor = \Carbon\Carbon::parse(
-                                            $booking->booked_room_max_booked_for,
-                                        )->startOfDay();
-                                        $minBookedFor = \Carbon\Carbon::parse(
-                                            $booking->booked_room_min_booked_for,
-                                        )->startOfDay();
-                                    @endphp
+                                @php                       
+                                    $maxBookedFor = \Carbon\Carbon::parse($booking->booked_room_max_booked_for)->startOfDay();
+                                    $minBookedFor = \Carbon\Carbon::parse($booking->booked_room_min_booked_for)->startOfDay();
+                                @endphp
                                     <tr>
                                         <td>
                                             {{ $bookings->firstItem() + $loop->index }}
@@ -65,9 +61,8 @@
                                                 <small class="ms-2"><i class="fa fa-circle text--warning"
                                                         aria-hidden="true"></i> @lang('Upcoming')</small>
                                             @elseif($booking->status == 3)
-                                                <small class="ms-2" title="{{ $booking->cancel_reason }}"><i
-                                                        class="fa fa-circle text--danger" aria-hidden="true"></i>
-                                                    @lang('Cancelled')</small>
+                                                <small class="ms-2" title="{{$booking->cancel_reason}}"><i class="fa fa-circle text--danger"
+                                                        aria-hidden="true"></i> @lang('Cancelled')</small>
                                             @else
                                                 <small class="ms-2"><i class="fa fa-circle text--dark"
                                                         aria-hidden="true"></i> @lang('Checked Out')</small>
@@ -155,11 +150,12 @@
                                                             data-booking_number="{{ $booking->booking_number }}">
                                                             <i class="las la-object-group"></i> @lang('Merge Booking')
                                                         </a>
-
+                                                       
                                                         {{-- @dump($yesterday > $maxBookedFor, $yesterday, $maxBookedFor) --}}
                                                         {{-- @if (now() + 1 <= $booking->booked_room_max_booked_for) --}}
-                                                        {{-- @if ($yesterday <= $booking->booked_room_max_booked_for && (now() < $booking->booked_room_min_booked_for || $today == $booking->booked_room_min_booked_for)) --}}
-                                                        {{-- @if ($today <= $minBookedFor)
+                                                        {{-- @if ($yesterday <= $booking->booked_room_max_booked_for &&
+                                                                (now() < $booking->booked_room_min_booked_for || $today == $booking->booked_room_min_booked_for)) --}}
+                                                        {{-- @if ($today <= $minBookedFor )
                                                             <a href="javascript:void(0)"
                                                                 class="dropdown-item confirmationBtn"
                                                                 data-question="@lang('Are you sure, you want to cancel this booking?')
@@ -325,8 +321,8 @@
             </div>
         </div>
     </div>
-    @include('components.cancel-comfarmation')
-
+    @include("components.cancel-comfarmation")
+    
 @endsection
 
 @push('breadcrumb-plugins')
@@ -456,30 +452,28 @@
                 const reason = $('#reason').val();
 
                 if (reason.trim() === '') {
-                    alert('@lang('Please provide a reason for cancellation.')');
+                    alert('@lang("Please provide a reason for cancellation.")');
                     return;
                 }
 
                 $.ajax({
                     url: cancelActionUrl,
-                    type: 'POST',
+                    type: 'POST', 
                     data: {
                         reason: reason,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
-                        if (response.success) {
-                            location.reload();
-                        } else {
-                            alert(response.error);
-                        }
+                        $('#cancelBookingModal').modal('hide');
+                        location.reload(); 
                     },
                     error: function(xhr) {
-                        alert('@lang('There was an error cancelling the booking. Please try again.')');
+                        alert('@lang("There was an error cancelling the booking. Please try again.")');
                     }
                 });
             });
         });
+
     </script>
 @endpush
 
