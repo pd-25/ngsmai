@@ -127,7 +127,7 @@
                                                             <i class="las la-object-group"></i> @lang('Merge Booking')
                                                         </a>
 
-                                                        @if (now() < $booking->booked_room_min_booked_for)
+                                                        {{-- @if (now() < $booking->booked_room_min_booked_for)
                                                             <a href="javascript:void(0)"
                                                             class="dropdown-item confirmationBtn"
                                                             data-question="@lang('Are you sure, you want to cancel this booking?')
@@ -136,6 +136,17 @@
                                                             <small class='text--danger mt-3'> @lang('Please return the paid amount to the guest. The amount will be subtracted from this system automatically. If you click on the Yes button')</small>
                                                             @endif"
                                                             data-action="{{ route('admin.booking.cancel', $booking->id) }}">
+                                                                <i class="las la-times-circle"></i> @lang('Cancel Booking')
+                                                            </a>
+                                                        @endif --}}
+                                                        @if (now() < $booking->booked_room_min_booked_for)
+                                                            <a href="javascript:void(0)"
+                                                                class="dropdown-item confirmationBtn"
+                                                                data-question="@lang('Are you sure, you want to cancel this booking?') 
+                                                                @if ($booking->paid_amount > 0) <br>
+                                                                <small class='text--danger mt-3'> @lang('Please return the paid amount to the guest. The amount will be subtracted from this system automatically. If you click on the Yes button')</small> @endif"
+                                                                data-action="{{ route('admin.booking.cancel', $booking->id) }}"
+                                                                data-toggle="modal" data-target="#cancelBookingModal">
                                                                 <i class="las la-times-circle"></i> @lang('Cancel Booking')
                                                             </a>
                                                         @endif
@@ -273,6 +284,8 @@
             </div>
         </div>
     </div>
+    @include("components.cancel-comfarmation")
+
 @endsection
 
 @push('breadcrumb-plugins')
