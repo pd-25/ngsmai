@@ -512,7 +512,7 @@
                                             ?>
                                   <li>
                                     <span class="d-inline-block strong">@lang('Number of Days') :</span>
-                                    <span class="d-inline-block">{{ $numberOfDays }}</span>
+                                    <span class="d-inline-block">{{ $numberOfDays+1 }}</span>
                                 </li>
                                 <li>
                                     <span class="d-inline-block strong">@lang('Bed Rates') :</span>
