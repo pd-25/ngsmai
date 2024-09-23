@@ -58,7 +58,7 @@
                                         <td data-label="@lang('Booking ID')">{{ $item?->booking?->booking_number }}</td>
                                         <td data-label="@lang('Amount')">{{ number_format($item?->amount, 2) }}</td>
                                         <td data-label="@lang('Payment type')">{{ $item?->payment_mode }}</td>
-                                        <td data-label="@lang('Payment type')">{{ $item?->type }}</td>
+                                        <td data-label="@lang('Payment type')"><span class="{{$item?->type == "RECEIVED" ? "text-success" : "text-danger"}}"><b>{{ $item?->type }}</b></span></td>
                                         <td data-label="@lang('Date')">{{ date('d M, Y h:i A', strtotime($item?->created_at)) }}</td>
                                     </tr>
                                 @empty
