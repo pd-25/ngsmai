@@ -405,7 +405,7 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
             'guest_type'       => 'required|in:1,0',
             'guest_name'       => 'nullable|required_if:guest_type,0',
             'email'            => 'required|email',
-            'mobile'           => 'nullable|required_if:guest_type,0|regex:/^([0-9]*)$/',
+            'mobile'           => 'nullable|required_if:guest_type,0|regex:/^([0-9]*)$/|min:10',
             'room'             => 'required|array',
             'paid_amount'      => 'nullable|integer|gte:0'
         ]);
