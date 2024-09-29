@@ -57,8 +57,10 @@
                 <h6>{{ $Extra->name }}</h6>
             </div>
             <div class="card-body text-center">
-                @var_dump($Extra->qty - $quantity)
-                <p>{{  $Extra->qty - $quantity}}</b> out of <b>{{  $Extra->qty }} @var_dump($Extra->qty)</b></p>
+                @dump($Extra->qty - $quantity)
+                @dump($quantity)
+                @dump($Extra->qty)
+                <p>{{  $Extra->qty - $quantity}}</b> out of <b>{{  $Extra->qty }} </b></p>
             </div>
         </div>
     </div>
