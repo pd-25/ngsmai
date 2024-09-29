@@ -47,7 +47,6 @@
             <?php
             $UsedExtraServices =   DB::table('used_extra_services')->where('extra_service_id', $Extra->id)->where('service_date', $selectedDate)->get();
             $quantity = 0;
-            dd($UsedExtraServices);
             if ($UsedExtraServices) {
                 foreach ($UsedExtraServices as $UsedServices) {
                     $quantity += $UsedServices->qty;
@@ -58,6 +57,7 @@
                 <h6>{{ $Extra->name }}</h6>
             </div>
             <div class="card-body text-center">
+                @dd($Extra->qty - $quantity, $Extra->qty)
                 <p>{{ $Extra->qty - $quantity}}</b> out of <b>{{ $Extra->qty }}</b></p>
             </div>
         </div>
