@@ -41,6 +41,7 @@
 
 <div class="row mb-2">
     <h6>Inventory Stock</h6>
+    @dd($ExtraService)
     @forelse ($ExtraService as $Extra)
     <div class="col-md-4 mb-2 mt-2">
         <div class="card bg-info text-white">

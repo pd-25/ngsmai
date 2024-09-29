@@ -70,87 +70,87 @@ trait ManageBooking
         $occupiedRooms_3 = Room::whereNotIn('id', $bookedRooms)->where('room_type_id', 3)->count();
         $today = Carbon::today()->toDateString();
         $tomorrow = Carbon::tomorrow()->toDateString();
-       $todaysCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
-    ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
-    ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
-    ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
-        $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
-             ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
-    })
-    ->whereDate('max_dates.last_date', $today)
-    ->where('bookings.receptionist_id', auth()->guard('receptionist')->id())
-    ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
-    ->get();
-$tomorrowsCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
-    ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
-    ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
-    ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
-        $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
-             ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
-    })
-    ->whereDate('max_dates.last_date', $tomorrow)
-     ->where('bookings.receptionist_id', auth()->guard('receptionist')->id())
-    ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
-    ->get();
+        $todaysCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
+            ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
+            ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
+            ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
+                $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
+                    ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
+            })
+            ->whereDate('max_dates.last_date', $today)
+            ->where('bookings.receptionist_id', auth()->guard('receptionist')->id())
+            ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
+            ->get();
+        $tomorrowsCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
+            ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
+            ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
+            ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
+                $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
+                    ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
+            })
+            ->whereDate('max_dates.last_date', $tomorrow)
+            ->where('bookings.receptionist_id', auth()->guard('receptionist')->id())
+            ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
+            ->get();
 
         return view($this->userType . '.booking.todays_booked', compact('pageTitle', 'rooms', 'emptyRooms', 'totalRooms_1', 'totalRooms_2', 'totalRooms_3', 'occupiedRooms_1', 'occupiedRooms_2', 'occupiedRooms_3', 'ExtraService', 'selectedDate', 'todaysCheckout', 'tomorrowsCheckout'));
     }
 
     public function searchRoom(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'room_type'  => 'required|exists:room_types,id',
-        'date'       => 'required',
-        'rooms'      => 'required|integer|gt:0'
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'room_type'  => 'required|exists:room_types,id',
+            'date'       => 'required',
+            'rooms'      => 'required|integer|gt:0'
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json(['error' => $validator->errors()->all()]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->all()]);
+        }
+
+        $datepickerFormat = 'd-M-Y h:i A';
+        $dateString = explode('To', $request->date);
+        $checkInDate = trim($dateString[0]);
+        $checkOutDate = trim($dateString[1]);
+
+        // Define the check-in time threshold (12 PM)
+        $checkInThreshold = Carbon::createFromTime(12, 0, 0);
+
+        // Parse the check-in time
+        $checkInCarbon = Carbon::createFromFormat('d-M-Y h:i A', $checkInDate);
+
+        // Adjust the check-in date based on the threshold
+        if ($checkInCarbon->lessThan($checkInThreshold->copy()->setDate($checkInCarbon->year, $checkInCarbon->month, $checkInCarbon->day))) {
+            // If the check-in time is before 12 PM, subtract one day
+            $checkInCarbon->subDay();
+        }
+        // Set time to 00:00:00
+        $finalCheckInDate = $checkInCarbon->format('Y-m-d 00:00:00');
+
+        // Parse the check-out time
+        $checkOutCarbon = Carbon::createFromFormat('d-M-Y h:i A', $checkOutDate);
+
+        // Adjust the check-out date based on the threshold
+        if ($checkOutCarbon->lessThan($checkInThreshold->copy()->setDate($checkOutCarbon->year, $checkOutCarbon->month, $checkOutCarbon->day))) {
+            // If the check-out time is before 12 PM, subtract one day
+            $checkOutCarbon->subDay();
+        }
+        // Set time to 00:00:00
+        $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
+
+        // Output the final check-in and check-out dates
+        // dd($finalCheckInDate, $finalCheckOutDate);
+
+        $request->merge([
+            'checkin_date'  => $finalCheckInDate,
+            'checkout_date' => $finalCheckOutDate,
+        ]);
+
+        $view = $this->getRooms($request);
+        $services = $this->getServices();
+
+        return response()->json(['html' => $view, 'services' => $services]);
     }
-
-    $datepickerFormat = 'd-M-Y h:i A';
-    $dateString = explode('To', $request->date);
-    $checkInDate = trim($dateString[0]);
-$checkOutDate = trim($dateString[1]);
-
-// Define the check-in time threshold (12 PM)
-$checkInThreshold = Carbon::createFromTime(12, 0, 0);
-
-// Parse the check-in time
-$checkInCarbon = Carbon::createFromFormat('d-M-Y h:i A', $checkInDate);
-
-// Adjust the check-in date based on the threshold
-if ($checkInCarbon->lessThan($checkInThreshold->copy()->setDate($checkInCarbon->year, $checkInCarbon->month, $checkInCarbon->day))) {
-    // If the check-in time is before 12 PM, subtract one day
-    $checkInCarbon->subDay();
-}
-// Set time to 00:00:00
-$finalCheckInDate = $checkInCarbon->format('Y-m-d 00:00:00');
-
-// Parse the check-out time
-$checkOutCarbon = Carbon::createFromFormat('d-M-Y h:i A', $checkOutDate);
-
-// Adjust the check-out date based on the threshold
-if ($checkOutCarbon->lessThan($checkInThreshold->copy()->setDate($checkOutCarbon->year, $checkOutCarbon->month, $checkOutCarbon->day))) {
-    // If the check-out time is before 12 PM, subtract one day
-    $checkOutCarbon->subDay();
-}
-// Set time to 00:00:00
-$finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
-
-// Output the final check-in and check-out dates
-// dd($finalCheckInDate, $finalCheckOutDate);
-
-    $request->merge([
-        'checkin_date'  => $finalCheckInDate,
-        'checkout_date' => $finalCheckOutDate,
-    ]);
-
-    $view = $this->getRooms($request);
-    $services = $this->getServices();
-
-    return response()->json(['html' => $view, 'services' => $services]);
-}
 
 
 
@@ -471,7 +471,7 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
                 return response()->json(['error' => ['User not found']]);
             }
             return [
-                'name' => ($user->firstname ?? ''). ' '. ($user->lastname ?? ''),
+                'name' => ($user->firstname ?? '') . ' ' . ($user->lastname ?? ''),
                 'email' => $user->email,
                 'mobile' => $user->mobile,
                 'dob' => $user->dob,
@@ -485,7 +485,7 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
                 'id' => $user->id
             ];
         } else {
-            
+
 
             $userData = new User();
             $userData->firstname = $request->guest_name;
@@ -499,7 +499,7 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
             $userData->cdc = $request->c_d_c_number;
             $userData->rank = $request->rank;
             $userData->save();
-            
+
             $guest = [
                 'name' => $request->guest_name,
                 'email' => $request->email,
@@ -1045,52 +1045,49 @@ $finalCheckOutDate = $checkOutCarbon->format('Y-m-d 00:00:00');
     {
         try {
             $booking = Booking::active()->withMin('bookedRoom', 'booked_for')->findOrFail($id);
-        if($booking){
-            $checkIn = $booking->booked_room_min_booked_for;
-            // dd($checkIn);
-    
-            // if ($checkIn <= now()->toDateString()) {
-            //     $notify[] = ['error', 'Only future days bookings can be cancelled'];
-            //     return back()->withNotify($notify);
-            // }
-    
-            $this->bookingActionHistory('cancel_booking', $booking->id);
-            $booking->bookedRoom()->update(['status' => 3]);
-            $booking->status = 3;
-            $booking->cancel_reason = $request->reason;
-            $booking->save();
-    
-            $rooms = Room::whereIn('id', $booking->bookedRoom()->pluck('room_id')->toArray())->get()->pluck('room_number')->toArray();
-    
-    
-            // Return the paid amount to user
-            if ($booking->paid_amount > 0) {
-                $this->paymentLog($booking->id, $booking->paid_amount, 'RETURNED');
-                $booking->paid_amount = 0;
+            if ($booking) {
+                $checkIn = $booking->booked_room_min_booked_for;
+                // dd($checkIn);
+
+                // if ($checkIn <= now()->toDateString()) {
+                //     $notify[] = ['error', 'Only future days bookings can be cancelled'];
+                //     return back()->withNotify($notify);
+                // }
+
+                $this->bookingActionHistory('cancel_booking', $booking->id);
+                $booking->bookedRoom()->update(['status' => 3]);
+                $booking->status = 3;
+                $booking->cancel_reason = $request->reason;
+                $booking->save();
+
+                $rooms = Room::whereIn('id', $booking->bookedRoom()->pluck('room_id')->toArray())->get()->pluck('room_number')->toArray();
+
+
+                // Return the paid amount to user
+                if ($booking->paid_amount > 0) {
+                    $this->paymentLog($booking->id, $booking->paid_amount, 'RETURNED');
+                    $booking->paid_amount = 0;
+                }
+
+                if ($booking->user) {
+                    notify($booking->user, 'BOOKING_CANCELLED', [
+                        'booking_number' => $booking->booking_number,
+                        'rooms' => implode(', ', $rooms),
+                        'check_in' => Carbon::parse($booking->bookedRoom->first()->booked_for)->format('d M, Y'),
+                        'check_out' => Carbon::parse($booking->bookedRoom->last()->booked_for)->format('d M, Y')
+                    ]);
+                }
+
+                $notify[] = ['success', 'Booking cancelled successfully'];
+                return back()->with($notify);
+                // return response()->json(['success' => 'Booking cancelled successfully']);
+            } else {
+                return response()->json(['error' => 'Booking not found'], 404);
             }
-    
-            if ($booking->user) {
-                notify($booking->user, 'BOOKING_CANCELLED', [
-                    'booking_number' => $booking->booking_number,
-                    'rooms' => implode(', ', $rooms),
-                    'check_in' => Carbon::parse($booking->bookedRoom->first()->booked_for)->format('d M, Y'),
-                    'check_out' => Carbon::parse($booking->bookedRoom->last()->booked_for)->format('d M, Y')
-                ]);
-            }
-    
-            $notify[] = ['success', 'Booking cancelled successfully'];
-            return back()->with($notify);
-            // return response()->json(['success' => 'Booking cancelled successfully']);
-        }else{
-            return response()->json(['error' => 'Booking not found'], 404);
-        }
         } catch (\Throwable $th) {
             Log::debug("error --- ", [$th->getMessage()]);
             return response()->json(['error' => $th->getMessage()], 500);
-            
         }
-
-        
     }
 
 
