@@ -41,13 +41,13 @@
 
 <div class="row mb-2">
     <h6>Inventory Stock</h6>
-    @dd($ExtraService)
     @forelse ($ExtraService as $Extra)
     <div class="col-md-4 mb-2 mt-2">
         <div class="card bg-info text-white">
             <?php
             $UsedExtraServices =   DB::table('used_extra_services')->where('extra_service_id', $Extra->id)->where('service_date', $selectedDate)->get();
             $quantity = 0;
+            dd($UsedExtraServices);
             if ($UsedExtraServices) {
                 foreach ($UsedExtraServices as $UsedServices) {
                     $quantity += $UsedServices->qty;
