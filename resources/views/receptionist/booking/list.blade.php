@@ -73,7 +73,7 @@
                                             @if ($booking?->user_id)
                                                 {{-- @dd($booking?->user_id) --}}
                                                 <span class="small">
-                                                    <span class="text--info"><?php echo isset($booking->user->username) ? $booking->user->username : $booking->guest_details->name; ?></span>
+                                                    <span class="text--info"><?php echo isset($booking->user->firstname) ? $booking->user->firstname : $booking->guest_details->name; ?></span>
                                                 </span>
                                                 <br>
                                                 <span class="fw-bold"><?php echo isset($booking->user->email) ? $booking->user->email : $booking->guest_details->email; ?></span>

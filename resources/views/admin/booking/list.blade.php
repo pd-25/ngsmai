@@ -57,7 +57,7 @@
                                         <td data-label="@lang('User')">
                                             @if ($booking->user_id)
                                                 <span class="small">
-                                                    <a href="{{ route('admin.users.detail', $booking->user_id) }}"><span></span><?php echo isset($booking->user->username)?$booking->user->username:$booking->guest_details->name ?? ""; ?></a>
+                                                    <a href="{{ route('admin.users.detail', $booking->user_id) }}"><span></span><?php echo isset($booking->user->firstname)?$booking->user->firstname:$booking->guest_details->name ?? ""; ?></a>
                                                 </span>
                                                 <br>
                                                 <span class="fw-bold"><?php echo isset($booking->user->email)?$booking->user->email:$booking->guest_details->email ?? ""; ?></span>
