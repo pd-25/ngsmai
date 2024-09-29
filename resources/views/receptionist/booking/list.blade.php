@@ -29,7 +29,7 @@
                                 <tr>
                                     <th>@lang('S.N.')</th>
                                     <th>@lang('Booking Number')</th>
-                                    <th>@lang('User')</th>
+                                    <th>@lang('Occupant')</th>
                                     <th>@lang('Room Number')</th>
                                     <th>@lang('Booked For')</th>
                                     <th>@lang('Total Fare') | @lang('Extra Service')</th>
