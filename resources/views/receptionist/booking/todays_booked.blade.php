@@ -57,9 +57,6 @@
                 <h6>{{ $Extra->name }}</h6>
             </div>
             <div class="card-body text-center">
-                @dump($Extra->qty - $quantity)
-                @dump($quantity)
-                @dump($Extra->qty)
                 <p>{{  $Extra->qty - $quantity}}</b> out of <b>{{  $Extra->qty }} </b></p>
             </div>
         </div>
