@@ -218,7 +218,7 @@
                             <div class="col-xl-3 col-md-6">
                                 <div class="form-group">
                                     <label>@lang('Country')</label>
-                                    <select name="country" class="form-control">
+                                    <select disabled name="country" class="form-control">
                                         @foreach ($countries as $key => $country)
                                             <option data-mobile_code="{{ $country->dial_code }}" disabled value="{{ $key }}">{{ __($country->country) }}</option>
                                         @endforeach
