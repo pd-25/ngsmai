@@ -105,14 +105,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>@lang('Full Name')</label>
-                                    <input class="form-control" type="text" name="firstname" required value="{{ $user?->firstname }}">
+                                    <input class="form-control" type="text" name="firstname" required disabled value="{{ $user?->firstname }}">
                                 </div>
                             </div>
 
                             {{-- <div class="col-md-6" style="display:none;">
                                 <div class="form-group">
                                     <label class="form-control-label">@lang('Last Name')</label>
-                                    <input class="form-control" type="text" name="lastname" required value="{{ $user?->lastname }}">
+                                    <input class="form-control" type="text" name="lastname" required disabled value="{{ $user?->lastname }}">
                                 </div>
                             </div> --}}
                         </div>
@@ -121,7 +121,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>@lang('Email')</label>
-                                    <input class="form-control" type="email" name="email" required value="{{ $user?->email }}">
+                                    <input class="form-control" type="email" name="email" required disabled value="{{ $user?->email }}">
                                 </div>
                             </div>
 
@@ -130,7 +130,7 @@
                                     <label>@lang('Mobile Number') </label>
                                     <div class="input-group">
                                         <span class="input-group-text mobile-code"></span>
-                                        <input type="number" name="mobile" value="{{ old('mobile') }}" id="mobile" class="form-control checkUser" required>
+                                        <input type="number" name="mobile" disabled value="{{ old('mobile') }}" id="mobile" class="form-control checkUser" required>
                                     </div>
                                 </div>
                             </div>
@@ -138,14 +138,14 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>@lang('DOB')</label>
-                                    <input class="form-control" type="date" name="dob" required value="{{ $user?->dob }}">
+                                    <input class="form-control" type="date" name="dob" required disabled value="{{ $user?->dob }}">
                                 </div>
                             </div>
                             
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>@lang('C.D.C No./INDOS No.')</label>
-                                    <input class="form-control" type="text" name="cdc" required value="{{ $user?->cdc }}">
+                                    <input class="form-control" type="text" name="cdc" required disabled value="{{ $user?->cdc }}">
                                 </div>
                             </div>
                             
@@ -153,30 +153,30 @@
                                 <div class="form-group">
                                     <label>@lang('Rank')</label>
                                     <select class="form-control" name="rank" required id="rank">
-                                    <option value="">Select Rank</option>
-                                    <option value="OFFICER - MASTER" <?php if($user?->rank == "OFFICER - MASTER") { echo 'selected'; } ?> >OFFICER - MASTER</option>
-                                    <option value="OFFICER - CHIEF OFFICER" <?php if($user?->rank == "OFFICER - CHIEF OFFICER") { echo 'selected'; } ?>>OFFICER - CHIEF OFFICER</option>
-                                    <option value="OFFICER - 2ND OFFICER" <?php if($user?->rank == "OFFICER - 2ND OFFICER") { echo 'selected'; } ?>>OFFICER - 2ND OFFICER</option>
-                                    <option value="OFFICER - 3RD OFFICER" <?php if($user?->rank == "OFFICER - 3RD OFFICER") { echo 'selected'; } ?>>OFFICER - 3RD OFFICER</option>
-                                    <option value="OFFICER - OTHER OFFICER" <?php if($user?->rank == "OFFICER - OTHER OFFICER") { echo 'selected'; } ?>>OFFICER - OTHER OFFICER</option>
-                                    <option value="OFFICER - CHIEF ENGINEER" <?php if($user?->rank == "OFFICER - CHIEF ENGINEER") { echo 'selected'; } ?>>OFFICER - CHIEF ENGINEER</option>
-                                    <option value="OFFICER - 2ND ENGINEER" <?php if($user?->rank == "OFFICER - 2ND ENGINEER") { echo 'selected'; } ?>>OFFICER - 2ND ENGINEER</option>
-                                    <option value="OFFICER - 3RD ENGINEER" <?php if($user?->rank == "OFFICER - 3RD ENGINEER") { echo 'selected'; } ?>>OFFICER - 3RD ENGINEER</option>
-                                    <option value="OFFICER - 4TH ENGINEER" <?php if($user?->rank == "OFFICER - 4TH ENGINEER") { echo 'selected'; } ?>>OFFICER - 4TH ENGINEER</option>
-                                    <option value="OFFICER - OTHER ENGINEER" <?php if($user?->rank == "OFFICER - OTHER ENGINEER") { echo 'selected'; } ?>>OFFICER - OTHER ENGINEER</option>
-                                    <option value="TRAINEE - DECK CADET" <?php if($user?->rank == "TRAINEE - DECK CADET") { echo 'selected'; } ?>>TRAINEE - DECK CADET</option>
-                                    <option value="TRAINEE - ENGINE CADET" <?php if($user?->rank == "TRAINEE - ENGINE CADET") { echo 'selected'; } ?>>TRAINEE - ENGINE CADET</option>
-                                    <option value="CREW - BOSUN" <?php if($user?->rank == "CREW - BOSUN") { echo 'selected'; } ?>>CREW - BOSUN</option>
-                                    <option value="CREW - AB" <?php if($user?->rank == "CREW - AB") { echo 'selected'; } ?>>CREW - AB</option>
-                                    <option value="CREW - OS" <?php if($user?->rank == "CREW - OS") { echo 'selected'; } ?>>CREW - OS</option>
-                                    <option value="CREW - MOTORMAN / OILER" <?php if($user?->rank == "CREW - MOTORMAN / OILER") { echo 'selected'; } ?>>CREW - MOTORMAN / OILER</option>
-                                    <option value="CREW - WIPER" <?php if($user?->rank == "CREW - WIPER") { echo 'selected'; } ?>>CREW - WIPER</option>
-                                    <option value="CREW - TRAINEE RATINGS" <?php if($user?->rank == "CREW - TRAINEE RATINGS") { echo 'selected'; } ?>>CREW - TRAINEE RATINGS</option>
-                                    <option value="CREW - OTHER CREW" <?php if($user?->rank == "CREW - OTHER CREW") { echo 'selected'; } ?>>CREW - OTHER CREW</option>
-                                    <option value="CREW - CHIEF COOK" <?php if($user?->rank == "CREW - CHIEF COOK") { echo 'selected'; } ?>>CREW - CHIEF COOK</option>
-                                    <option value="CREW - 2ND COOK" <?php if($user?->rank == "CREW - 2ND COOK") { echo 'selected'; } ?>>CREW - 2ND COOK</option>
-                                    <option value="PASSENGER SHIP CREW" <?php if($user?->rank == "PASSENGER SHIP CREW") { echo 'selected'; } ?>>PASSENGER SHIP CREW</option>
-                                    <option value="TRAINEE - MAI" <?php if($user?->rank == "TRAINEE - MAI") { echo 'selected'; } ?>>TRAINEE - MAI</option>
+                                    <option disabled value="">Select Rank</option>
+                                    <option disabled value="OFFICER - MASTER" <?php if($user?->rank == "OFFICER - MASTER") { echo 'selected'; } ?> >OFFICER - MASTER</option>
+                                    <option disabled value="OFFICER - CHIEF OFFICER" <?php if($user?->rank == "OFFICER - CHIEF OFFICER") { echo 'selected'; } ?>>OFFICER - CHIEF OFFICER</option>
+                                    <option disabled value="OFFICER - 2ND OFFICER" <?php if($user?->rank == "OFFICER - 2ND OFFICER") { echo 'selected'; } ?>>OFFICER - 2ND OFFICER</option>
+                                    <option disabled value="OFFICER - 3RD OFFICER" <?php if($user?->rank == "OFFICER - 3RD OFFICER") { echo 'selected'; } ?>>OFFICER - 3RD OFFICER</option>
+                                    <option disabled value="OFFICER - OTHER OFFICER" <?php if($user?->rank == "OFFICER - OTHER OFFICER") { echo 'selected'; } ?>>OFFICER - OTHER OFFICER</option>
+                                    <option disabled value="OFFICER - CHIEF ENGINEER" <?php if($user?->rank == "OFFICER - CHIEF ENGINEER") { echo 'selected'; } ?>>OFFICER - CHIEF ENGINEER</option>
+                                    <option disabled value="OFFICER - 2ND ENGINEER" <?php if($user?->rank == "OFFICER - 2ND ENGINEER") { echo 'selected'; } ?>>OFFICER - 2ND ENGINEER</option>
+                                    <option disabled value="OFFICER - 3RD ENGINEER" <?php if($user?->rank == "OFFICER - 3RD ENGINEER") { echo 'selected'; } ?>>OFFICER - 3RD ENGINEER</option>
+                                    <option disabled value="OFFICER - 4TH ENGINEER" <?php if($user?->rank == "OFFICER - 4TH ENGINEER") { echo 'selected'; } ?>>OFFICER - 4TH ENGINEER</option>
+                                    <option disabled value="OFFICER - OTHER ENGINEER" <?php if($user?->rank == "OFFICER - OTHER ENGINEER") { echo 'selected'; } ?>>OFFICER - OTHER ENGINEER</option>
+                                    <option disabled value="TRAINEE - DECK CADET" <?php if($user?->rank == "TRAINEE - DECK CADET") { echo 'selected'; } ?>>TRAINEE - DECK CADET</option>
+                                    <option disabled value="TRAINEE - ENGINE CADET" <?php if($user?->rank == "TRAINEE - ENGINE CADET") { echo 'selected'; } ?>>TRAINEE - ENGINE CADET</option>
+                                    <option disabled value="CREW - BOSUN" <?php if($user?->rank == "CREW - BOSUN") { echo 'selected'; } ?>>CREW - BOSUN</option>
+                                    <option disabled value="CREW - AB" <?php if($user?->rank == "CREW - AB") { echo 'selected'; } ?>>CREW - AB</option>
+                                    <option disabled value="CREW - OS" <?php if($user?->rank == "CREW - OS") { echo 'selected'; } ?>>CREW - OS</option>
+                                    <option disabled value="CREW - MOTORMAN / OILER" <?php if($user?->rank == "CREW - MOTORMAN / OILER") { echo 'selected'; } ?>>CREW - MOTORMAN / OILER</option>
+                                    <option disabled value="CREW - WIPER" <?php if($user?->rank == "CREW - WIPER") { echo 'selected'; } ?>>CREW - WIPER</option>
+                                    <option disabled value="CREW - TRAINEE RATINGS" <?php if($user?->rank == "CREW - TRAINEE RATINGS") { echo 'selected'; } ?>>CREW - TRAINEE RATINGS</option>
+                                    <option disabled value="CREW - OTHER CREW" <?php if($user?->rank == "CREW - OTHER CREW") { echo 'selected'; } ?>>CREW - OTHER CREW</option>
+                                    <option disabled value="CREW - CHIEF COOK" <?php if($user?->rank == "CREW - CHIEF COOK") { echo 'selected'; } ?>>CREW - CHIEF COOK</option>
+                                    <option disabled value="CREW - 2ND COOK" <?php if($user?->rank == "CREW - 2ND COOK") { echo 'selected'; } ?>>CREW - 2ND COOK</option>
+                                    <option disabled value="PASSENGER SHIP CREW" <?php if($user?->rank == "PASSENGER SHIP CREW") { echo 'selected'; } ?>>PASSENGER SHIP CREW</option>
+                                    <option disabled value="TRAINEE - MAI" <?php if($user?->rank == "TRAINEE - MAI") { echo 'selected'; } ?>>TRAINEE - MAI</option>
                                 </select>
                                 </div>
                             </div>
@@ -189,28 +189,28 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>@lang('Address')</label>
-                                    <input class="form-control" type="text" name="address" value="{{ @$user?->address->address }}">
+                                    <input class="form-control" type="text" name="address" disabled value="{{ @$user?->address->address }}">
                                 </div>
                             </div>
 
                             <div class="col-xl-3 col-md-6">
                                 <div class="form-group">
                                     <label>@lang('City')</label>
-                                    <input class="form-control" type="text" name="city" value="{{ @$user?->address->city }}">
+                                    <input class="form-control" type="text" name="city" disabled value="{{ @$user?->address->city }}">
                                 </div>
                             </div>
 
                             <div class="col-xl-3 col-md-6">
                                 <div class="form-group">
                                     <label>@lang('State')</label>
-                                    <input class="form-control" type="text" name="state" value="{{ @$user?->address->state }}">
+                                    <input class="form-control" type="text" name="state" disabled value="{{ @$user?->address->state }}">
                                 </div>
                             </div>
 
                             <div class="col-xl-3 col-md-6">
                                 <div class="form-group">
                                     <label>@lang('Zip/Postal')</label>
-                                    <input class="form-control" type="text" name="zip" value="{{ @$user?->address->zip }}">
+                                    <input class="form-control" type="text" name="zip" disabled value="{{ @$user?->address->zip }}">
                                 </div>
                             </div>
 
@@ -219,7 +219,7 @@
                                     <label>@lang('Country')</label>
                                     <select name="country" class="form-control">
                                         @foreach ($countries as $key => $country)
-                                            <option data-mobile_code="{{ $country->dial_code }}" value="{{ $key }}">{{ __($country->country) }}</option>
+                                            <option data-mobile_code="{{ $country->dial_code }}" disabled value="{{ $key }}">{{ __($country->country) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
