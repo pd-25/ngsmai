@@ -1,5 +1,5 @@
 @extends('receptionist.layouts.app')
-@dd($user, $general)
+@dd($user, $general, $widget, $widget['total_bookings'], $widget['running_bookings'])
 @section('panel')
     <div class="row">
         <div class="col-12">
