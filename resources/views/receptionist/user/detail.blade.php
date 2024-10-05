@@ -277,7 +277,7 @@
                         <i class="las la-times"></i>
                     </button>
                 </div>
-                <form action="{{ route('receptionist.users.status', $user?->id) }}" method="POST">
+                {{-- <form action="{{ route('receptionist.users.status', $user?->id) }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         @if ($user?->status == 1)
@@ -300,7 +300,7 @@
                             <button type="submit" class="btn btn--primary">@lang('Yes')</button>
                         @endif
                     </div>
-                </form>
+                </form> --}}
             </div>
         </div>
     </div>
