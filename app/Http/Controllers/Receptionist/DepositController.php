@@ -21,7 +21,6 @@ class DepositController extends Controller
         $pageTitle = 'Pending Payments';
        // $deposits = $this->depositData('pending');
         $bookings = $this->bookingData();
-        dd($bookings);
         return view('receptionist.deposit.log', compact('pageTitle', 'bookings'));
     }
     

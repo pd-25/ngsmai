@@ -30,6 +30,7 @@
                                     $totalDuePayment = 0;
                                 @endphp
                                 @forelse ($bookings as $item)
+                                @dd($item)
                                     <tr>
                                         <td data-label="@lang('S.N.')">{{ $i++ }}</td>
                                         <td style="text-align:left;" data-label="@lang('Booking Number')">
