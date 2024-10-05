@@ -1,5 +1,5 @@
 @extends('receptionist.layouts.app')
-@dd($user, $general, $widget, $widget['total_bookings'], $widget['running_bookings'])
+{{-- @dd($user, $general, $widget, $widget['total_bookings'], $widget['running_bookings']) --}}
 @section('panel')
     <div class="row">
         <div class="col-12">
@@ -37,7 +37,7 @@
                             <i class="las la-wallet"></i>
                         </div>
                         <div class="widget-two__content">
-                            <h3 class="text-white">{{ $widget['booking_requests'] }}</h3>
+                            <h3 class="text-white">{{ $widget['booking_requests'] ?? "N/A" }}</h3>
                             <p class="text-white">@lang('Booking Request')</p>
                         </div>
                     </div>
