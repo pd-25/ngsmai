@@ -88,7 +88,7 @@ Route::middleware('receptionist')->group(function () {
 
             Route::get('booking/details/{bookingId}', 'bookingDetails')->name('details');
             Route::get('booking/extra-service/details/{bookingId}', 'extraServiceDetail')->name('service.details');
-            Route::get('detail/{id}', 'detail')->name('detail');
+            Route::get('user/detail/{id}', 'detail')->name('detail');
 
         });
 

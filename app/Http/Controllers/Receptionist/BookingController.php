@@ -44,6 +44,7 @@ class BookingController extends Controller
         $widget['total_payment']     = Deposit::successful()->where('user_id', $id)->sum('amount');
 
         $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
+        dd($widget, $countries);
 
         return view('receptionist.user.detail', compact('pageTitle', 'user', 'countries', 'widget'));
     }
