@@ -96,7 +96,8 @@
                     <h5 class="card-title mb-0">@lang('Information of') {{ $user?->fullname }}</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('receptionist.users.update', [$user?->id]) }}" method="POST"
+                    {{-- {{ route('receptionist.users.update', [$user?->id]) }} --}}
+                    <form action="#" method="POST"
                           enctype="multipart/form-data">
                         @csrf
 
@@ -244,7 +245,7 @@
                             </div>
                         </div>
 
-                        <div class="row mt-4">
+                        {{-- <div class="row mt-4">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn--primary w-100 h-45">@lang('Submit')
@@ -252,7 +253,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> --}}
                     </form>
                 </div>
             </div>
