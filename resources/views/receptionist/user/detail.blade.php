@@ -43,7 +43,7 @@
                     </div>
                 </div><!-- dashboard-w1 end -->
 
-                <div class="col-xxl-3 col-sm-6">
+                {{-- <div class="col-xxl-3 col-sm-6">
                     <div class="widget-two style--two box--shadow2 b-radius--5 bg--3">
                         <a href="{{ route('receptionist.report.payments.received') }}?search={{ $user?->username }}" class="item-link"></a>
                         <div class="widget-two__icon b-radius--5 bg--3">
@@ -54,7 +54,7 @@
                             <p class="text-white">@lang('Total Payment')</p>
                         </div>
                     </div>
-                </div><!-- dashboard-w1 end -->
+                </div><!-- dashboard-w1 end --> --}}
             </div>
 
             <div class="row gy-4 justify-content-center mt-1" style="display:none;">
