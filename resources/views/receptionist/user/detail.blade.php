@@ -57,7 +57,7 @@
                 </div><!-- dashboard-w1 end --> --}}
             </div>
 
-            <div class="row gy-4 justify-content-center mt-1" style="display:none;">
+            {{-- <div class="row gy-4 justify-content-center mt-1" style="display:none;">
 
                 <div class="col-sm-6 col-lg-4 col-xl-3 col-xxl-3">
                     <a href="{{ route('receptionist.users.notification.log', $user?->id) }}" class="btn btn--primary btn--shadow w-100 btn-lg">
@@ -88,7 +88,7 @@
                         </button>
                     @endif
                 </div>
-            </div>
+            </div> --}}
 
 
             <div class="card mt-30">
