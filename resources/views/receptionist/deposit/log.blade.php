@@ -17,7 +17,8 @@
                                 <tr>
                                     <th>@lang('S.N.')</th>
                                     <th style="text-align:left;">@lang('Booking Number')</th>
-                                    <th style="text-align:left;">@lang('User')</th>
+                                    <th style="text-align:left;">@lang('Occupant')</th>
+                                    <th style="text-align:left;">@lang('Room')</th>
                                     <th style="text-align:left;">@lang('Booked For')</th>
                                     <th style="text-align:left; display:none;">@lang('Total Fare | Extra Service')</th>
                                     <th style="text-align:left; display:none;">@lang('Total Cost | Paid')</th>
@@ -44,10 +45,14 @@
 
                                             </a>
                                         </td>
-                                        <td style="text-align:left;" data-label="@lang('User')">
+                                        <td style="text-align:left;" data-label="@lang('Occupant')">
                                             {{ $item->guest_details->name ?? '' }}<br>
                                             <a
                                                 href="tel:{{ $item->guest_details->mobile ?? '' }}"><b>{{ $item->guest_details->mobile ?? '' }}</b></a>
+                                        </td>
+                                        <td style="text-align:left;" data-label="@lang('Room Number')">
+                                                {{-- {{ __($item->bookedRoom) }} --}}
+                                                {{ $item->bookedRoom->pluck('room.room_number')->implode(', ') }}
                                         </td>
                                         <td style="text-align:left;" data-label="@lang('Booked For')">
                                             {{ showDateTime($item->booked_room_min_booked_for, 'd M, Y') }}<br>
