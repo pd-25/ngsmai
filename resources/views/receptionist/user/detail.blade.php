@@ -94,6 +94,7 @@
             <div class="card mt-30">
                 <div class="card-header">
                     <h5 class="card-title mb-0">@lang('Information of') {{ $user?->fullname }}</h5>
+                    <p class="text-info">Receptionist has not the edit access</p>
                 </div>
                 <div class="card-body">
                     {{-- {{ route('receptionist.users.update', [$user?->id]) }} --}}
@@ -152,7 +153,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>@lang('Rank')</label>
-                                    <select class="form-control" name="rank" required id="rank">
+                                    <select disabled class="form-control" name="rank" required id="rank">
                                     <option disabled value="">Select Rank</option>
                                     <option disabled value="OFFICER - MASTER" <?php if($user?->rank == "OFFICER - MASTER") { echo 'selected'; } ?> >OFFICER - MASTER</option>
                                     <option disabled value="OFFICER - CHIEF OFFICER" <?php if($user?->rank == "OFFICER - CHIEF OFFICER") { echo 'selected'; } ?>>OFFICER - CHIEF OFFICER</option>
