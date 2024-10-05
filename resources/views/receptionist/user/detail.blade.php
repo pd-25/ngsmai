@@ -1,5 +1,5 @@
 @extends('receptionist.layouts.app')
-@dd($user)
+@dd($user, $general)
 @section('panel')
     <div class="row">
         <div class="col-12">
@@ -50,7 +50,7 @@
                             <i class="las la-wallet"></i>
                         </div>
                         <div class="widget-two__content">
-                            <h3 class="text-white">{{ $general->cur_sym . showAmount($widget['total_payment']) }}</h3>
+                            <h3 class="text-white">{{ $general?->cur_sym . showAmount($widget['total_payment']) }}</h3>
                             <p class="text-white">@lang('Total Payment')</p>
                         </div>
                     </div>
