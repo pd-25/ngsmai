@@ -1,5 +1,5 @@
 @extends('receptionist.layouts.app')
-
+@dd($user)
 @section('panel')
     <div class="row">
         <div class="col-12">
