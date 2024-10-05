@@ -52,7 +52,7 @@
                                         </td>
                                         <td style="text-align:left;" data-label="@lang('Room Number')">
                                                 {{-- {{ __($item->bookedRoom) }} --}}
-                                                {{ $item->bookedRoom->pluck('room.room_number')->implode(', ') }}
+                                                {{ $item->bookedRoom->pluck('room.room_number')->unique()->implode(', ') }}
                                         </td>
                                         <td style="text-align:left;" data-label="@lang('Booked For')">
                                             {{ showDateTime($item->booked_room_min_booked_for, 'd M, Y') }}<br>
