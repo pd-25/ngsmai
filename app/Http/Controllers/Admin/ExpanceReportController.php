@@ -20,9 +20,9 @@ class ExpanceReportController extends Controller
     {
         
         $pageTitle = 'All Expense';
-        $data = ExpanceManagment::orderBy('id', 'desc')->get();
+        $data = ExpanceManagment::all();
        
-        $table2Data = $this->bookingData('ALL')->sortByDesc('id');
+        $table2Data = $this->bookingData('ALL');
       
         $users = Receptionist::all();
         $customer = Booking::all();
