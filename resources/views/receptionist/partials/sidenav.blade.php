@@ -121,12 +121,12 @@
                     </a>
                 </li>
 
-                <li class="sidebar-menu-item {{ menuActive('receptionist.expense_managment.report') }}">
+                {{-- <li class="sidebar-menu-item {{ menuActive('receptionist.expense_managment.report') }}">
                     <a href="{{ route('receptionist.expense_managment.report') }}" class="nav-link">
                         <i class="menu-icon las la-user"></i>
                         <span class="menu-title">@lang('Expense Report')</span>
                     </a>
-                </li>
+                </li> --}}
 
                 {{-- pd --}}
                 <li class="sidebar-menu-item {{ menuActive('receptionist.expense_managment.paymentlog') }}">
