@@ -75,7 +75,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title mb-0">
-                        <h5>@lang('Book Room/Bedss')</h5>
+                        <h5>@lang('Book Room/Beds')</h5>
                     </div>
                 </div>
                 <div class="card-body">
@@ -95,7 +95,7 @@
                             </div> --}}
                             <div class="form-group guestInputDiv">
                                 <label>@lang('Phone Number')</label>
-                                <input type="number" class="form-control " name="mobile" id="mobile" required>
+                                <input type="number" class="form-control " name="mobile" minlength="10" id="mobile" required>
                             </div>
 
                             <div class="form-group ">

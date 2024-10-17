@@ -123,7 +123,7 @@ class AdminController extends Controller
         
         $today = Carbon::today()->toDateString();
         $tomorrow = Carbon::tomorrow()->toDateString();
-       $todaysCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
+       $todaysCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'), 'bookings.user')
     ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
     ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
     ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
@@ -133,7 +133,7 @@ class AdminController extends Controller
     ->whereDate('max_dates.last_date', $today)
     ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
     ->get();
-$tomorrowsCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
+$tomorrowsCheckout = BookedRoom::select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'), 'bookings.user')
     ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
     ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
     ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
