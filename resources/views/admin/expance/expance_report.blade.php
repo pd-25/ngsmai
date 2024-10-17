@@ -76,7 +76,7 @@
      $Totalcredit =0;
      $Totaldebit = 0;
     $i = 1;
-    $combinedData = collect($data)->concat($table2Data)->sortByDesc('id');
+    $combinedData = $data->concat($table2Data);
     
     @endphp
     @forelse($combinedData as $item)
