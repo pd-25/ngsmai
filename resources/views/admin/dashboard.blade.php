@@ -252,6 +252,7 @@
                                             </svg>
 
                                            </a>
+                                           <b>Contact: </b>{{$item?->booking?->user?->mobile}}
                                         </td>
                                         <td style="text-align:left;" data-label="@lang('Checkout date')">
                                             {{ showDateTime($item->last_date, 'd M, Y') }} 
@@ -306,6 +307,7 @@
                                             </svg>
 
                                            </a>
+                                           <b>Contact: </b>{{$tomorrowsCheckou_t?->booking?->user?->mobile}}
                                         </td>
                                         <td style="text-align:left;" data-label="@lang('Checkout date')">
                                             {{ showDateTime($tomorrowsCheckou_t->last_date, 'd M, Y') }} 
