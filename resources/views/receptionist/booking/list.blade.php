@@ -97,6 +97,7 @@
                                             <br>
                                             <span class="text--info">@lang('to')</span>
                                             {{ showDateTime($booking->booked_room_max_booked_for, 'd M, Y') }}
+                                            <div><b>Booked at</b>: {{showDateTime($booking?->created_at, 'dM, Y h.iA')}}</div>
                                         </td>
 
                                         <td data-label="@lang('Total Fare') | @lang('Extra Service')">
