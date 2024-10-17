@@ -105,7 +105,7 @@
 
                                             </a><br>
                                             @dd($item?->user?->mobile)
-                                            <b>Contact: </b>{{}}
+                                            <b>Contact: </b>
                                         </td>
                                         <td style="text-align:left;" data-label="@lang('Checkout date')">
                                             {{ showDateTime($item->last_date, 'd M, Y') }}
