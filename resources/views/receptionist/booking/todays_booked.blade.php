@@ -104,7 +104,7 @@
                                                 </svg>
 
                                             </a><br>
-                                            @dd($item?->user?->mobile)
+                                            @dd($item?->booking?->user?->mobile)
                                             <b>Contact: </b>
                                         </td>
                                         <td style="text-align:left;" data-label="@lang('Checkout date')">
