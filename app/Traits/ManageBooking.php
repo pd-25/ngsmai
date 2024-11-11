@@ -1183,7 +1183,7 @@ trait ManageBooking
         $request->validate([
             "new_amount" => "required|numeric"
         ]);
-        $booking = Booking::where("id", $bookingId)->first();
+        $booking = DB::table("bookings")->where("id", $bookingId)->first();
         if ($booking) {
             $newAmount = $booking->total_amount + $request->new_amount;
             $booking->update(["total_amount" => $newAmount]);
