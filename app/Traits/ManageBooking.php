@@ -1186,7 +1186,7 @@ trait ManageBooking
         $booking = DB::table("bookings")->where("id", $bookingId)->first();
         if ($booking) {
             $newAmount = $booking->total_amount + $request->new_amount;
-            $booking->update(["total_amount" => $newAmount]);
+            DB::table("bookings")->where("id", $bookingId)->update(["total_amount" => $newAmount]);
             $notify[] = ['success', 'Total amount updated successfully.'];
             return back()->with($notify);
         }
