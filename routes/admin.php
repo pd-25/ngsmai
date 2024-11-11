@@ -233,6 +233,7 @@ Route::middleware('admin')->group(function () {
             Route::get('checked-out-booking', 'checkedOutBookingList')->name('checked_out.list');
             Route::get('cancelled-bookings', 'cancelledBookingList')->name('cancelled.list');
             Route::post('booking-merge/{id}', 'mergeBooking')->name('merge');
+            Route::post('update-total/{id}', 'updateAmount')->name('updateAmount');
 
             Route::get('booking-checkout/{id}', 'checkOutPreview')->name('checkout');
 

@@ -126,6 +126,9 @@
                                                         <a href="javascript:void(0)" class="dropdown-item mergeBookingBtn" data-id="{{ $booking->id }}" data-booking_number="{{ $booking->booking_number }}">
                                                             <i class="las la-object-group"></i> @lang('Merge Booking')
                                                         </a>
+                                                        <a href="javascript:void(0)" class="dropdown-item updateAmount" data-id="{{ $booking->id }}" data-booking_number="{{ $booking->booking_number }}" data-total="{{$booking->total_amount}}">
+                                                            <i class="las la-object-group"></i> @lang('Update Amount')
+                                                        </a>
 
                                                         {{-- @if (now() < $booking->booked_room_min_booked_for)
                                                             <a href="javascript:void(0)"
@@ -284,6 +287,24 @@
             </div>
         </div>
     </div>
+
+    {{-- Update amount modal --}}
+    <div id="updateAmountM" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@lang('Booking No.'): <span class="booking-No"></span></h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="las la-times"></i>
+                    </button>
+                </div>
+                
+                @include("components.update-total-amount")
+            </div>
+        </div>
+    </div>
+
+    
     @include("components.cancel-comfarmation")
 
 @endsection
@@ -368,6 +389,22 @@
                 form.action = `{{ route('admin.booking.merge', '') }}/${$(this).data('id')}`
                 modal.find('.booking-with').text(
                     `${orderNumber}`
+                );
+                modal.modal('show');
+            });
+
+            $('.updateAmount').on('click', function(e) {
+                e.preventDefault();
+                let modal = $('#updateAmountM');
+                let orderNumber = $(this).data('booking_number');
+                let totalAmnt = $(this).data('total');
+                let form = modal.find('form')[0];
+                form.action = `{{ route('admin.booking.updateAmount', '') }}/${$(this).data('id')}`
+                modal.find('.booking-No').text(
+                    `${orderNumber}`
+                );
+                modal.find('.totalAmnt').text(
+                    `${totalAmnt}`
                 );
                 modal.modal('show');
             });

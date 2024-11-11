@@ -1177,4 +1177,18 @@ trait ManageBooking
         $booking = Booking::findOrFail($bookingId);
         return view('partials.invoice', compact('booking'));
     }
+
+    public function updateAmount(Request $request, $bookingId)
+    {
+        $request->validate([
+            "new_amount" => "required|numeric"
+        ]);
+        $booking = Booking::where("id", $bookingId)->first();
+        if ($booking) {
+            $newAmount = $booking->total_amount + $request->new_amount;
+            $booking->update(["total_amount" => $newAmount]);
+            $notify[] = ['success', 'Total amount updated successfully.'];
+            return back()->with($notify);
+        }
+    }
 }
