@@ -1,18 +1,20 @@
 @extends('admin.layouts.app')
 @section('panel')
-   <form  style="display: flex;margin-bottom: 30px; margin-top: -73px; margin-left: 32%;" action="{{ route('admin.booking.filter_status') }}" method="post">
-              @csrf
-             <select style="margin-left: 0px; background-color: #ffff; width:30%"  id="expense_category" name="filter" required="">
-                        <option value="0">Filter</option>
-                    
-                <option value="1">Active</option>
-                <option value="9">Inactive </option>
-   
+    <form style="display: flex;margin-bottom: 30px; margin-top: -73px; margin-left: 32%;"
+        action="{{ route('admin.booking.filter_status') }}" method="post">
+        @csrf
+        <select style="margin-left: 0px; background-color: #ffff; width:30%" id="expense_category" name="filter"
+            required="">
+            <option value="0">Filter</option>
 
-                </select>
-                
-                 <button class="btn btn--primary input-group-text"  type="submit"><i class="fa fa-search"></i></button>
-               </form>
+            <option value="1">Active</option>
+            <option value="9">Inactive </option>
+
+
+        </select>
+
+        <button class="btn btn--primary input-group-text" type="submit"><i class="fa fa-search"></i></button>
+    </form>
     <div class="row">
         <div class="col-lg-12">
             <div class="card b-radius--10">
@@ -36,7 +38,7 @@
                                 @forelse($bookings as $booking)
                                     <tr>
                                         <td>
-                                           
+
                                             {{ $bookings->firstItem() + $loop->index }}
                                         </td>
 
@@ -44,36 +46,42 @@
                                             <span class="fw-bold">{{ $booking->booking_number }}</span>
                                             <br>
                                             @if (now() >= $booking->booked_room_min_booked_for && $booking->status == 1)
-                                                <small class="ms-2"><i class="fa fa-circle text--success" aria-hidden="true"></i> @lang('Running')</small>
+                                                <small class="ms-2"><i class="fa fa-circle text--success"
+                                                        aria-hidden="true"></i> @lang('Running')</small>
                                             @elseif(now() < $booking->booked_room_min_booked_for && $booking->status == 1)
-                                                <small class="ms-2"><i class="fa fa-circle text--warning" aria-hidden="true"></i> @lang('Upcoming')</small>
+                                                <small class="ms-2"><i class="fa fa-circle text--warning"
+                                                        aria-hidden="true"></i> @lang('Upcoming')</small>
                                             @elseif($booking->status == 3)
-                                                <small class="ms-2" title="{{$booking->cancel_reason}}"><i class="fa fa-circle text--danger" aria-hidden="true"></i> @lang('Cancelled')</small>
+                                                <small class="ms-2" title="{{ $booking->cancel_reason }}"><i
+                                                        class="fa fa-circle text--danger" aria-hidden="true"></i>
+                                                    @lang('Cancelled')</small>
                                             @else
-                                                <small class="ms-2"><i class="fa fa-circle text--dark" aria-hidden="true"></i> @lang('Checked Out')</small>
+                                                <small class="ms-2"><i class="fa fa-circle text--dark"
+                                                        aria-hidden="true"></i> @lang('Checked Out')</small>
                                             @endif
                                         </td>
 
                                         <td data-label="@lang('User')">
                                             @if ($booking->user_id)
                                                 <span class="small">
-                                                    <a href="{{ route('admin.users.detail', $booking->user_id) }}"><span></span><?php echo isset($booking->user->firstname)?$booking->user->firstname:$booking->guest_details->name ?? ""; ?></a>
+                                                    <a
+                                                        href="{{ route('admin.users.detail', $booking->user_id) }}"><span></span><?php echo isset($booking->user->firstname) ? $booking->user->firstname : $booking->guest_details->name ?? ''; ?></a>
                                                 </span>
                                                 <br>
-                                                <span class="fw-bold"><?php echo isset($booking->user->email)?$booking->user->email:$booking->guest_details->email ?? ""; ?></span>
+                                                <span class="fw-bold"><?php echo isset($booking->user->email) ? $booking->user->email : $booking->guest_details->email ?? ''; ?></span>
                                             @else
-                                                <span class="small">{{ $booking->guest_details->name ?? "" }}</span>
+                                                <span class="small">{{ $booking->guest_details->name ?? '' }}</span>
                                                 <br>
-                                                <span class="fw-bold">{{ $booking->guest_details->email ?? "" }}</span>
-                                              
+                                                <span class="fw-bold">{{ $booking->guest_details->email ?? '' }}</span>
                                             @endif
                                         </td>
-                                        
+
                                         <td data-label="@lang('Room Number')">
-                                           @if($booking->room_number) 
-                                             <span class="sml">{{ strlen($booking->room_number) > 4 ? substr($booking->room_number, 0, 4) . '...' : $booking->room_number }}</span>
-                                             @endif
-                                            
+                                            @if ($booking->room_number)
+                                                <span
+                                                    class="sml">{{ strlen($booking->room_number) > 4 ? substr($booking->room_number, 0, 4) . '...' : $booking->room_number }}</span>
+                                            @endif
+
                                         </td>
 
                                         <td data-label="@lang('Booked For')">
@@ -90,17 +98,20 @@
                                         </td>
 
                                         @php
-                                            $totalCost = $booking->total_amount + $booking->used_extra_service_sum_total_amount;
+                                            $totalCost =
+                                                $booking->total_amount + $booking->used_extra_service_sum_total_amount;
                                             $due = $totalCost - $booking->paid_amount;
-                                        @endphp 
+                                        @endphp
 
                                         <td data-label="@lang('Total Cost') | @lang('Paid')">
                                             {{ $general->cur_sym }}{{ showAmount($totalCost) }}
                                             <br>
-                                            <span class="@if ($due >= 0) text--success @else text--danger @endif">{{ $general->cur_sym }}{{ showAmount($booking->paid_amount) }}</span>
+                                            <span
+                                                class="@if ($due >= 0) text--success @else text--danger @endif">{{ $general->cur_sym }}{{ showAmount($booking->paid_amount) }}</span>
                                         </td>
 
-                                        <td data-label="@lang('Due')" class="@if ($due < 0) text--danger @endif">
+                                        <td data-label="@lang('Due')"
+                                            class="@if ($due < 0) text--danger @endif">
                                             {{ $general->cur_sym }}{{ showAmount($due) }}
                                         </td>
 
@@ -108,25 +119,33 @@
 
                                             <div class="d-flex justify-content-end flex-wrap gap-1">
 
-                                                <a href="{{ route('admin.booking.details', $booking->id) }}" class="btn btn-sm btn-outline--primary">
+                                                <a href="{{ route('admin.booking.details', $booking->id) }}"
+                                                    class="btn btn-sm btn-outline--primary">
                                                     <i class="las la-desktop"></i>@lang('Details')
                                                 </a>
 
-                                                <button type="button" class="btn btn-sm btn-outline--info" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <button type="button" class="btn btn-sm btn-outline--info"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="las la-ellipsis-v"></i>@lang('More')
                                                 </button>
 
                                                 <div class="dropdown-menu">
 
-                                                    <a href="{{ route('admin.booking.service.details', $booking->id) }}" class="dropdown-item">
+                                                    <a href="{{ route('admin.booking.service.details', $booking->id) }}"
+                                                        class="dropdown-item">
                                                         <i class="las la-server"></i> @lang('Extra Services')
                                                     </a>
 
                                                     @if ($booking->status == 1)
-                                                        <a href="javascript:void(0)" class="dropdown-item mergeBookingBtn" data-id="{{ $booking->id }}" data-booking_number="{{ $booking->booking_number }}">
+                                                        <a href="javascript:void(0)" class="dropdown-item mergeBookingBtn"
+                                                            data-id="{{ $booking->id }}"
+                                                            data-booking_number="{{ $booking->booking_number }}">
                                                             <i class="las la-object-group"></i> @lang('Merge Booking')
                                                         </a>
-                                                        <a href="javascript:void(0)" class="dropdown-item updateAmount" data-id="{{ $booking->id }}" data-booking_number="{{ $booking->booking_number }}" data-total="{{$booking->total_amount}}">
+                                                        <a href="javascript:void(0)" class="dropdown-item updateAmount"
+                                                            data-id="{{ $booking->id }}"
+                                                            data-booking_number="{{ $booking->booking_number }}"
+                                                            data-total="{{ $booking->total_amount }}">
                                                             <i class="las la-object-group"></i> @lang('Update Amount')
                                                         </a>
 
@@ -134,7 +153,7 @@
                                                             <a href="javascript:void(0)"
                                                             class="dropdown-item confirmationBtn"
                                                             data-question="@lang('Are you sure, you want to cancel this booking?')
-                                                            @if($booking->paid_amount > 0)
+                                                            @if ($booking->paid_amount > 0)
                                                             <br>
                                                             <small class='text--danger mt-3'> @lang('Please return the paid amount to the guest. The amount will be subtracted from this system automatically. If you click on the Yes button')</small>
                                                             @endif"
@@ -156,25 +175,32 @@
 
 
                                                         @if ($due > 0)
-                                                            <a href="javascript:void(0)" class="dropdown-item payBtn" data-total="{{ $due }}" data-id="{{ $booking->id }}">
+                                                            <a href="javascript:void(0)" class="dropdown-item payBtn"
+                                                                data-total="{{ $due }}"
+                                                                data-id="{{ $booking->id }}">
                                                                 <i class="las la-money-bill-alt"></i> @lang('Receive Payment')
                                                             </a>
                                                         @endif
 
                                                         @if ($due < 0)
-                                                            <a href="javascript:void(0)" class="dropdown-item payBtn" data-total="{{ $due }}" data-id="{{ $booking->id }}">
+                                                            <a href="javascript:void(0)" class="dropdown-item payBtn"
+                                                                data-total="{{ $due }}"
+                                                                data-id="{{ $booking->id }}">
                                                                 <i class="las la-money-bill-alt"></i> @lang('Return Payment')
                                                             </a>
                                                         @endif
 
                                                         @if (now() >= $booking->booked_room_min_booked_for)
-                                                            <a href="{{ route('admin.booking.checkout', $booking->id) }}" class="dropdown-item">
+                                                            <a href="{{ route('admin.booking.checkout', $booking->id) }}"
+                                                                class="dropdown-item">
                                                                 <i class="la la-sign-out"></i> @lang('Check Out')
                                                             </a>
                                                         @endif
                                                     @endif
 
-                                                    <a href="{{ route('admin.booking.invoice', $booking->id) }}" class="dropdown-item" target="_blank"><i class="las la-print"></i> @lang('Print Invoice')</a>
+                                                    <a href="{{ route('admin.booking.invoice', $booking->id) }}"
+                                                        class="dropdown-item" target="_blank"><i class="las la-print"></i>
+                                                        @lang('Print Invoice')</a>
 
 
                                                 </div>
@@ -229,18 +255,19 @@
                         </div>
 
 
-                            <div class="form-group">
+                        <div class="form-group">
                             <label>@lang('Amount')</label>
                             <div class="input-group">
-                                <input type="input" min="0" step="any" class="form-control" name="amount" required>
+                                <input type="input" min="0" step="any" class="form-control" name="amount"
+                                    required>
                                 <span class="input-group-text">{{ __($general->cur_text) }}</span>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
-                                <label>@lang('Remark')</label>
-                                <textarea type="text" class="form-control " name="remark" placeholder="@lang('Enter Remarks')" autocomplete="off"></textarea>
-                            </div>
+                            <label>@lang('Remark')</label>
+                            <textarea type="text" class="form-control " name="remark" placeholder="@lang('Enter Remarks')" autocomplete="off"></textarea>
+                        </div>
 
                     </div>
                     <div class="modal-footer">
@@ -273,7 +300,8 @@
                                 <div class="input-group row gx-0">
                                     <input type="text" class="form-control" name="booking_numbers[]" required>
                                 </div>
-                                <button type="button" class="btn btn--success input-group-text addMoreBookingBtn ms-4 flex-shrink-0 border-0">
+                                <button type="button"
+                                    class="btn btn--success input-group-text addMoreBookingBtn ms-4 flex-shrink-0 border-0">
                                     <i class="las la-plus"></i>
                                 </button>
                             </div>
@@ -289,23 +317,13 @@
     </div>
 
     {{-- Update amount modal --}}
-    <div id="updateAmountM" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">@lang('Booking No.'): <span class="booking-No"></span></h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="las la-times"></i>
-                    </button>
-                </div>
-                
-                @include("components.update-total-amount")
-            </div>
-        </div>
-    </div>
 
-    
-    @include("components.cancel-comfarmation")
+
+    @include('components.update-total-amount')
+
+
+
+    @include('components.cancel-comfarmation')
 
 @endsection
 
@@ -313,12 +331,15 @@
     <div class="d-flex justify-content-end align-items-center flex-wrap gap-2">
         <form action="" method="GET" class="d-flex justify-content-end align-items-center flex-wrap gap-2">
             <div class="input-group w-unset">
-                <input type="text" name="search" class="form-control bg--white" placeholder="@lang('User / Booking Number')" value="{{ request()->search }}">
+                <input type="text" name="search" class="form-control bg--white" placeholder="@lang('User / Booking Number')"
+                    value="{{ request()->search }}">
                 <button class="btn btn--primary input-group-text" type="submit"><i class="fa fa-search"></i></button>
             </div>
 
             <div class="input-group w-unset">
-                <input name="date" type="text" data-range="true" data-multiple-dates-separator=" - " data-language="en" class="datepicker-here form-control bg--white" data-position='bottom right' placeholder="@lang('Check In - Check Out')" autocomplete="off" value="{{ request()->date }}">
+                <input name="date" type="text" data-range="true" data-multiple-dates-separator=" - "
+                    data-language="en" class="datepicker-here form-control bg--white" data-position='bottom right'
+                    placeholder="@lang('Check In - Check Out')" autocomplete="off" value="{{ request()->date }}">
                 <button class="btn btn--primary input-group-text" type="submit"><i class="fa fa-search"></i></button>
             </div>
         </form>
@@ -431,44 +452,43 @@
         })(jQuery);
     </script>
 
-<script>
-    $(document).ready(function() {
-        let cancelActionUrl;
+    <script>
+        $(document).ready(function() {
+            let cancelActionUrl;
 
-        // Capture the click event on the cancel link
-        $('.confirmationBtn').on('click', function() {
-            cancelActionUrl = $(this).data('action');
-            $('#cancelBookingModal').modal('show');
-        });
+            // Capture the click event on the cancel link
+            $('.confirmationBtn').on('click', function() {
+                cancelActionUrl = $(this).data('action');
+                $('#cancelBookingModal').modal('show');
+            });
 
-        // Handle the confirm cancel button click
-        $('#confirmCancelBtn').on('click', function() {
-            const reason = $('#reason').val();
+            // Handle the confirm cancel button click
+            $('#confirmCancelBtn').on('click', function() {
+                const reason = $('#reason').val();
 
-            if (reason.trim() === '') {
-                alert('@lang("Please provide a reason for cancellation.")');
-                return;
-            }
-
-            $.ajax({
-                url: cancelActionUrl,
-                type: 'POST', 
-                data: {
-                    reason: reason,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    $('#cancelBookingModal').modal('hide');
-                    location.reload(); 
-                },
-                error: function(xhr) {
-                    alert('@lang("There was an error cancelling the booking. Please try again.")');
+                if (reason.trim() === '') {
+                    alert('@lang('Please provide a reason for cancellation.')');
+                    return;
                 }
+
+                $.ajax({
+                    url: cancelActionUrl,
+                    type: 'POST',
+                    data: {
+                        reason: reason,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('#cancelBookingModal').modal('hide');
+                        location.reload();
+                    },
+                    error: function(xhr) {
+                        alert('@lang('There was an error cancelling the booking. Please try again.')');
+                    }
+                });
             });
         });
-    });
-
-</script>
+    </script>
 @endpush
 
 @push('style')

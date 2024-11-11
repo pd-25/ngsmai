@@ -79,6 +79,7 @@ Route::middleware('receptionist')->group(function () {
             Route::get('cancelled-bookings', 'cancelledBookingList')->name('cancelled.list');
 
             Route::post('booking-merge/{id}', 'mergeBooking')->name('merge');
+            Route::post('update-total/{id}', 'updateAmount')->name('updateAmount');
 
             Route::get('booking-checkout/{id}', 'checkOutPreview')->name('checkout');
             Route::post('booking/payment/partial/{id}', 'payment')->name('payment.partial');

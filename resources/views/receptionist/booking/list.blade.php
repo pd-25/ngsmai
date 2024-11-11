@@ -1,6 +1,6 @@
 @php
-      $yesterday = \Carbon\Carbon::now()->subDay();
-      $today = \Carbon\Carbon::now()->startOfDay();
+    $yesterday = \Carbon\Carbon::now()->subDay();
+    $today = \Carbon\Carbon::now()->startOfDay();
 @endphp
 @extends('receptionist.layouts.app')
 @section('panel')
@@ -40,10 +40,14 @@
                             </thead>
                             <tbody style="background:#ffffff">
                                 @forelse($bookings as $booking)
-                                @php                       
-                                    $maxBookedFor = \Carbon\Carbon::parse($booking->booked_room_max_booked_for)->startOfDay();
-                                    $minBookedFor = \Carbon\Carbon::parse($booking->booked_room_min_booked_for)->startOfDay();
-                                @endphp
+                                    @php
+                                        $maxBookedFor = \Carbon\Carbon::parse(
+                                            $booking->booked_room_max_booked_for,
+                                        )->startOfDay();
+                                        $minBookedFor = \Carbon\Carbon::parse(
+                                            $booking->booked_room_min_booked_for,
+                                        )->startOfDay();
+                                    @endphp
                                     <tr>
                                         <td>
                                             {{ $bookings->firstItem() + $loop->index }}
@@ -61,8 +65,9 @@
                                                 <small class="ms-2"><i class="fa fa-circle text--warning"
                                                         aria-hidden="true"></i> @lang('Upcoming')</small>
                                             @elseif($booking->status == 3)
-                                                <small class="ms-2" title="{{$booking->cancel_reason}}"><i class="fa fa-circle text--danger"
-                                                        aria-hidden="true"></i> @lang('Cancelled')</small>
+                                                <small class="ms-2" title="{{ $booking->cancel_reason }}"><i
+                                                        class="fa fa-circle text--danger" aria-hidden="true"></i>
+                                                    @lang('Cancelled')</small>
                                             @else
                                                 <small class="ms-2"><i class="fa fa-circle text--dark"
                                                         aria-hidden="true"></i> @lang('Checked Out')</small>
@@ -97,7 +102,8 @@
                                             <br>
                                             <span class="text--info">@lang('to')</span>
                                             {{ showDateTime($booking->booked_room_max_booked_for, 'd M, Y') }}
-                                            <div><b>Booked at</b>: {{showDateTime($booking?->created_at, 'dM, Y h.iA')}}</div>
+                                            <div><b>Booked at</b>: {{ showDateTime($booking?->created_at, 'dM, Y h.iA') }}
+                                            </div>
                                         </td>
 
                                         <td data-label="@lang('Total Fare') | @lang('Extra Service')">
@@ -151,12 +157,17 @@
                                                             data-booking_number="{{ $booking->booking_number }}">
                                                             <i class="las la-object-group"></i> @lang('Merge Booking')
                                                         </a>
-                                                       
+                                                        <a href="javascript:void(0)" class="dropdown-item updateAmount"
+                                                            data-id="{{ $booking->id }}"
+                                                            data-booking_number="{{ $booking->booking_number }}"
+                                                            data-total="{{ $booking->total_amount }}">
+                                                            <i class="las la-object-group"></i> @lang('Update Amount')
+                                                        </a>
+
                                                         {{-- @dump($yesterday > $maxBookedFor, $yesterday, $maxBookedFor) --}}
                                                         {{-- @if (now() + 1 <= $booking->booked_room_max_booked_for) --}}
-                                                        {{-- @if ($yesterday <= $booking->booked_room_max_booked_for &&
-                                                                (now() < $booking->booked_room_min_booked_for || $today == $booking->booked_room_min_booked_for)) --}}
-                                                        {{-- @if ($today <= $minBookedFor )
+                                                        {{-- @if ($yesterday <= $booking->booked_room_max_booked_for && (now() < $booking->booked_room_min_booked_for || $today == $booking->booked_room_min_booked_for)) --}}
+                                                        {{-- @if ($today <= $minBookedFor)
                                                             <a href="javascript:void(0)"
                                                                 class="dropdown-item confirmationBtn"
                                                                 data-question="@lang('Are you sure, you want to cancel this booking?')
@@ -322,8 +333,13 @@
             </div>
         </div>
     </div>
-    @include("components.cancel-comfarmation")
-    
+    {{-- Update amount modal --}}
+
+
+    @include('components.update-total-amount')
+
+    @include('components.cancel-comfarmation')
+
 @endsection
 
 @push('breadcrumb-plugins')
@@ -416,6 +432,22 @@
                 modal.modal('show');
             });
 
+            $('.updateAmount').on('click', function(e) {
+                e.preventDefault();
+                let modal = $('#updateAmountM');
+                let orderNumber = $(this).data('booking_number');
+                let totalAmnt = $(this).data('total');
+                let form = modal.find('form')[0];
+                form.action = `{{ route('receptionist.booking.updateAmount', '') }}/${$(this).data('id')}`
+                modal.find('.booking-No').text(
+                    `${orderNumber}`
+                );
+                modal.find('.totalAmnt').text(
+                    `${totalAmnt}`
+                );
+                modal.modal('show');
+            });
+
             // add more booking for merge
             $('.addMoreBookingBtn').on('click', function() {
                 let addMoreBooking = $('.more-bookings');
@@ -453,28 +485,27 @@
                 const reason = $('#reason').val();
 
                 if (reason.trim() === '') {
-                    alert('@lang("Please provide a reason for cancellation.")');
+                    alert('@lang('Please provide a reason for cancellation.')');
                     return;
                 }
 
                 $.ajax({
                     url: cancelActionUrl,
-                    type: 'POST', 
+                    type: 'POST',
                     data: {
                         reason: reason,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         $('#cancelBookingModal').modal('hide');
-                        location.reload(); 
+                        location.reload();
                     },
                     error: function(xhr) {
-                        alert('@lang("There was an error cancelling the booking. Please try again.")');
+                        alert('@lang('There was an error cancelling the booking. Please try again.')');
                     }
                 });
             });
         });
-
     </script>
 @endpush
 
