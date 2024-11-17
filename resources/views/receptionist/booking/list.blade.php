@@ -78,7 +78,8 @@
                                             @if ($booking?->user_id)
                                                 {{-- @dd($booking?->user_id) --}}
                                                 <span class="small">
-                                                    <span class="text--info"><a href="{{ route('receptionist.booking.detail', $booking->user->id) }}"><?php echo isset($booking->user->firstname) ? $booking->user->firstname : $booking->guest_details->name; ?></a></span>
+                                                    <span class="text--info"><a
+                                                            href="{{ route('receptionist.booking.detail', $booking->user->id) }}"><?php echo isset($booking->user->firstname) ? $booking->user->firstname : $booking->guest_details->name; ?></a></span>
                                                 </span>
                                                 <br>
                                                 <span class="fw-bold"><?php echo isset($booking->user->email) ? $booking->user->email : $booking->guest_details->email; ?></span>
@@ -105,11 +106,17 @@
                                             <div><b>Booked at</b>: {{ showDateTime($booking?->created_at, 'dM, Y h.iA') }}
                                             </div>
                                         </td>
-
+                                        <?php
+                                        $startDate = Carbon::parse($booking->booked_room_min_booked_for);
+                                        $endDate = Carbon::parse($booking->booked_room_max_booked_for);
+                                        $numberOfDays = $startDate->diffInDays($endDate);
+                                        
+                                        ?>
                                         <td data-label="@lang('Total Fare') | @lang('Extra Service')">
                                             {{ $general->cur_sym }}{{ __(showAmount($booking->total_amount)) }}
                                             <br>
-                                            {{ $general->cur_sym }}{{ showAmount($booking->used_extra_service_sum_total_amount ?? 0) }}
+                                            {{ $general->cur_sym }}{{($numberOfDays+1)}}
+                                            {{-- {{ showAmount($booking->used_extra_service_sum_total_amount ?? 0) }} --}}
                                         </td>
 
                                         @php

@@ -91,10 +91,17 @@
                                             {{ showDateTime($booking->booked_room_max_booked_for, 'd M, Y') }}
                                         </td>
 
+                                        <?php
+                                        $startDate = Carbon::parse($booking->booked_room_min_booked_for);
+                                        $endDate = Carbon::parse($booking->booked_room_max_booked_for);
+                                        $numberOfDays = $startDate->diffInDays($endDate);
+                                        
+                                        ?>
                                         <td data-label="@lang('Total Fare') | @lang('Extra Service')">
                                             {{ $general->cur_sym }}{{ __(showAmount($booking->total_amount)) }}
                                             <br>
-                                            {{ $general->cur_sym }}{{ showAmount($booking->used_extra_service_sum_total_amount ?? 0) }}
+                                            {{ $general->cur_sym }}{{ $numberOfDays + 1 }}
+                                            {{-- {{ showAmount($booking->used_extra_service_sum_total_amount ?? 0) }} --}}
                                         </td>
 
                                         @php
