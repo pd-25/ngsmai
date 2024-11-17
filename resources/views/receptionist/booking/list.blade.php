@@ -112,7 +112,7 @@
                                         $numberOfDays = $startDate->diffInDays($endDate);
                                         
                                         ?>
-                                        <td data-label="@lang('Total Fare') | @lang('Extra Service')">
+                                        <td data-label="@lang('Total Fare') | @lang('Total Days')">
                                             {{ $general->cur_sym }}{{ __(showAmount($booking->total_amount)) }}
                                             <br>
                                             {{($numberOfDays+1)}} Days
