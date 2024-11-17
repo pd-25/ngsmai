@@ -100,8 +100,8 @@
                                         <td data-label="@lang('Total Fare') | @lang('Extra Service')">
                                             {{ $general->cur_sym }}{{ __(showAmount($booking->total_amount)) }}
                                             <br>
-                                            {{ $general->cur_sym }}{{ $numberOfDays + 1 }}
-                                            {{-- {{ showAmount($booking->used_extra_service_sum_total_amount ?? 0) }} --}}
+                                            {{ $numberOfDays + 1 }} Days
+                                            {{-- {{ $general->cur_sym }}{{ showAmount($booking->used_extra_service_sum_total_amount ?? 0) }} --}}
                                         </td>
 
                                         @php
