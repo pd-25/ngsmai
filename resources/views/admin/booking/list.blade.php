@@ -92,7 +92,7 @@
                                         </td>
 
                                         <?php
-                                        $startDate = \Carbon::parse($booking->booked_room_min_booked_for);
+                                        $startDate = \Carbon\Carbon::parse($booking->booked_room_min_booked_for);
                                         dd($booking->booked_room_min_booked_for, $startDate);
                                         // $endDate = Carbon::parse($booking->booked_room_max_booked_for);
                                         // $numberOfDays = $startDate->diffInDays($endDate);

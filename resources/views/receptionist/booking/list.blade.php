@@ -107,9 +107,10 @@
                                             </div>
                                         </td>
                                         <?php
-                                        $startDate = Carbon::parse($booking->booked_room_min_booked_for);
-                                        $endDate = Carbon::parse($booking->booked_room_max_booked_for);
-                                        $numberOfDays = $startDate->diffInDays($endDate);
+                                        $startDate = \Carbon\Carbon::parse($booking->booked_room_min_booked_for);
+                                        dd($booking->booked_room_min_booked_for, $startDate);
+                                        // $endDate = Carbon::parse($booking->booked_room_max_booked_for);
+                                        // $numberOfDays = $startDate->diffInDays($endDate);
                                         
                                         ?>
                                         <td data-label="@lang('Total Fare') | @lang('Extra Service')">
