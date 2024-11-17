@@ -472,9 +472,9 @@
                                     <span class="d-inline-block">{{ $booking->booking_number }}</span>
                                 </li>
 
-                                @php
+                                {{-- @php
                                     $totalAmount = $booking->total_amount + $booking->used_extra_service_sum_total_amount
-                                @endphp
+                                @endphp --}}
 
                                 <li>
                                     <span class="d-inline-block strong">@lang('Total Amount') :</span>
