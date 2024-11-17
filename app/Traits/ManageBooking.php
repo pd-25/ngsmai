@@ -906,13 +906,11 @@ trait ManageBooking
             ->findOrFail($bookingId);
 
         $booking = $this->adjustTotalAmount($booking);
-        $totalAmount = $booking->total_amount;
         $data = [
             'booking' => $booking,
             'mindate' =>  $minDate,
             'maxdate' =>  $maxDate,
-            'fare' =>  $fare,
-            'totalAmount' => $totalAmount
+            'fare' =>  $fare
         ];
 
         $pdf = PDF::loadView('partials.invoice', $data);

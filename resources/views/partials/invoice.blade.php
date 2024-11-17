@@ -354,7 +354,7 @@
 <body>
     @php
         $extraService = count($booking->usedExtraService);
-       
+
     @endphp
     <header>
         <div class="container">
@@ -363,7 +363,8 @@
                     <div class="list--row">
                         <div class="logo float-left">
                             {{-- <img src="{{ getImage(getFilePath('logoIcon') . '/logo.png') }}" alt="@lang('image')" class="logo-img"> --}}
-                            <img src="{{ asset('assets/images/logoIcon/logo.png') }}" alt="@lang('image')" class="logo-img">
+                            <img src="{{ asset('assets/images/logoIcon/logo.png') }}" alt="@lang('image')"
+                                class="logo-img">
                         </div>
                         <h6 class="float-right m-0" style="margin: 0;">Date: {{ date('d/m/Y') }}</h6>
                     </div>
@@ -372,7 +373,7 @@
         </div>
     </header>
     <main>
-       
+
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -407,21 +408,21 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="address list--row">
                         <div class="address-to float-left">
                             <h5 class="primary-text d-block fw-md">@lang('Invoice To')</h5>
                             <ul class="list" style="--gap: 0.3rem">
                                 <li>
-                                    
+
                                     <div class="list list--row" style="--gap: 0.5rem">
                                         <span class="strong">@lang('Name') :</span>
-                                        
+
                                         <span>{{ $booking->user ? $booking->user->fullname : $booking->guest_details->name }}</span>
                                     </div>
                                 </li>
                                 <li>
-                                    
+
                                     <div class="list list--row" style="--gap: 0.5rem">
                                         <span class="strong">@lang('Email') :</span>
                                         <span>{{ $booking->user ? $booking->user->email : $booking->guest_details->email }}</span>
@@ -434,37 +435,37 @@
                                     </div>
                                 </li>
                                 <li>
-                                    
+
                                     <div class="list list--row" style="--gap: 0.5rem">
                                         <span class="strong">@lang('address') :</span>
                                         <span>
                                             @isset($booking->guest_details)
-                                                {{ $booking->guest_details->address ?? '' }},<br/>
+                                                {{ $booking->guest_details->address ?? '' }},<br />
                                                 {{ $booking->guest_details->state ?? '' }},
                                                 {{ $booking->guest_details->city ?? '' }} -
                                                 {{ $booking->guest_details->pincode ?? '' }}
                                             @endisset
-                                        </span> 
+                                        </span>
                                     </div>
                                 </li>
-                              <li>
+                                <li>
 
 
 
 
-</li>
+                                </li>
 
 
-                               
-                                
-                               
-                              
+
+
+
+
                             </ul>
                         </div>
                         <div class="address-form float-right">
                             <ul class="text-end">
-                              
-                                    <h5 class="primary-text d-block fw-md"> @lang('Bill Information') </h5>
+
+                                <h5 class="primary-text d-block fw-md"> @lang('Bill Information') </h5>
                                 </li>
 
                                 <li>
@@ -472,9 +473,10 @@
                                     <span class="d-inline-block">{{ $booking->booking_number }}</span>
                                 </li>
 
-                                {{-- @php
-                                    $totalAmount = $booking->total_amount + $booking->used_extra_service_sum_total_amount
-                                @endphp --}}
+                                @php
+                                    $totalAmount =
+                                        $booking->total_amount + $booking->used_extra_service_sum_total_amount;
+                                @endphp
 
                                 <li>
                                     <span class="d-inline-block strong">@lang('Total Amount') :</span>
@@ -488,35 +490,41 @@
                                 </li>
                                 <li>
                                     <span class="d-inline-block strong">@lang('Advance Amount') :</span>
-                                    <span class="d-inline-block">{{ showAmount($booking->paid_amount) }}{{ __($general->cur_text) }}</span>
+                                    <span
+                                        class="d-inline-block">{{ showAmount($booking->paid_amount) }}{{ __($general->cur_text) }}</span>
                                 </li>
                                 <li>
                                     <span class="d-inline-block strong">@lang('Stay Date') :</span>
-                                   <!-- <span class="d-inline-block">{{ showDateTime($booking->booked_room_min_booked_for, 'd M, Y') }}
+                                    <!-- <span class="d-inline-block">{{ showDateTime($booking->booked_room_min_booked_for, 'd M, Y') }}
                                             <span class="text--info">@lang('to')</span>
                                             {{ showDateTime($booking->booked_room_max_booked_for, 'd M, Y') }}</span>-->
                                     <span class="d-inline-block">{{ showDateTime($mindate, 'd M, Y') }}
-                                            <span class="text--info">@lang('to')</span>
-                                            {{ showDateTime($maxdate, 'd M, Y') }}</span>
-                                            
-                                           
+                                        <span class="text--info">@lang('to')</span>
+                                        {{ showDateTime($maxdate, 'd M, Y') }}</span>
+
+
                                 </li>
-                                
-                                 <?php 
+
+                                <?php 
                                             $startDate = Carbon::parse($mindate);
                                             $endDate = Carbon::parse($maxdate);
                                             
                                             // Calculate the difference between the two dates
                                             $numberOfDays = $startDate->diffInDays($endDate);
+                                            $fareForUpdatedPrice = $totalAmount \ ($numberOfDays+1);
+                                            if($fareForUpdatedPrice > $fare){
+                                                $fare = $fareForUpdatedPrice;
+                                            }
                                                                                         
                                             ?>
-                                  <li>
+                                <li>
                                     <span class="d-inline-block strong">@lang('Number of Days') :</span>
-                                    <span class="d-inline-block">{{ $numberOfDays+1 }}</span>
+                                    <span class="d-inline-block">{{ $numberOfDays + 1 }}</span>
                                 </li>
                                 <li>
                                     <span class="d-inline-block strong">@lang('Bed Rates') :</span>
-                                    <span class="d-inline-block">{{ showAmount($fare) }} {{ __($general->cur_text) }}</span>
+                                    <span class="d-inline-block">{{ showAmount($fare) }}
+                                        {{ __($general->cur_text) }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -543,20 +551,20 @@
 
                                 <tbody>
                                     @foreach ($bookedRoom as $key => $item)
-                                        <tr class="custom-table__subhead">
+<tr class="custom-table__subhead">
                                             <td colspan="3" style="text-align: center;">
                                                 {{ __(showDateTime($key, 'd M, Y')) }}
                                             </td>
                                         </tr>
                                         @foreach ($item as $booked)
-                                            <tr>
+<tr>
                                                 <td class="text-start">{{ __($booked->room->room_number) }}</td>
                                                 <td>{{ __($booked->room->roomType->name) }}</td>
                                                 <td>{{ __(showAmount($booked->fare)) }} {{ __($general->cur_text) }}
                                                 </td>
                                             </tr>
-                                        @endforeach
-                                    @endforeach
+@endforeach
+@endforeach
 
                                     <tr class="custom-table__subhead">
                                         <td class="text-end" colspan="2">
@@ -570,9 +578,9 @@
                             </table>
 
                             @if ($extraService)
-                                @php
-                                    $extraServices = $booking->usedExtraService->groupBy('service_date');
-                                @endphp
+@php
+    $extraServices = $booking->usedExtraService->groupBy('service_date');
+@endphp
                               <!--  <div class="extra-service">
                                     <div class="mt-50 mb-3 text-center">
                                         <div class="title-inset">
@@ -592,13 +600,13 @@
 
                                         <tbody>
                                             @foreach ($extraServices as $key => $serviceItems)
-                                                <tr class="custom-table__subhead">
+<tr class="custom-table__subhead">
                                                     <td colspan="5" style="text-align: center;">
                                                         {{ __(showDateTime($key, 'd M, Y')) }}
                                                     </td>
                                                 </tr>
                                                 @foreach ($serviceItems as $service)
-                                                    <tr>
+<tr>
                                                         <td>{{ __($service->room->room_number) }}
                                                         </td>
                                                         <td>{{ __($service->extraService->name) }}
@@ -613,8 +621,8 @@
                                                             {{ __($general->cur_text) }}
                                                         </td>
                                                     </tr>
-                                                @endforeach
-                                            @endforeach
+@endforeach
+@endforeach
                                             <tr class="custom-table__subhead">
                                                 <td colspan="4" class="text-end">
                                                     @lang('Sub Total')
@@ -627,7 +635,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            @endif
+@endif
                         </div>-->
                     @endif
                     @php
@@ -655,7 +663,8 @@
                                 <tbody>
                                     @foreach ($receivedPyaments as $payment)
                                         <tr>
-                                            <td class="text-start">{{ __(showDateTime($payment->created_at, 'd M, Y')) }}</td>
+                                            <td class="text-start">
+                                                {{ __(showDateTime($payment->created_at, 'd M, Y')) }}</td>
                                             <td>
                                                 {{ $payment->payment_mode }}
 
@@ -696,7 +705,8 @@
                                 <tbody>
                                     @foreach ($returnedPyaments as $payment)
                                         <tr>
-                                            <td class="text-start">{{ __(showDateTime($payment->created_at, 'd M, Y')) }}</td>
+                                            <td class="text-start">
+                                                {{ __(showDateTime($payment->created_at, 'd M, Y')) }}</td>
                                             <td>
                                                 @lang('Cash Payment')
                                             </td>
