@@ -922,10 +922,10 @@ trait ManageBooking
 
     protected function adjustTotalAmount($booking)
     {
-        if ($booking->booked_room_sum_fare && ($booking->total_amount != $booking->booked_room_sum_fare)) {
-            $booking->total_amount = $booking->booked_room_sum_fare;
-            $booking->save();
-        }
+        // if ($booking->booked_room_sum_fare && ($booking->total_amount != $booking->booked_room_sum_fare)) {
+        //     $booking->total_amount = $booking->booked_room_sum_fare;
+        //     $booking->save();
+        // }
 
         return $booking;
     }
