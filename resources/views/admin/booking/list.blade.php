@@ -28,7 +28,7 @@
                                     <th>@lang('Occupant')</th>
                                     <th>@lang('Room Number')</th>
                                     <th>@lang('Booked For')</th>
-                                    <th>@lang('Total Fare') | @lang('Extra Service')</th>
+                                    <th>@lang('Total Fare') | @lang('Total Days')</th>
                                     <th>@lang('Total Cost') | @lang('Paid')</th>
                                     <th>@lang('Due')</th>
                                     <th>@lang('Action')</th>
