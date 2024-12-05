@@ -476,6 +476,8 @@
                                 @php
                                     $totalAmount =
                                         $booking->total_amount + $booking->used_extra_service_sum_total_amount;
+                                        $due = $totalAmount - $booking->paid_amount;
+                                       
                                 @endphp
 
                                 <li>
@@ -493,6 +495,13 @@
                                     <span
                                         class="d-inline-block">{{ showAmount($booking->paid_amount) }}{{ __($general->cur_text) }}</span>
                                 </li>
+
+                                <li>
+                                    <span class="d-inline-block strong">@lang('Due Amount') :</span>
+                                    <span
+                                        class="d-inline-block">{{ showAmount($due) }}{{ __($general->cur_text) }}</span>
+                                </li>
+                                
                                 <li>
                                     <span class="d-inline-block strong">@lang('Stay Date') :</span>
                                     <!-- <span class="d-inline-block">{{ showDateTime($booking->booked_room_min_booked_for, 'd M, Y') }}
