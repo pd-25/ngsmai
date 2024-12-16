@@ -45,7 +45,7 @@
     }
 </style>
 <script>
-    window.onload = function() {
+    // window.onload = function() {
         // Function to show the modal
         function showModal() {
             var modal = document.getElementById("renewalModal");
@@ -75,5 +75,5 @@
             console.log("5 minutes passed - showing modal");
             showModal();
         }, 1 * 60 * 1000); // 5 minutes in milliseconds
-    }
+    // }
 </script>
