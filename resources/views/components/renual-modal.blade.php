@@ -66,7 +66,7 @@
         }
 
         // Show the modal initially and then every 5 minutes
-        setInterval(showModal, 5 * 60 * 1000); // Show modal every 5 minutes in milliseconds
+        setInterval(showModal, 1 * 60 * 1000); // Show modal every 5 minutes in milliseconds
 
         // Show the modal immediately after page load
         showModal();
