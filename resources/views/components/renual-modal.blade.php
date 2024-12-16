@@ -108,8 +108,8 @@
         }
     }
 
-    showModal();
-    console.log("Initial modal shown");
+    // showModal();
+    // console.log("Initial modal shown");
 
     setInterval(function() {
         console.log("5 minutes passed - showing modal");
