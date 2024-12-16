@@ -167,7 +167,7 @@
                                                         <a href="javascript:void(0)" class="dropdown-item updateAmount"
                                                             data-id="{{ $booking->id }}"
                                                             data-booking_number="{{ $booking->booking_number }}"
-                                                            data-total="{{ $booking->total_amount }}">
+                                                            data-total="{{ showAmount($booking->total_amount) }}">
                                                             <i class="las la-object-group"></i> @lang('Update Amount')
                                                         </a>
 
