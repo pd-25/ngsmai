@@ -115,4 +115,10 @@
         console.log("5 minutes passed - showing modal");
         showModal();
     }, 1 * 60 * 1000);
+
+    document.querySelector('.action-button').addEventListener('click', function() {
+    // Optionally add actions when the user clicks the button, like redirecting them to a renewal page
+    alert("Please renew the server.");
+    // The modal won't close automatically; you can manually handle it if needed
+});
 </script>
