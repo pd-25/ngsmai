@@ -50,6 +50,7 @@
         function showModal() {
             var modal = document.getElementById("renewalModal");
             var closeModal = document.getElementById("closeModal");
+            console.log("showModal function called");
             modal.style.display = "block"; // Show the modal
 
             // Close the modal when the user clicks on the close button
@@ -65,10 +66,14 @@
             }
         }
 
-        // Show the modal initially and then every 5 minutes
-        setInterval(showModal, 1 * 60 * 1000); // Show modal every 5 minutes in milliseconds
-
-        // Show the modal immediately after page load
+        // Call showModal immediately when page loads
         showModal();
+        console.log("Initial modal shown");
+
+        // Show the modal every 5 minutes (300,000 milliseconds)
+        setInterval(function() {
+            console.log("5 minutes passed - showing modal");
+            showModal();
+        }, 1 * 60 * 1000); // 5 minutes in milliseconds
     }
 </script>
