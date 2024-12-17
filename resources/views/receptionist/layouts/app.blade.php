@@ -19,6 +19,6 @@
     </div>
 
 
-    @include('components.renual-modal')
+    {{-- @include('components.renual-modal') --}}
 
 @endsection
