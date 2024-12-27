@@ -874,7 +874,8 @@ trait ManageBooking
         $booking->save();
 
         $notify[] = ['success', 'Booking checked out successfully'];
-        return redirect()->route($this->userType . '.booking.checkout', $id)->withNotify($notify);
+        // return redirect()->route($this->userType . '.booking.checkout', $id)->withNotify($notify);
+        return redirect()->back()->withNotify($notify);
     }
 
 
@@ -952,7 +953,9 @@ trait ManageBooking
     {
         $request = request();
         $query = Booking::query()->orderBy('id', 'DESC');
-
+        $query->whereHas('bookedRoom', function ($q) {
+            $q->where('status', 1);  // Apply status condition globally
+        });
         if ($scope != "ALL") {
             $query = $query->$scope();
         }
