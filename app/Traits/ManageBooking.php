@@ -1006,9 +1006,9 @@ trait ManageBooking
         // }
 
         return $query->with('bookedRoom.room', 'user')
-        ->whereHas('bookedRoom', function ($query) {
-            $query->where('status', 1); // Apply status filter to bookedRoom
-        })
+        // ->whereHas('bookedRoom', function ($query) {
+        //     $query->where('status', 1); // Apply status filter to bookedRoom
+        // })
             ->withMin('bookedRoom', 'booked_for')
             ->withMax('bookedRoom', 'booked_for')
             ->withSum('usedExtraService', 'total_amount')
