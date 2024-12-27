@@ -83,7 +83,7 @@
                                             @endif
 
                                         </td>
-{{-- @dd($booking->where('status',1)->booked_room_min_booked_for) --}}
+{{-- @dd($booking->bookedRoom->where('status',1)->booked_for) --}}
                                         <td data-label="@lang('Booked For')">
                                             {{ showDateTime($booking->booked_room_min_booked_for, 'd M, Y') }}
                                             <br>

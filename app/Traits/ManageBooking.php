@@ -1006,8 +1006,14 @@ trait ManageBooking
         // }
 
         return $query->with('bookedRoom.room', 'user')
-            ->withMin('bookedRoom', 'booked_for')
-            ->withMax('bookedRoom', 'booked_for')
+            // ->withMin('bookedRoom', 'booked_for')
+            ->withMin('bookedRoom', function ($query) {
+                $query->where('status', 1); 
+            }, 'booked_for')
+            // ->withMax('bookedRoom', 'booked_for')
+            ->withMax('bookedRoom', function ($query) {
+                $query->where('status', 1); 
+            }, 'booked_for')
             ->withSum('usedExtraService', 'total_amount')
             ->orderBy('booked_room_min_booked_for', 'asc')
             ->latest()
