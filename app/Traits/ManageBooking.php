@@ -953,9 +953,9 @@ trait ManageBooking
     {
         $request = request();
         $query = Booking::query()->orderBy('id', 'DESC');
-        $query->whereHas('bookedRoom', function ($q) {
-            $q->where('status', 1);  // Apply status condition globally
-        });
+        // $query->whereHas('bookedRoom', function ($q) {
+        //     $q->where('status', 1);  // Apply status condition globally
+        // });
         if ($scope != "ALL") {
             $query = $query->$scope();
         }
