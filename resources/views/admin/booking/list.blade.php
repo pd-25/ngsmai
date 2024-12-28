@@ -91,12 +91,14 @@
                                             $minBookedFor = $activeBookedRooms->min('booked_for');
                                             $maxBookedFor = $activeBookedRooms->max('booked_for');
                                         @endphp
-                                        @dd($minBookedFor, $maxBookedFor )
+                                        {{-- @dd($minBookedFor, $maxBookedFor ) --}}
                                         <td data-label="@lang('Booked For')">
                                             {{ showDateTime($booking->booked_room_min_booked_for, 'd M, Y') }}
+                                            @dump($minBookedFor)
                                             <br>
                                             <span class="text--info">@lang('to')</span>
                                             {{ showDateTime($booking->booked_room_max_booked_for, 'd M, Y') }}
+                                            @dump($maxBookedFor)
                                         </td>
 
                                         <?php
