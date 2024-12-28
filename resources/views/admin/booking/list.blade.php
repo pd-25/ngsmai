@@ -83,7 +83,15 @@
                                             @endif
 
                                         </td>
-@dd($booking->bookedRoom->where('status',1)->min('booked_for'))
+                                        @php
+                                            // Filter booked rooms with status = 1
+                                            $activeBookedRooms = $booking->bookedRoom->where('status', 1);
+
+                                            // Get minimum and maximum booked_for dates for status = 1
+                                            $minBookedFor = $activeBookedRooms->min('booked_for');
+                                            $maxBookedFor = $activeBookedRooms->max('booked_for');
+                                        @endphp
+                                        @dd($minBookedFor, $maxBookedFor )
                                         <td data-label="@lang('Booked For')">
                                             {{ showDateTime($booking->booked_room_min_booked_for, 'd M, Y') }}
                                             <br>
