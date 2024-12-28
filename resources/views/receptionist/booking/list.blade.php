@@ -97,25 +97,29 @@
                                             @endif
 
                                         </td>
-
+                                        @php
+                                            $activeBookedRooms = $booking->bookedRoom->whereIn('status', [1, 9]);
+                                            $minBookedFor = $activeBookedRooms->min('booked_for');
+                                            $maxBookedFor = $activeBookedRooms->max('booked_for');
+                                        @endphp
                                         <td data-label="@lang('Booked For')">
-                                            {{ showDateTime($booking->booked_room_min_booked_for, 'd M, Y') }}
+                                            {{ showDateTime($minBookedFor, 'd M, Y') }}
                                             <br>
                                             <span class="text--info">@lang('to')</span>
-                                            {{ showDateTime($booking->booked_room_max_booked_for, 'd M, Y') }}
+                                            {{ showDateTime($maxBookedFor, 'd M, Y') }}
                                             <div><b>Booked at</b>: {{ showDateTime($booking?->created_at, 'dM, Y h.iA') }}
                                             </div>
                                         </td>
                                         <?php
-                                        $startDate = \Carbon\Carbon::parse($booking->booked_room_min_booked_for);
-                                        $endDate = \Carbon\Carbon::parse($booking->booked_room_max_booked_for);
+                                        $startDate = \Carbon\Carbon::parse($minBookedFor);
+                                        $endDate = \Carbon\Carbon::parse($maxBookedFor);
                                         $numberOfDays = $startDate->diffInDays($endDate);
                                         
                                         ?>
                                         <td data-label="@lang('Total Fare') | @lang('Total Days')">
                                             {{ $general->cur_sym }}{{ __(showAmount($booking->total_amount)) }}
                                             <br>
-                                            {{($numberOfDays+1)}} Days
+                                            {{ $numberOfDays + 1 }} Days
                                             {{-- {{ $general->cur_sym }}{{ showAmount($booking->used_extra_service_sum_total_amount ?? 0) }} --}}
                                         </td>
 

@@ -882,10 +882,10 @@ trait ManageBooking
     public function generateInvoice($bookingId)
     {
 
-        $minDate = BookedRoom::where('booking_id', $bookingId)->min('booked_for');
+        $minDate = BookedRoom::where('booking_id', $bookingId)->whereIn('status' , [1,9])->min('booked_for');
 
         // Retrieve the maximum date for the specific record
-        $maxDate = BookedRoom::where('booking_id', $bookingId)->max('booked_for');
+        $maxDate = BookedRoom::where('booking_id', $bookingId)->whereIn('status' , [1,9])->max('booked_for');
         $fare = BookedRoom::select('fare')->where('booking_id', $bookingId)->max('fare');
 
         $booking = Booking::with([
@@ -1006,9 +1006,7 @@ trait ManageBooking
         // }
 
         return $query->with('bookedRoom.room', 'user')
-        // ->whereHas('bookedRoom', function ($query) {
-        //     $query->where('status', 1); // Apply status filter to bookedRoom
-        // })
+      
             ->withMin('bookedRoom', 'booked_for')
             ->withMax('bookedRoom', 'booked_for')
             ->withSum('usedExtraService', 'total_amount')
