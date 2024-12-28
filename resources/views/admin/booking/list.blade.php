@@ -84,7 +84,7 @@
 
                                         </td>
                                         @php
-                                            $activeBookedRooms = $booking->bookedRoom->where('status', 1)->orWhere('status', 9);
+                                            $activeBookedRooms = $booking->bookedRoom->whereIn('status', [1,9]);
                                             $minBookedFor = $activeBookedRooms->min('booked_for');
                                             $maxBookedFor = $activeBookedRooms->max('booked_for');
                                         @endphp
