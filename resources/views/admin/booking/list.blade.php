@@ -84,26 +84,24 @@
 
                                         </td>
                                         @php
-                                            // Filter booked rooms with status = 1
-                                            $activeBookedRooms = $booking->bookedRoom->where('status', 1);
-
-                                            // Get minimum and maximum booked_for dates for status = 1
+                                            $activeBookedRooms = $booking->bookedRoom->where('status', 1)->orWhere('status', 9);
                                             $minBookedFor = $activeBookedRooms->min('booked_for');
                                             $maxBookedFor = $activeBookedRooms->max('booked_for');
                                         @endphp
-                                        {{-- @dd($minBookedFor, $maxBookedFor ) --}}
                                         <td data-label="@lang('Booked For')">
-                                            {{ showDateTime($booking->booked_room_min_booked_for, 'd M, Y') }}
-                                            @dump($minBookedFor)
+                                            {{-- {{ showDateTime($booking->booked_room_min_booked_for, 'd M, Y') }} --}}
+                                            {{ showDateTime($minBookedFor, 'd M, Y') }}
                                             <br>
                                             <span class="text--info">@lang('to')</span>
-                                            {{ showDateTime($booking->booked_room_max_booked_for, 'd M, Y') }}
-                                            @dump($maxBookedFor)
+                                            {{-- {{ showDateTime($booking->booked_room_max_booked_for, 'd M, Y') }} --}}
+                                            {{ showDateTime($maxBookedFor, 'd M, Y') }}
                                         </td>
 
                                         <?php
-                                        $startDate = \Carbon\Carbon::parse($booking->booked_room_min_booked_for);
-                                        $endDate = \Carbon\Carbon::parse($booking->booked_room_max_booked_for);
+                                        // $startDate = \Carbon\Carbon::parse($booking->booked_room_min_booked_for);
+                                        // $endDate = \Carbon\Carbon::parse($booking->booked_room_max_booked_for);
+                                        $startDate = \Carbon\Carbon::parse($minBookedFor);
+                                        $endDate = \Carbon\Carbon::parse($maxBookedFor);
                                         $numberOfDays = $startDate->diffInDays($endDate);
                                         
                                         ?>
