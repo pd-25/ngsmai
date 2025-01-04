@@ -75,7 +75,7 @@
                             <tbody>
 
 
-                                
+
                                 @php
 
                                     $Totalcredit = 0;
@@ -87,7 +87,6 @@
                                 {{-- @dd( $data, $table2Data, $combinedData) --}}
                                 @forelse($combinedData as $item)
                                     @if ($user_id == 0 && $customer_id == 0 && $item->particulars != 'test')
-                                    ')
                                         <?php ?>
 
                                         <tr>
@@ -102,7 +101,7 @@
 
                                                 @endphp
                                                 <td style="text-align:left;" data-label="@lang('Debit')">
-                                                    {{ $item->debit }} </td>
+                                                    {{ $item->debit }} @dump('$item->debit')</td>
                                                 <td style="text-align:left;" data-label="@lang('Credit')">
                                                     {{ $item->credit }}.00</td>
                                             @else
@@ -161,7 +160,6 @@
                                             </td>
                                         </tr>
                                     @elseif($user_id == $item->user_id && $customer_id == 0 && $item->particulars != 'test')
-                                    
                                         <tr>
                                             <td data-label="@lang('S.N.')">
                                                 {{ $table2Data->firstItem() + $loop->index - 1 }}</td>
@@ -218,7 +216,6 @@
                                             </td>
                                         </tr>
                                     @elseif($customer_id == $item->id && $user_id == 0 && $item->particulars != 'test')
-                                    
                                         <tr>
                                             <td data-label="@lang('S.N.')">
                                                 {{ $table2Data->firstItem() + $loop->index - 1 }}</td>
