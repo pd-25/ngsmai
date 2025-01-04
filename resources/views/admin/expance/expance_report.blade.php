@@ -75,7 +75,7 @@
                             <tbody>
 
 
-                                @dd( $data, $table2Data)
+                                
                                 @php
 
                                     $Totalcredit = 0;
@@ -84,6 +84,7 @@
                                     $combinedData = $data->concat($table2Data);
 
                                 @endphp
+                                @dd( $data, $table2Data, $combinedData)
                                 @forelse($combinedData as $item)
                                     @if ($user_id == 0 && $customer_id == 0 && $item->particulars != 'test')
                                         <?php ?>
