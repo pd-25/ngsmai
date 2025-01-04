@@ -84,9 +84,10 @@
                                     $combinedData = $data->concat($table2Data);
 
                                 @endphp
-                                @dd( $data, $table2Data, $combinedData)
+                                {{-- @dd( $data, $table2Data, $combinedData) --}}
                                 @forelse($combinedData as $item)
                                     @if ($user_id == 0 && $customer_id == 0 && $item->particulars != 'test')
+                                    @dump('first if')
                                         <?php ?>
 
                                         <tr>
@@ -160,6 +161,7 @@
                                             </td>
                                         </tr>
                                     @elseif($user_id == $item->user_id && $customer_id == 0 && $item->particulars != 'test')
+                                    @dump('2nd if')
                                         <tr>
                                             <td data-label="@lang('S.N.')">
                                                 {{ $table2Data->firstItem() + $loop->index - 1 }}</td>
@@ -216,6 +218,7 @@
                                             </td>
                                         </tr>
                                     @elseif($customer_id == $item->id && $user_id == 0 && $item->particulars != 'test')
+                                    @dump('last if')
                                         <tr>
                                             <td data-label="@lang('S.N.')">
                                                 {{ $table2Data->firstItem() + $loop->index - 1 }}</td>
