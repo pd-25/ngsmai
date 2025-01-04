@@ -101,7 +101,7 @@
 
                                                 @endphp
                                                 <td style="text-align:left;" data-label="@lang('Debit')">
-                                                    {{ $item->debit }} @dump('$item->debit')</td>
+                                                    {{ $item->debit }} </td>
                                                 <td style="text-align:left;" data-label="@lang('Credit')">
                                                     {{ $item->credit }}.00</td>
                                             @else
@@ -114,9 +114,9 @@
                                                 @endphp
 
                                                 <td style="text-align:left;" data-label="@lang('Credit')">
-                                                    {{ number_format($item->total_amount, 2) }}</td>
+                                                    {{ number_format($item->total_amount, 2) }} @dump('$item->total_amount')</td>
                                                 <td style="text-align:left;" data-label="@lang('Credit')">
-                                                    {{ number_format($item->paid_amount, 2) }}</td>
+                                                    {{ number_format($item->paid_amount, 2) }} @dump('$item->paid_amount')</td>
                                             @endif
 
                                             <td style="text-align:left;" data-label="@lang('payment')"> </td>
