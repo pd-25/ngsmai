@@ -402,7 +402,7 @@
                                 <li>
                                     <div class="list list--row" style="--gap: 0.5rem">
                                         <span class="strong">@lang('Mobile') :</span>
-                                        <span>03323965558</span>
+                                        <span>9433523336</span>
                                     </div>
                                 </li>
                             </ul>
