@@ -169,14 +169,14 @@
                                                 {{ $table2Data->firstItem() + $loop->index - 1 }}</td>
                                             @if (isset($item->debit) && isset($item->credit))
                                                 <td style="text-align:left;" data-label="@lang('Debit')">
-                                                    {{ $item->debit }} @dump('$item->debit') @dump( $item->debit)</td>
+                                                    {{ $item->debit }} @dump('$item->debit')</td>
                                                 <td style="text-align:left;" data-label="@lang('Credit')">
-                                                    {{ $item->credit }}.00 @dump('$item->credit')@dump($item->credit)</td>
+                                                    {{ $item->credit }}.00 @dump('$item->credit')</td>
                                             @else
                                                 <td style="text-align:left;" data-label="@lang('Credit')">
-                                                    {{ number_format($item->total_amount, 2) }}@dump('$item->total_amount') @dump($item->total_amount)</td>
+                                                    {{ number_format($item->total_amount, 2) }}@dump('$item->total_amount') </td>
                                                 <td style="text-align:left;" data-label="@lang('Credit')">
-                                                    {{ number_format($item->paid_amount, 2) }} @dump('$item->paid_amount') @dump($item->paid_amount)</td>
+                                                    {{ number_format($item->paid_amount, 2) }} @dump('$item->paid_amount')</td>
                                             @endif
 
 
