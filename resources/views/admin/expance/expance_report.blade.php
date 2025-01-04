@@ -87,8 +87,9 @@
                                 {{-- @dd( $data, $table2Data, $combinedData) --}}
                                 @forelse($combinedData as $item)
                                     @if ($user_id == 0 && $customer_id == 0 && $item->particulars != 'test')
-                                    @dump('first if')
-                                        <?php ?>
+                                    ')
+                                        <?ph
+                                        p ?>
 
                                         <tr>
                                             <td data-label="@lang('S.N.')">
@@ -161,20 +162,21 @@
                                             </td>
                                         </tr>
                                     @elseif($user_id == $item->user_id && $customer_id == 0 && $item->particulars != 'test')
-                                    @dump('2nd if')
+                                    
                                         <tr>
+
                                             <td data-label="@lang('S.N.')">
                                                 {{ $table2Data->firstItem() + $loop->index - 1 }}</td>
                                             @if (isset($item->debit) && isset($item->credit))
                                                 <td style="text-align:left;" data-label="@lang('Debit')">
-                                                    {{ $item->debit }}</td>
+                                                    {{ $item->debit }} @dump('$item->debit', $item->debit)</td>
                                                 <td style="text-align:left;" data-label="@lang('Credit')">
-                                                    {{ $item->credit }}.00</td>
+                                                    {{ $item->credit }}.00 @dump('$item->credit', $item->credit)</td>
                                             @else
                                                 <td style="text-align:left;" data-label="@lang('Credit')">
-                                                    {{ number_format($item->total_amount, 2) }}</td>
+                                                    {{ number_format($item->total_amount, 2) }}@dump('$item->total_amount', $item->total_amount)</td>
                                                 <td style="text-align:left;" data-label="@lang('Credit')">
-                                                    {{ number_format($item->paid_amount, 2) }}</td>
+                                                    {{ number_format($item->paid_amount, 2) }}@dump('$item->paid_amount', $item->paid_amount)</td>
                                             @endif
 
 
@@ -218,8 +220,9 @@
                                             </td>
                                         </tr>
                                     @elseif($customer_id == $item->id && $user_id == 0 && $item->particulars != 'test')
-                                    @dump('last if')
+                                    
                                         <tr>
+
                                             <td data-label="@lang('S.N.')">
                                                 {{ $table2Data->firstItem() + $loop->index - 1 }}</td>
                                             @if (isset($item->debit) && isset($item->credit))
