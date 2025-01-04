@@ -25,7 +25,7 @@ class PendingPaymentController extends Controller
     {
         $request = request();
         $query = Booking::query();
-
+        $query->whereColumn('paid_amount', '<', 'total_amount');
         if ($request->search) {
             $search = $request->search;
             $query->whereHas('user', function ($q) use ($search) {
