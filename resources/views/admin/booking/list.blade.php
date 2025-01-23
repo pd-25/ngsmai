@@ -90,11 +90,11 @@
                                         @endphp
                                         <td data-label="@lang('Booked For')">
                                             {{-- {{ showDateTime($booking->booked_room_min_booked_for, 'd M, Y') }} --}}
-                                            {{ showDateTime($minBookedFor, 'd M, Y') }}
+                                            {{ showDateTime($minBookedFor, 'd M, Y h:i:s A') }}
                                             <br>
                                             <span class="text--info">@lang('to')</span>
                                             {{-- {{ showDateTime($booking->booked_room_max_booked_for, 'd M, Y') }} --}}
-                                            {{ showDateTime($maxBookedFor, 'd M, Y') }}
+                                            {{ showDateTime($maxBookedFor, 'd M, Y h:i:s A') }}
                                         </td>
 
                                         <?php
