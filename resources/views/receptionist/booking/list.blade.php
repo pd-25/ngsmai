@@ -119,7 +119,7 @@
                                         <td data-label="@lang('Total Fare') | @lang('Total Days')">
                                             {{ $general->cur_sym }}{{ __(showAmount($booking->total_amount)) }}
                                             <br>
-                                            {{$booking->total_amount / ($numberOfDays + 1)}}
+                                            {{showAmount($booking->booked_room_min_fare)}}
                                             {{-- {{ $numberOfDays + 1 }} Days --}}
                                             {{-- {{ $general->cur_sym }}{{ showAmount($booking->used_extra_service_sum_total_amount ?? 0) }} --}}
                                         </td>

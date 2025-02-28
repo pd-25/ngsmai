@@ -1009,6 +1009,7 @@ trait ManageBooking
       
             ->withMin('bookedRoom', 'booked_for')
             ->withMax('bookedRoom', 'booked_for')
+            ->withMax('bookedRoom', 'fare')
             ->withSum('usedExtraService', 'total_amount')
             ->orderBy('booked_room_min_booked_for', 'asc')
             ->latest()
