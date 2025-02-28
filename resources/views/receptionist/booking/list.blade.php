@@ -32,7 +32,7 @@
                                     <th>@lang('Occupant')</th>
                                     <th>@lang('Room Number')</th>
                                     <th>@lang('Booked For')</th>
-                                    <th>@lang('Total Fare') | @lang('Total Days')</th>
+                                    <th>@lang('Total Fare') | @lang('Rate')</th>
                                     <th>@lang('Total Cost') | @lang('Paid')</th>
                                     <th>@lang('Due')</th>
                                     <th>@lang('Action')</th>
@@ -119,7 +119,8 @@
                                         <td data-label="@lang('Total Fare') | @lang('Total Days')">
                                             {{ $general->cur_sym }}{{ __(showAmount($booking->total_amount)) }}
                                             <br>
-                                            {{ $numberOfDays + 1 }} Days
+                                            {{$booking->total_amount / ($numberOfDays + 1)}}
+                                            {{-- {{ $numberOfDays + 1 }} Days --}}
                                             {{-- {{ $general->cur_sym }}{{ showAmount($booking->used_extra_service_sum_total_amount ?? 0) }} --}}
                                         </td>
 
