@@ -22,6 +22,10 @@
                 style="background:gray;border:gray">Reset</a>
 
             <button class="btn btn-primary" style="margin-left: 20px;" id="printButton">Print</button>
+            <span><b>Total Amount</b> : {{ $totalAmount }}.00</span>
+            <span><b>Total Received Amount</b> : {{ $receivedAmount }}.00</span>
+            <span><b>Total Debit Amount</b> : {{ $debitAmount }}.00</span>
+            
             <br /><br />
         </div>
         <div class="col-lg-12">
