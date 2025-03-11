@@ -1190,6 +1190,7 @@ trait ManageBooking
         if ($booking) {
             $newAmount = $booking->total_amount + $request->new_amount;
             DB::table("bookings")->where("id", $bookingId)->update(["total_amount" => $newAmount]);
+            $this->paymentLog($bookingId, $request->new_amount, 'RECEIVED');
             $notify[] = ['success', 'Total amount updated successfully.'];
             return back()->with($notify);
         }
