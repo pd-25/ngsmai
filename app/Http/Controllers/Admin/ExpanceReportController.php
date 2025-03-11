@@ -204,4 +204,28 @@ class ExpanceReportController extends Controller
             ->latest()
             ->paginate(getPaginate());
     }
+
+    public function paymentlog(Request $request){
+        $data["pageTitle"] = 'All Expense';
+        $getLogs = PaymentLog::with("booking");
+        // ->where('receptionist_id', auth()->guard('receptionist')->id())
+        // dd($request->date);
+        if ($request->date) {
+            $dateRange  = explode('-', $request->date);
+            if (count($dateRange) === 2) {
+                // Convert the date range from MM/DD/YYYY to YYYY-MM-DD format
+                $startDate = Carbon::createFromFormat('m/d/Y', trim($dateRange[0]))->startOfDay();
+                $endDate = Carbon::createFromFormat('m/d/Y', trim($dateRange[1]))->endOfDay();
+        
+                // Apply the date range filter
+                $getLogs->whereBetween('created_at', [$startDate, $endDate]);
+            }
+            
+        }
+        
+        $data["paymentLogs"] = $getLogs->orderBy('id', 'DESC')->get();
+        $data["totalAmount"] = $data["paymentLogs"]->sum('amount');
+        return view('admin.expance.paymentlog', $data);
+    }
+    
 }

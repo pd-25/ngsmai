@@ -437,6 +437,12 @@
                                     <span class="menu-title">@lang('Returned Payments')</span>
                                 </a>
                             </li>
+                            <li class="sidebar-menu-item {{ menuActive('admin.expense_managment.paymentlog') }}">
+                                <a href="{{ route('admin.expense_managment.paymentlog') }}" class="nav-link">
+                                    <i class="menu-icon las la-user"></i>
+                                    <span class="menu-title">@lang('Payment Log')</span>
+                                </a>
+                            </li>
                             
                                           
                 <li class="sidebar-menu-item">

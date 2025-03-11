@@ -64,6 +64,7 @@ Route::controller('ExpanceReportController')->name('expance_report.')->prefix('e
     Route::post('filter_by_customer', 'filter_by_customer')->name('filter_by_customer');
     // Route::post('{id?}', 'save')->name('save');
     Route::post('remove/{id}', 'remove')->name('remove');
+    Route::get('paymentlog', 'paymentlog')->name('paymentlog');
 
 
 });

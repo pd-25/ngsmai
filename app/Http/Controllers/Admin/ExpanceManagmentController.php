@@ -12,10 +12,8 @@ use App\Models\RoomType;
 use App\Models\Room;
 use App\Models\UsedExtraService;
 use App\Models\ExtraService;
-use App\Rules\FileTypeValidate;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\Password;
+use App\Models\PaymentLog;
+use Carbon\Carbon;
 
 
 class ExpanceManagmentController extends Controller
@@ -147,6 +145,7 @@ public function view(Request $request)
 
     return view($this->userType . '.admin.booking.booking_availability', compact('pageTitle', 'rooms', 'emptyRooms', 'selectedDate','totalRooms_1','totalRooms_2', 'totalRooms_3', 'occupiedRooms_1', 'occupiedRooms_2', 'occupiedRooms_3','ExtraService','selectedDate'));
 }
+
 
 
 
