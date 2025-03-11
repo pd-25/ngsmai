@@ -20,12 +20,12 @@ class ExpanceReportController extends Controller
     {
         
         $pageTitle = 'All Expense';
-        $data = ExpanceManagment::all();
+        $data = ExpanceManagment::orderBy('id', 'DESC')->all();
        
         $table2Data = $this->bookingData('ALL');
       
-        $users = Receptionist::all();
-        $customer = Booking::all();
+        $users = Receptionist::orderBy('id', 'DESC')->all();
+        $customer = Booking::orderBy('id', 'DESC')->all();
         $user_id= 0;
         $customer_id= 0;
        
@@ -200,7 +200,8 @@ class ExpanceReportController extends Controller
             ->withMin('bookedRoom', 'booked_for')
             ->withMax('bookedRoom', 'booked_for')
             ->withSum('usedExtraService', 'total_amount')
-            ->orderBy('booked_room_min_booked_for', 'asc')
+            // ->orderBy('booked_room_min_booked_for', 'asc')
+            ->orderBy('id', 'DESC')
             ->latest()
             ->paginate(getPaginate());
     }
