@@ -437,8 +437,8 @@
                                     <span class="menu-title">@lang('Returned Payments')</span>
                                 </a>
                             </li>
-                            <li class="sidebar-menu-item {{ menuActive('admin.report.payments.paymentlog') }}">
-                                <a href="{{ route('admin.ereport.payments.paymentlog') }}" class="nav-link">
+                            <li class="sidebar-menu-item {{ menuActive('admin.expance_report.paymentlog') }}">
+                                <a href="{{ route('admin.expance_report.paymentlog') }}" class="nav-link">
                                     <i class="menu-icon las la-user"></i>
                                     <span class="menu-title">@lang('Payment Log')</span>
                                 </a>
