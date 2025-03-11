@@ -1,13 +1,13 @@
 @php
     use Carbon\Carbon;
 @endphp
-@extends('receptionist.layouts.app')
+@extends('admin.layouts.app')
 
 @section('panel')
     <div class="row ">
 
         <div class="col-lg-12" style="display-flex">
-            <form style="display: contents;" action="{{ route('receptionist.expense_managment.paymentlog') }}" method="get">
+            <form style="display: contents;" action="{{ route('admin.expance_report.paymentlog') }}" method="get">
                 @csrf
                 <input name="date" type="text" data-range="true" data-multiple-dates-separator=" - " data-language="en"
                     class="datepicker-here bg--white" data-position='bottom right' placeholder="@lang('From - To')"
@@ -18,7 +18,7 @@
 
 
 
-            <a href="{{ route('receptionist.expense_managment.paymentlog') }}" class="btn btn-primary mx-5"
+            <a href="{{ route('admin.expance_report.paymentlog') }}" class="btn btn-primary mx-5"
                 style="background:gray;border:gray">Reset</a>
 
             <button class="btn btn-primary" style="margin-left: 20px;" id="printButton">Print</button>
