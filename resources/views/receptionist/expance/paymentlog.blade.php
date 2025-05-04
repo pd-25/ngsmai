@@ -7,22 +7,38 @@
     <div class="row ">
 
         <div class="col-lg-12" style="display-flex">
-            <form style="display: contents;" action="{{ route('receptionist.expense_managment.paymentlog') }}" method="get">
-                @csrf
-                <input name="date" type="text" data-range="true" data-multiple-dates-separator=" - " data-language="en"
+            <div class="row align-items-end mb-4">
+                <div class="col-lg-8">
+                    <form class="d-flex flex-wrap gap-2" action="{{ route('admin.expance_report.paymentlog') }}" method="get">
+                        @csrf
+            
+                        
+
+                               <input name="date" type="text" data-range="true" data-multiple-dates-separator=" - " data-language="en"
                     class="datepicker-here bg--white" data-position='bottom right' placeholder="@lang('From - To')"
-                    autocomplete="off" value="{{ request()->date }}">
-
-                <button class="btn btn--primary input-group-text" type="submit"><i class="fa fa-search"></i></button>
-            </form>
-
-
-
-            <a href="{{ route('receptionist.expense_managment.paymentlog') }}" class="btn btn-primary mx-5"
-                style="background:gray;border:gray">Reset</a>
-
-            <button class="btn btn-primary" style="margin-left: 20px;" id="printButton">Print</button>
-            <br /><br />
+                    autocomplete="off" value="{{ request()->date }}" style="max-width: 200px;">
+            
+                        <select name="type" class="form-control form--control" style="max-width: 180px;">
+                            <option value="">@lang('Select Type')</option>
+                            <option value="RECEIVED" @selected(request()->type == 'RECEIVED')>@lang('Received')</option>
+                            <option value="RETURNED" @selected(request()->type == 'RETURNED')>@lang('Refund')</option>
+                        </select>
+            
+                        <button class="btn btn--primary" type="submit">
+                            <i class="fa fa-search"></i> @lang('Search')
+                        </button>
+            
+                        <a href="{{ route('admin.expance_report.paymentlog') }}" class="btn btn-secondary">
+                            @lang('Reset')
+                        </a>
+                    </form>
+                </div>
+            
+                <div class="col-lg-4 text-end">
+                    <button class="btn btn-primary mb-2" id="printButton">@lang('Print')</button>
+                    
+                </div>
+            </div>
         </div>
         <div class="col-lg-12">
 
