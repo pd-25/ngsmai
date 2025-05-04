@@ -13,6 +13,11 @@
                     class="datepicker-here bg--white" data-position='bottom right' placeholder="@lang('From - To')"
                     autocomplete="off" value="{{ request()->date }}">
 
+                <select name="type" class="form-control form--control">
+                    <option value="">@lang('Select Type')</option>
+                    <option value="RECEIVED" @selected(request()->type == 'RECEIVED')>@lang('Received')</option>
+                    <option value="RETURNED" @selected(request()->type == 'RETURNED')>@lang('Refund')</option>
+                </select>
                 <button class="btn btn--primary input-group-text" type="submit"><i class="fa fa-search"></i></button>
             </form>
 
@@ -62,7 +67,7 @@
                                         <td data-label="@lang('Booking ID')">{{ $item?->booking?->booking_number }}</td>
                                         <td data-label="@lang('Amount')">{{ number_format($item?->amount, 2) }}</td>
                                         <td data-label="@lang('Payment type')">{{ $item?->payment_mode }}</td>
-                                        <td data-label="@lang('Payment type')"><span class="{{$item?->type == "RECEIVED" ? "text-success" : "text-danger"}}"><b>{{ $item?->type }}</b></span></td>
+                                        <td data-label="@lang('Payment type')"><span class="{{$item?->type == "RECEIVED" ? "text-success" : "text-danger"}}"><b>{{ $item?->type != "RECEIVED" ? 'REFUND' : $item?->type }}</b></span></td>
                                         <td data-label="@lang('Date')">{{ date('d M, Y h:i A', strtotime($item?->created_at)) }}</td>
                                     </tr>
                                 @empty
