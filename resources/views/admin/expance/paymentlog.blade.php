@@ -165,9 +165,9 @@
 
         // Function to print the table
         function printTable() {
-            var credit = "<?php echo $Totalcredit; ?>";
-            var debit = "<?php echo $Totaldebit; ?>";
-            var total_credit_debit = "<?php echo $Totalcredit - $Totaldebit; ?>";
+            var credit = "<?php echo $receivedAmount; ?>";
+            var debit = "<?php echo $debitAmount; ?>";
+            var total_credit_debit = "<?php echo $receivedAmount - $debitAmount; ?>";
             var printContainer = document.getElementById('printTable').outerHTML;
             var printWindow = window.open('', '_blank');
             printWindow.document.write('<html><head><title>Booking Actions Report</title>');

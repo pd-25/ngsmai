@@ -9,7 +9,7 @@
         <div class="col-lg-12" style="display-flex">
             <div class="row align-items-end mb-4">
                 <div class="col-lg-8">
-                    <form class="d-flex flex-wrap gap-2" action="{{ route('admin.expance_report.paymentlog') }}" method="get">
+                    <form class="d-flex flex-wrap gap-2" action="{{ route('receptionist.expense_managment.paymentlog') }}" method="get">
                         @csrf
             
                         
@@ -28,7 +28,7 @@
                             <i class="fa fa-search"></i> @lang('Search')
                         </button>
             
-                        <a href="{{ route('admin.expance_report.paymentlog') }}" class="btn btn-secondary">
+                        <a href="{{ route('receptionist.expense_managment.paymentlog') }}" class="btn btn-secondary">
                             @lang('Reset')
                         </a>
                     </form>
