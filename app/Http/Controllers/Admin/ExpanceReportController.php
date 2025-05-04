@@ -228,7 +228,7 @@ class ExpanceReportController extends Controller
             $getLogs->where('type', $request->type);
         }
         $allLogsQuery = (clone $getLogs);
-        dd($allLogsQuery->sum('amount'),$allLogsQuery->where('type', 'RETURNED')->sum('amount'), $allLogsQuery->where('type', 'RETURNED')->get());
+        // dd($allLogsQuery->sum('amount'),$allLogsQuery->where('type', 'RETURNED')->sum('amount'), $allLogsQuery->where('type', 'RETURNED')->get());
         $data["paymentLogs"] = $getLogs->orderBy('id', 'DESC')->paginate(30);
         $sum = $allLogsQuery->sum('amount');
         $data["totalAmount"] = rtrim(rtrim(number_format($sum, 2, '.', ''), '0'), '.');
@@ -237,7 +237,7 @@ class ExpanceReportController extends Controller
         
         $sumDebit =  $allLogsQuery->where('type', 'RETURNED')->sum('amount');
         $data["debitAmount"] = rtrim(rtrim(number_format($sumDebit, 2, '.', ''), '0'), '.');
-
+dd($data);
         // $data["paymentLogs"] = $getLogs->orderBy('id', 'DESC')->paginate(30);
         // $data["totalAmount"] = $data["paymentLogs"]->sum('amount');
         // $data["receivedAmount"] = $data["paymentLogs"]->where('type', 'RECEIVED')->sum('amount');
