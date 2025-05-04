@@ -18,75 +18,77 @@ class ExpanceReportController extends Controller
 {
     public function index()
     {
-        
+
         $pageTitle = 'All Expense';
         $data = ExpanceManagment::all();
-       
+
         $table2Data = $this->bookingData('ALL');
-      
+
         $users = Receptionist::all();
         $customer = Booking::all();
-        $user_id= 0;
-        $customer_id= 0;
-       
-        return view('admin.expance.expance_report', compact('pageTitle', 'data', 'table2Data', 'users', 'user_id','customer','customer_id'));
+        $user_id = 0;
+        $customer_id = 0;
+
+        return view('admin.expance.expance_report', compact('pageTitle', 'data', 'table2Data', 'users', 'user_id', 'customer', 'customer_id'));
     }
-    
-    
-      public function filter_by_date(Request $request)
+
+
+    public function filter_by_date(Request $request)
     {
         $pageTitle = 'All Expense';
         $data = ExpanceManagment::all();
-       
+
         $table2Data = $this->bookingData('ALL');
-      
+
         $users = Receptionist::all();
         $customer = Booking::all();
-        $user_id= 0;
-        $customer_id= 0;
-        return view('admin.expance.expance_report', compact('pageTitle', 'data', 'table2Data', 'users', 'user_id','customer','customer_id'));
+        $user_id = 0;
+        $customer_id = 0;
+        return view('admin.expance.expance_report', compact('pageTitle', 'data', 'table2Data', 'users', 'user_id', 'customer', 'customer_id'));
     }
-    
-    
-    
-    public function filter_by_user(Request $request){
-       
+
+
+
+    public function filter_by_user(Request $request)
+    {
+
         $pageTitle = 'All Expense';
         $data = ExpanceManagment::all();
-        if($request->id){
+        if ($request->id) {
             $user_id = $request->id;
         }
-       
+
         $table2Data = $this->bookingData('ALL');
-      
+
         $users = Receptionist::all();
         $customer = Booking::all();
-        if($request->id){
+        if ($request->id) {
             $user_id = $request->id;
-        }else{
-            $user_id= 0;
+        } else {
+            $user_id = 0;
         }
-        $customer_id= 0;
-        return view('admin.expance.expance_report', compact('pageTitle', 'data', 'table2Data', 'users', 'user_id','customer','customer_id'));
+        $customer_id = 0;
+        return view('admin.expance.expance_report', compact('pageTitle', 'data', 'table2Data', 'users', 'user_id', 'customer', 'customer_id'));
     }
-    
-    public function filter_by_customer(Request $request){
-       
+
+    public function filter_by_customer(Request $request)
+    {
+
         $pageTitle = 'All Expense';
         $data = ExpanceManagment::all();
-       
+
         $table2Data = $this->bookingData('ALL');
-      
+
         $users = Receptionist::all();
         $customer = Booking::all();
-        
-        if($request->customer_id){
+
+        if ($request->customer_id) {
             $customer_id = $request->customer_id;
-        }else{
-            $customer_id= 0;
+        } else {
+            $customer_id = 0;
         }
-        $user_id= 0;
-        return view('admin.expance.expance_report', compact('pageTitle', 'data', 'table2Data', 'users', 'user_id','customer','customer_id'));
+        $user_id = 0;
+        return view('admin.expance.expance_report', compact('pageTitle', 'data', 'table2Data', 'users', 'user_id', 'customer', 'customer_id'));
     }
 
     public function store(Request $request, $id = null)
@@ -150,7 +152,7 @@ class ExpanceReportController extends Controller
         $notify[] = ['success', 'Content removed successfully'];
         return back()->withNotify($notify);
     }
-    
+
     protected function bookingData($scope)
     {
         $request = request();
@@ -162,7 +164,7 @@ class ExpanceReportController extends Controller
 
         if ($request->search) {
             $search = $request->search;
-           
+
             $query->whereHas('user', function ($q) use ($search) {
                 $q->where('username', 'like', "%$search%")
                     ->orWhere('email', 'like',  "%$search%")
@@ -195,8 +197,8 @@ class ExpanceReportController extends Controller
                 $q->where('booked_for', '>=', $checkIn)->where('booked_for', '<=', $checkOut);
             });
         }
-           
-        return $query->with('bookedRoom.room', 'user','paymentlog')
+
+        return $query->with('bookedRoom.room', 'user', 'paymentlog')
             ->withMin('bookedRoom', 'booked_for')
             ->withMax('bookedRoom', 'booked_for')
             ->withSum('usedExtraService', 'total_amount')
@@ -205,7 +207,8 @@ class ExpanceReportController extends Controller
             ->paginate(getPaginate());
     }
 
-    public function paymentlog(Request $request){
+    public function paymentlog(Request $request)
+    {
         $data["pageTitle"] = 'All Expense';
         $getLogs = PaymentLog::with("booking");
         // ->where('receptionist_id', auth()->guard('receptionist')->id())
@@ -216,26 +219,27 @@ class ExpanceReportController extends Controller
                 // Convert the date range from MM/DD/YYYY to YYYY-MM-DD format
                 $startDate = Carbon::createFromFormat('m/d/Y', trim($dateRange[0]))->startOfDay();
                 $endDate = Carbon::createFromFormat('m/d/Y', trim($dateRange[1]))->endOfDay();
-        
+
                 // Apply the date range filter
                 $getLogs->whereBetween('created_at', [$startDate, $endDate]);
             }
-            
         }
         if ($request->type) {
             $getLogs->where('type', $request->type);
         }
         $allLogsQuery = (clone $getLogs);
         $data["paymentLogs"] = $getLogs->orderBy('id', 'DESC')->paginate(30);
-        $data["totalAmount"] = $allLogsQuery->sum('amount'); 
-        $data["receivedAmount"] = $allLogsQuery->where('type', 'RECEIVED')->sum('amount');
-        $data["debitAmount"] = $allLogsQuery->where('type', 'RETURNED')->sum('amount');
-        
+        $sum = $allLogsQuery->sum('amount');
+        $data["totalAmount"] = rtrim(rtrim(number_format($sum, 2, '.', ''), '0'), '.');
+        $sumReceive =  $allLogsQuery->where('type', 'RECEIVED')->sum('amount');
+        $data["receivedAmount"] = rtrim(rtrim(number_format($sumReceive, 2, '.', ''), '0'), '.');
+        $sumDebit =  $allLogsQuery->where('type', 'RETURNED')->sum('amount');
+        $data["debitAmount"] = rtrim(rtrim(number_format($sumDebit, 2, '.', ''), '0'), '.');
+
         // $data["paymentLogs"] = $getLogs->orderBy('id', 'DESC')->paginate(30);
         // $data["totalAmount"] = $data["paymentLogs"]->sum('amount');
         // $data["receivedAmount"] = $data["paymentLogs"]->where('type', 'RECEIVED')->sum('amount');
         // $data["debitAmount"] = $data["paymentLogs"]->where('type', 'RETURNED')->sum('amount');
         return view('admin.expance.paymentlog', $data);
     }
-    
 }
