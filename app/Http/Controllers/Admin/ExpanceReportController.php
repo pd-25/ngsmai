@@ -226,7 +226,7 @@ class ExpanceReportController extends Controller
             $getLogs->where('type', $request->type);
         }
         
-        $data["paymentLogs"] = $getLogs->orderBy('id', 'DESC')->get();
+        $data["paymentLogs"] = $getLogs->orderBy('id', 'DESC')->paginate(30);
         $data["totalAmount"] = $data["paymentLogs"]->sum('amount');
         $data["receivedAmount"] = $data["paymentLogs"]->where('type', 'RECEIVED')->sum('amount');
         $data["debitAmount"] = $data["paymentLogs"]->where('type', 'RETURNED')->sum('amount');

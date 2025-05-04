@@ -121,6 +121,9 @@
 
 
                         </table>
+                        <div>
+                            {{$paymentLogs->links()}}
+                        </div>
 
                     </div>
 
