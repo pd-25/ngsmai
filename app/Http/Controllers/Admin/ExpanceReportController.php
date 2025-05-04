@@ -227,7 +227,7 @@ class ExpanceReportController extends Controller
         }
         
         $data["paymentLogs"] = $getLogs->orderBy('id', 'DESC')->paginate(30);
-        $data["totalAmount"] = $data["paymentLogs"]->sum('amount');
+        $data["totalAmount"] = $getLogs->get()->sum('amount');
         $data["receivedAmount"] = $data["paymentLogs"]->where('type', 'RECEIVED')->sum('amount');
         $data["debitAmount"] = $data["paymentLogs"]->where('type', 'RETURNED')->sum('amount');
         return view('admin.expance.paymentlog', $data);
