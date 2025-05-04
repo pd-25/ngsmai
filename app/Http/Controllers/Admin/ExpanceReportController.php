@@ -227,9 +227,14 @@ class ExpanceReportController extends Controller
         }
         $allLogsQuery = (clone $getLogs);
         $data["paymentLogs"] = $getLogs->orderBy('id', 'DESC')->paginate(30);
-        $data["totalAmount"] = $allLogsQuery->sum('amount'); //this giving me the sum of only paginated data, I need the sum of all data
-        $data["receivedAmount"] = $data["paymentLogs"]->where('type', 'RECEIVED')->sum('amount');
-        $data["debitAmount"] = $data["paymentLogs"]->where('type', 'RETURNED')->sum('amount');
+        $data["totalAmount"] = $allLogsQuery->sum('amount'); 
+        $data["receivedAmount"] = $allLogsQuery->where('type', 'RECEIVED')->sum('amount');
+        $data["debitAmount"] = $allLogsQuery->where('type', 'RETURNED')->sum('amount');
+        
+        // $data["paymentLogs"] = $getLogs->orderBy('id', 'DESC')->paginate(30);
+        // $data["totalAmount"] = $data["paymentLogs"]->sum('amount');
+        // $data["receivedAmount"] = $data["paymentLogs"]->where('type', 'RECEIVED')->sum('amount');
+        // $data["debitAmount"] = $data["paymentLogs"]->where('type', 'RETURNED')->sum('amount');
         return view('admin.expance.paymentlog', $data);
     }
     
