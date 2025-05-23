@@ -2,7 +2,8 @@
     <button class="res-sidebar-close-btn"><i class="las la-times"></i></button>
     <div class="sidebar__inner">
         <div class="sidebar__logo">
-            <a href="{{ route('admin.dashboard') }}" class="sidebar__main-logo"><img src="{{ asset('assets/images/logoIcon/logo_dark.png') }}" alt="@lang('image')"></a>
+            <a href="{{ route('admin.dashboard') }}" class="sidebar__main-logo"><img
+                    src="{{ asset('assets/images/logoIcon/logo_dark.png') }}" alt="@lang('image')"></a>
         </div>
         {{-- <img src="{{ getImage(getFilePath('logoIcon') . '/logo_dark.png') }}" alt="@lang('image')"> --}}
 
@@ -27,7 +28,7 @@
                         <span class="menu-title">@lang('Receipt')</span>
                     </a>
                 </li>
-               
+
                 <li class="sidebar-menu-item sidebar-dropdown">
                     <a href="javascript:void(0)" class="{{ menuActive('admin.users*', 3) }}">
                         <i class="menu-icon las la-users"></i>
@@ -58,23 +59,27 @@
                                 </a>
                             </li>
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.users.email.unverified') }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive('admin.users.email.unverified') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.users.email.unverified') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Email Unverified')</span>
 
                                     @if ($emailUnverifiedUsersCount)
-                                        <span class="menu-badge pill bg--danger ms-auto">{{ $emailUnverifiedUsersCount }}</span>
+                                        <span
+                                            class="menu-badge pill bg--danger ms-auto">{{ $emailUnverifiedUsersCount }}</span>
                                     @endif
                                 </a>
                             </li>
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.users.mobile.unverified') }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive('admin.users.mobile.unverified') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.users.mobile.unverified') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Mobile Unverified')</span>
                                     @if ($mobileUnverifiedUsersCount)
-                                        <span class="menu-badge pill bg--danger ms-auto">{{ $mobileUnverifiedUsersCount }}</span>
+                                        <span
+                                            class="menu-badge pill bg--danger ms-auto">{{ $mobileUnverifiedUsersCount }}</span>
                                     @endif
                                 </a>
                             </li>
@@ -86,7 +91,8 @@
                                 </a>
                             </li>
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.users.notification.all') }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive('admin.users.notification.all') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.users.notification.all') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Notification to All')</span>
@@ -104,14 +110,16 @@
                     </a>
                     <div class="sidebar-submenu {{ menuActive('admin.hotel*', 2) }}">
                         <ul>
-                            <li class="sidebar-menu-item {{ menuActive('admin.hotel.amenity.all') }}" style="display:none">
+                            <li class="sidebar-menu-item {{ menuActive('admin.hotel.amenity.all') }}"
+                                style="display:none">
                                 <a href="{{ route('admin.hotel.amenity.all') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Amenities')</span>
                                 </a>
                             </li>
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.hotel.complement.all') }}" style="display:none">
+                            <li class="sidebar-menu-item {{ menuActive('admin.hotel.complement.all') }}"
+                                style="display:none">
                                 <a href="{{ route('admin.hotel.complement.all') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Complements')</span>
@@ -150,7 +158,7 @@
                     </div>
                 </li>
                 <!-- Manage Hotel End -->
-                
+
                 <li class="sidebar-menu-item">
                     <a href="{{ route('admin.booking_availability.all') }}" class="nav-link">
                         <i class="menu-icon las la-calendar-check"></i>
@@ -164,7 +172,7 @@
                         <span class="menu-title">@lang('Book Hostel')</span>
                     </a>
                 </li>
-                
+
 
                 <!-- Manage Reservation -->
                 <li class="sidebar-menu-item sidebar-dropdown">
@@ -194,14 +202,16 @@
 
                             <hr class="my-1">
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.booking.todays.booked*') }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive('admin.booking.todays.booked*') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.booking.todays.booked') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Todays Booked')</span>
                                 </a>
                             </li>
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.booking.active*') }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive('admin.booking.active*') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.booking.active') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle text--success"></i>
                                     <span class="menu-title">@lang('Active Bookings')</span>
@@ -209,14 +219,16 @@
                             </li>
 
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.booking.checked_out*') }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive('admin.booking.checked_out*') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.booking.checked_out.list') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Checked-Out Bookings')</span>
                                 </a>
                             </li>
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.booking.cancelled*') }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive('admin.booking.cancelled*') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.booking.cancelled.list') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Cancelled Bookings')</span>
@@ -234,7 +246,7 @@
                     </div>
                 </li>
                 <!-- Manage Reservation End -->
-                
+
                 <!-- Manage Expense -->
                 <li class="sidebar-menu-item sidebar-dropdown">
                     <a href="javascript:void(0)" class="{{ menuActive('admin.expense*', 3) }}">
@@ -303,19 +315,22 @@
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Pending Payments')</span>
                                     @if ($pendingDepositsCount)
-                                        <span class="menu-badge pill bg--danger ms-auto">{{ $pendingDepositsCount }}</span>
+                                        <span
+                                            class="menu-badge pill bg--danger ms-auto">{{ $pendingDepositsCount }}</span>
                                     @endif
                                 </a>
                             </li>
-                            
-                            <li class="sidebar-menu-item {{ menuActive('admin.deposit.approved') }}" style="display:none;">
+
+                            <li class="sidebar-menu-item {{ menuActive('admin.deposit.approved') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.deposit.approved') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Approved Payments')</span>
                                 </a>
                             </li>
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.deposit.successful') }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive('admin.deposit.successful') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.deposit.successful') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Successful Payments')</span>
@@ -323,7 +338,8 @@
                             </li>
 
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.deposit.rejected') }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive('admin.deposit.rejected') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.deposit.rejected') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Rejected Payments')</span>
@@ -331,7 +347,8 @@
                             </li>
 
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.deposit.failed') }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive('admin.deposit.failed') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.deposit.failed') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Failed Payments')</span>
@@ -366,7 +383,8 @@
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Pending Ticket')</span>
                                     @if ($pendingTicketCount)
-                                        <span class="menu-badge pill bg--danger ms-auto">{{ $pendingTicketCount }}</span>
+                                        <span
+                                            class="menu-badge pill bg--danger ms-auto">{{ $pendingTicketCount }}</span>
                                     @endif
                                 </a>
                             </li>
@@ -403,14 +421,16 @@
                     </a>
                     <div class="sidebar-submenu {{ menuActive('admin.report*', 2) }}">
                         <ul>
-                            <li class="sidebar-menu-item {{ menuActive(['admin.report.login.history', 'admin.report.login.ipHistory']) }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive(['admin.report.login.history', 'admin.report.login.ipHistory']) }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.report.login.history') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Login History')</span>
                                 </a>
                             </li>
 
-                            <li class="sidebar-menu-item {{ menuActive('admin.report.notification.history') }}" style="display:none;">
+                            <li class="sidebar-menu-item {{ menuActive('admin.report.notification.history') }}"
+                                style="display:none;">
                                 <a href="{{ route('admin.report.notification.history') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Notification History')</span>
@@ -440,17 +460,17 @@
                             <li class="sidebar-menu-item {{ menuActive('admin.expance_report.paymentlog') }}">
                                 <a href="{{ route('admin.expance_report.paymentlog') }}" class="nav-link">
                                     <i class="menu-icon las la-user"></i>
-                                    <span class="menu-title">@lang('Payment Log')</span>
+                                    <span class="menu-title">@lang('Expense Report')</span>
                                 </a>
                             </li>
-                            
-                                          
-                <li class="sidebar-menu-item">
-                    <a href="{{ route('admin.expance_report.all') }}" class="nav-link">
-                        <i class="menu-icon las la-user"></i>
-                        <span class="menu-title">@lang('Expense Report')</span>
-                    </a>
-                </li>
+
+
+                            {{-- <li class="sidebar-menu-item">
+                                <a href="{{ route('admin.expance_report.all') }}" class="nav-link">
+                                    <i class="menu-icon las la-user"></i>
+                                    <span class="menu-title">@lang('Expense Report')</span>
+                                </a>
+                            </li> --}}
 
                         </ul>
                     </div>
@@ -459,7 +479,8 @@
 
 
                 <li class="sidebar-menu-item {{ menuActive('admin.subscriber.index') }}">
-                    <a href="{{ route('admin.subscriber.index') }}" class="nav-link" data-default-url="{{ route('admin.subscriber.index') }}">
+                    <a href="{{ route('admin.subscriber.index') }}" class="nav-link"
+                        data-default-url="{{ route('admin.subscriber.index') }}">
                         <i class="menu-icon las la-thumbs-up"></i>
                         <span class="menu-title">@lang('Subscribers') </span>
                     </a>
@@ -476,7 +497,8 @@
                     </a>
                 </li>
 
-                <li class="sidebar-menu-item {{ menuActive('admin.setting.system.configuration') }}" style="display:none;">
+                <li class="sidebar-menu-item {{ menuActive('admin.setting.system.configuration') }}"
+                    style="display:none;">
                     <a href="{{ route('admin.setting.system.configuration') }}" class="nav-link">
                         <i class="menu-icon las la-cog"></i>
                         <span class="menu-title">@lang('System Configuration')</span>
@@ -499,8 +521,10 @@
                 </li>
 
 
-                <li class="sidebar-menu-item {{ menuActive(['admin.language.manage', 'admin.language.key']) }}" style="display:none;">
-                    <a href="{{ route('admin.language.manage') }}" class="nav-link" data-default-url="{{ route('admin.language.manage') }}">
+                <li class="sidebar-menu-item {{ menuActive(['admin.language.manage', 'admin.language.key']) }}"
+                    style="display:none;">
+                    <a href="{{ route('admin.language.manage') }}" class="nav-link"
+                        data-default-url="{{ route('admin.language.manage') }}">
                         <i class="menu-icon las la-language"></i>
                         <span class="menu-title">@lang('Language') </span>
                     </a>
@@ -593,7 +617,7 @@
                         </ul>
                     </div>
                 </li>
-                
+
                 <li class="sidebar-menu-item">
                     <a href="{{ route('admin.course.all') }}" class="nav-link">
                         <i class="menu-icon las la-user"></i>
@@ -639,7 +663,8 @@
 
 
                 <li class="sidebar-menu-item sidebar-dropdown">
-                    <a href="javascript:void(0)" class="{{ menuActive('admin.system*', 3) }}" style="display:none;">
+                    <a href="javascript:void(0)" class="{{ menuActive('admin.system*', 3) }}"
+                        style="display:none;">
                         <i class="menu-icon la la-server"></i>
                         <span class="menu-title">@lang('System')</span>
                     </a>
@@ -683,7 +708,8 @@
 
 
                 <li class="sidebar-menu-item {{ menuActive('admin.request.report') }}" style="display:none;">
-                    <a href="{{ route('admin.request.report') }}" class="nav-link" data-default-url="{{ route('admin.request.report') }}">
+                    <a href="{{ route('admin.request.report') }}" class="nav-link"
+                        data-default-url="{{ route('admin.request.report') }}">
                         <i class="menu-icon las la-bug"></i>
                         <span class="menu-title">@lang('Report & Request') </span>
                     </a>
