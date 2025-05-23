@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('panel')
-    <form style="display: flex;margin-bottom: 30px; margin-top: -73px; margin-left: 32%;"
+    {{-- <form style="display: flex;margin-bottom: 30px; margin-top: -73px; margin-left: 32%;"
         action="{{ route('admin.booking.filter_status') }}" method="post">
         @csrf
         <select style="margin-left: 0px; background-color: #ffff; width:30%" id="expense_category" name="filter"
@@ -14,7 +14,7 @@
         </select>
 
         <button class="btn btn--primary input-group-text" type="submit"><i class="fa fa-search"></i></button>
-    </form>
+    </form> --}}
     <div class="row">
         <div class="col-lg-12">
             <div class="card b-radius--10">
