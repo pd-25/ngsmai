@@ -100,6 +100,19 @@ class ReportController extends Controller
                     });
             });
         }
+        if (request()->date) {
+            $dates = explode(' - ', request()->date); // ["05/10/2025", "05/16/2025"]
+
+            if (count($dates) === 2) {
+                try {
+                    $start = \Carbon\Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
+                    $end = \Carbon\Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();
+                    $query = $query->whereBetween('created_at', [$start, $end]);
+                } catch (\Exception $e) {
+                    // Handle parsing error if needed
+                }
+            }
+        }
 
         $paymentLog = $query->with('booking.user', 'receptionist', 'admin')->orderBy('id', 'desc')->paginate(getPaginate());
 

@@ -434,7 +434,7 @@
                             <li class="sidebar-menu-item {{ menuActive('admin.report.payments.returned') }}">
                                 <a href="{{ route('admin.report.payments.returned') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
-                                    <span class="menu-title">@lang('Returned Payments')</span>
+                                    <span class="menu-title">@lang('Refund Payments')</span>
                                 </a>
                             </li>
                             <li class="sidebar-menu-item {{ menuActive('admin.expance_report.paymentlog') }}">
