@@ -54,7 +54,7 @@
                                         </td>
 
                                         <td data-label="@lang('Date')">
-                                            {{ showDateTime($log->created_at) }} <br>
+                                            {{ showDateTime($log->created_at, 'd M, Y h:i:s A') }} <br>
                                             {{ diffForHumans($log->created_at) }}
                                         </td>
                                     </tr>
