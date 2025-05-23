@@ -993,7 +993,7 @@ trait ManageBooking
             $query->whereHas('bookedRoom', function ($q) use ($checkIn, $checkOut) {
                 $q->where('booked_for', '>=', $checkIn)->where('booked_for', '<=', $checkOut);
             });
-            dd($query->toSql());
+            // dd($query->toSql());
         }
         // if ($request->filter) {
         //     if ($request->filter == 9) {
