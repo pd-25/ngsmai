@@ -484,7 +484,7 @@
                             $("#guest_name").val(user.firstname + +user.lastname).prop('readonly',
                             true);
                             $("#email").val(user.email).prop('readonly', true);
-                            $("#mobile").val(user.cdc).prop('readonly', true);
+                            $("#mobile").val(user.mobile).prop('readonly', true);
                             $("#dob").val(user.dob).prop('readonly', true);
                             $("#rank").val(user.rank).prop('readonly', true);
                             $("#address").val(user.address).prop('readonly', true);
