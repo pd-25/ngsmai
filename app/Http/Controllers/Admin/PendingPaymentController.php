@@ -53,8 +53,8 @@ class PendingPaymentController extends Controller
                 'checkout_date' => 'nullable|date_format:m/d/Y|after_or_equal:checkin_date'
             ]);
 
-            $checkIn = Carbon::parse($request->checkin_date)->format('Y-m-d');
-            $checkOut = Carbon::parse($request->checkout_date)->format('Y-m-d');
+            $checkIn = \Carbon\Carbon::parse($request->checkin_date)->format('Y-m-d');
+            $checkOut = \Carbon\Carbon::parse($request->checkout_date)->format('Y-m-d');
 
             $query->whereHas('bookedRoom', function ($q) use ($checkIn, $checkOut) {
                 $q->where('booked_for', '>=', $checkIn)->where('booked_for', '<=', $checkOut);
