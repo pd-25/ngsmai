@@ -93,15 +93,16 @@
 
                                 </select>
                             </div> --}}
+                            <div class="form-group ">
+                                <label>C.D.C No./INDOS No.</label>
+                                <input type="text" class="form-control" name="c_d_c_number" id="c_d_c_number" required>
+                            </div>
                             <div class="form-group guestInputDiv">
                                 <label>@lang('Phone Number')</label>
                                 <input type="number" class="form-control " name="mobile" minlength="10" id="mobile" required>
                             </div>
 
-                            <div class="form-group ">
-                                <label>C.D.C No./INDOS No.</label>
-                                <input type="text" class="form-control" name="c_d_c_number" id="c_d_c_number" required>
-                            </div>
+                            
 
                             <div class="form-group guestInputDiv">
                                 <label>@lang('Name')</label>
@@ -468,9 +469,10 @@
         //             $("#city").val(user.address.city);
         //         }
         //     });
-        $("#mobile").keyup(function(e) {
-            console.log($("#mobile").val());
-            var mobile = $("#mobile").val();
+        $("#c_d_c_number").keyup(function(e) {
+            
+            console.log($("#c_d_c_number").val());
+            var mobile = $("#c_d_c_number").val();
             if (mobile.length > 9) {
                 $.ajax({
                     url: '{{ route('admin.get.mobile') }}?mobile=' + mobile,
@@ -482,7 +484,7 @@
                             $("#guest_name").val(user.firstname + +user.lastname).prop('readonly',
                             true);
                             $("#email").val(user.email).prop('readonly', true);
-                            $("#c_d_c_number").val(user.cdc).prop('readonly', true);
+                            $("#mobile").val(user.cdc).prop('readonly', true);
                             $("#dob").val(user.dob).prop('readonly', true);
                             $("#rank").val(user.rank).prop('readonly', true);
                             $("#address").val(user.address).prop('readonly', true);
@@ -494,7 +496,7 @@
                         } else {
                             $("#guest_name").val('').prop('readonly', false);
                             $("#email").val('').prop('readonly', false);
-                            $("#c_d_c_number").val('').prop('readonly', false);
+                            $("#mobile").val('').prop('readonly', false);
                             $("#dob").val('').prop('readonly', false);
                             $("#rank").val('').prop('readonly', false);
                             $("#address").val('').prop('readonly', false);
