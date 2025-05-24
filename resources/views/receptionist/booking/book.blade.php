@@ -439,7 +439,7 @@
         $("#c_d_c_number").keyup(function(e) {
             console.log($("#c_d_c_number").val());
             var mobile = $("#c_d_c_number").val();
-            if (mobile.length > 9) {
+            if (mobile.length > 7) {
                 $.ajax({
                     url: '{{ route('receptionist.get.mobile') }}?mobile=' + mobile,
                     type: "GET",

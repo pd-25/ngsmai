@@ -473,7 +473,7 @@
             
             console.log($("#c_d_c_number").val());
             var mobile = $("#c_d_c_number").val();
-            if (mobile.length > 9) {
+            if (mobile.length > 7) {
                 $.ajax({
                     url: '{{ route('admin.get.mobile') }}?mobile=' + mobile,
                     type: "GET",
