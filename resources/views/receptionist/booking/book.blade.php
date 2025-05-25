@@ -447,7 +447,7 @@
 
                 if (mobile.length > 5) {
                     $.ajax({
-                        url: '{{ route('admin.get.mobile') }}?mobile=' + mobile,
+                        url: '{{ route('receptionist.get.mobile') }}?mobile=' + mobile,
                         type: "GET",
                         success: function(data) {
                             var user = JSON.parse(data);
