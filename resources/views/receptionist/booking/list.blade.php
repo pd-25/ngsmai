@@ -82,8 +82,9 @@
                                                             href="{{ route('receptionist.booking.detail', $booking->user->id) }}"><?php echo isset($booking->user->firstname) ? $booking->user->firstname : $booking->guest_details->name; ?></a></span>
                                                 </span>
                                                 <br>
-                                                <span class="fw-bold"><?php echo isset($booking->user->email) ? $booking->user->email : $booking->guest_details->email; ?></span>
-                                            @else
+                                                {{-- <span class="fw-bold"></?php echo isset($booking->user->email) ? $booking->user->email : $booking->guest_details->email; ?></span> --}}
+                                                <span class="fw-bold">{{ $booking?->user?->cdc }}</span>
+                                                @else
                                                 <span class="small">{{ $booking->guest_details->name }}</span>
                                                 <br>
                                                 <span class="fw-bold">{{ $booking->guest_details->email }}</span>
@@ -215,7 +216,7 @@
                                                             <a href="javascript:void(0)" class="dropdown-item payBtn"
                                                                 data-total="{{ $due }}"
                                                                 data-id="{{ $booking->id }}">
-                                                                <i class="las la-money-bill-alt"></i> @lang('Return Payment')
+                                                                <i class="las la-money-bill-alt"></i> @lang('Refund Payment')
                                                             </a>
                                                         @endif
 
@@ -416,7 +417,7 @@
 
                 if (total < 0) {
                     total = Math.abs(total);
-                    modalTitle.text(`@lang('Return Payment to Guest')`);
+                    modalTitle.text(`@lang('Refund Payment to Guest')`);
                     amountText.text(`@lang('Returnable Amount'): ${total} {{ __($general->cur_text) }}`);
                     modal.find('[name=amount]').val(total);
                     modal.find('[name=type]').val('return');
