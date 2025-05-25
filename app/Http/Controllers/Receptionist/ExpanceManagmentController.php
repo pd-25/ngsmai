@@ -239,17 +239,38 @@ class ExpanceManagmentController extends Controller
         $data["pageTitle"] = 'All Expense';
         $getLogs = PaymentLog::with("booking")->where('receptionist_id', auth()->guard('receptionist')->id());
         // dd($request->date);
-        if ($request->date) {
-            $dateRange  = explode('-', $request->date);
-            if (count($dateRange) === 2) {
-                // Convert the date range from MM/DD/YYYY to YYYY-MM-DD format
-                $startDate = Carbon::createFromFormat('m/d/Y', trim($dateRange[0]))->startOfDay();
-                $endDate = Carbon::createFromFormat('m/d/Y', trim($dateRange[1]))->endOfDay();
+        // if ($request->date) {
+        //     $dateRange  = explode('-', $request->date);
+        //     if (count($dateRange) === 2) {
+        //         // Convert the date range from MM/DD/YYYY to YYYY-MM-DD format
+        //         $startDate = Carbon::createFromFormat('m/d/Y', trim($dateRange[0]))->startOfDay();
+        //         $endDate = Carbon::createFromFormat('m/d/Y', trim($dateRange[1]))->endOfDay();
         
-                // Apply the date range filter
-                $getLogs->whereBetween('created_at', [$startDate, $endDate]);
-            }
+        //         // Apply the date range filter
+        //         $getLogs->whereBetween('created_at', [$startDate, $endDate]);
+        //     }
             
+        // }
+        if ($request->date) {
+            $mode = $request->get('mode', 'range');
+
+            if ($mode === 'range') {
+                $dateRange = explode('-', $request->date);
+                if (count($dateRange) === 2) {
+                    // Convert from MM/DD/YYYY to Carbon
+                    $startDate = Carbon::createFromFormat('m/d/Y', trim($dateRange[0]))->startOfDay();
+                    $endDate = Carbon::createFromFormat('m/d/Y', trim($dateRange[1]))->endOfDay();
+
+                    $getLogs->whereBetween('created_at', [$startDate, $endDate]);
+                }
+            } elseif ($mode === 'single') {
+                try {
+                    $date = Carbon::createFromFormat('m/d/Y', trim($request->date));
+                    $getLogs->whereDate('created_at', $date);
+                } catch (\Exception $e) {
+                    // \Log::debug("message" . $e->getMessage());
+                }
+            }
         }
         if ($request->type) {
             $getLogs->where('type', $request->type);

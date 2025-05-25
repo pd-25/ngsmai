@@ -9,34 +9,52 @@
         <div class="col-lg-12" style="display-flex">
             <div class="row align-items-end mb-4">
                 <div class="col-lg-8">
-                    <form class="d-flex flex-wrap gap-2" action="{{ route('receptionist.expense_managment.paymentlog') }}" method="get">
+                    <form class="d-flex flex-wrap gap-2" action="{{ route('receptionist.expense_managment.paymentlog') }}"
+                        method="get">
                         @csrf
-            
-                        
 
-                               <input name="date" type="text" data-range="true" data-multiple-dates-separator=" - " data-language="en"
-                    class="datepicker-here bg--white" data-position='bottom right' placeholder="@lang('From - To')"
-                    autocomplete="off" value="{{ request()->date }}" style="max-width: 200px;">
-            
+
+
+                        {{-- Select between Single Date and Date Range --}}
+                        <select id="date_mode" class="form-control form--control" style="max-width: 150px;">
+                            <option value="range" selected>Date Range</option>
+                            <option value="single" {{ request()->get('mode') == 'single' ? 'selected' : '' }}>Single Date
+                            </option>
+                        </select>
+
+                        {{-- Date Range Input --}}
+                        <input name="date" id="date_range_input" type="text" data-range="true"
+                            data-multiple-dates-separator=" - " data-language="en" class="datepicker-here bg--white"
+                            data-position='bottom right' placeholder="@lang('From - To')" autocomplete="off"
+                            value="{{ request()->date }}" style="max-width: 200px;">
+
+                        {{-- Single Date Input (initially hidden) --}}
+                        <input name="date" id="single_date_input" type="text" data-language="en"
+                            class="datepicker-here bg--white" data-position='bottom right' placeholder="@lang('Select Date')"
+                            autocomplete="off" value="{{ request()->date }}" style="max-width: 200px; display: none;">
+
+                        <input type="hidden" name="mode" id="date_mode_input"
+                            value="{{ request()->get('mode', 'range') }}">
+
                         <select name="type" class="form-control form--control" style="max-width: 180px;">
                             <option value="">@lang('Select Type')</option>
                             <option value="RECEIVED" @selected(request()->type == 'RECEIVED')>@lang('Received')</option>
                             <option value="RETURNED" @selected(request()->type == 'RETURNED')>@lang('Refund')</option>
                         </select>
-            
+
                         <button class="btn btn--primary" type="submit">
                             <i class="fa fa-search"></i> @lang('Search')
                         </button>
-            
+
                         <a href="{{ route('receptionist.expense_managment.paymentlog') }}" class="btn btn-secondary">
                             @lang('Reset')
                         </a>
                     </form>
                 </div>
-            
+
                 <div class="col-lg-4 text-end">
                     <button class="btn btn-primary mb-2" id="printButton">@lang('Print')</button>
-                    
+
                 </div>
             </div>
         </div>
@@ -74,8 +92,11 @@
                                         <td data-label="@lang('Booking ID')">{{ $item?->booking?->booking_number }}</td>
                                         <td data-label="@lang('Amount')">{{ number_format($item?->amount, 2) }}</td>
                                         <td data-label="@lang('Payment type')">{{ $item?->payment_mode }}</td>
-                                        <td data-label="@lang('Payment type')"><span class="{{$item?->type == "RECEIVED" ? "text-success" : "text-danger"}}">{{ $item?->type != "RECEIVED" ? 'REFUND' : $item?->type }}</span></td>
-                                        <td data-label="@lang('Date')">{{ date('d M, Y h:i A', strtotime($item?->created_at)) }}</td>
+                                        <td data-label="@lang('Payment type')"><span
+                                                class="{{ $item?->type == 'RECEIVED' ? 'text-success' : 'text-danger' }}">{{ $item?->type != 'RECEIVED' ? 'REFUND' : $item?->type }}</span>
+                                        </td>
+                                        <td data-label="@lang('Date')">
+                                            {{ date('d M, Y h:i A', strtotime($item?->created_at)) }}</td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -163,5 +184,24 @@
             }
 
         })(jQuery);
+
+        function toggleDateInputs(mode) {
+            if (mode === 'single') {
+                $('#single_date_input').show().attr('name', 'date');
+                $('#date_range_input').hide().removeAttr('name');
+            } else {
+                $('#date_range_input').show().attr('name', 'date');
+                $('#single_date_input').hide().removeAttr('name');
+            }
+            $('#date_mode_input').val(mode);
+        }
+
+        // On load
+        toggleDateInputs($('#date_mode').val());
+
+        // On change
+        $('#date_mode').change(function() {
+            toggleDateInputs($(this).val());
+        });
     </script>
 @endpush
