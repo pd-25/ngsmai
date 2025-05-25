@@ -28,7 +28,7 @@ class BookingController extends Controller
     public function mobile(Request $request)
     {
         // $UserData = User::where('mobile', $request->mobile)->first();
-        $UserData = User::where(DB::raw('RIGHT(mobile, 10)'), $request->mobile)->first();
+        $UserData = User::where('cdc', $request->mobile)->first();
         
         echo json_encode($UserData);
     }
