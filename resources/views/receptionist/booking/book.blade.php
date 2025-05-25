@@ -96,7 +96,7 @@
 
                                 </select>
                             </div> --}}
-                            
+
 
                             <div class="form-group ">
                                 <label>C.D.C No./INDOS No.</label>
@@ -436,47 +436,51 @@
 
         total_amount.addEventListener("input", updateVal);
 
+        let debounceTimer;
+
         $("#c_d_c_number").keyup(function(e) {
-            console.log($("#c_d_c_number").val());
-            var mobile = $("#c_d_c_number").val();
-            if (mobile.length > 7) {
-                $.ajax({
-                    url: '{{ route('receptionist.get.mobile') }}?mobile=' + mobile,
-                    type: "GET",
-                    success: function(data) {
-                        var user = JSON.parse(data);
-                        if (user) {
-                            $("#guest_name").val(user.firstname + +user.lastname).prop('readonly',
-                            true);
-                            $("#email").val(user.email).prop('readonly', true);
-                            $("#mobile").val(user.mobile).prop('readonly', true);
-                            $("#dob").val(user.dob).prop('readonly', true);
-                            $("#rank").val(user.rank).prop('readonly', true);
-                            $("#address").val(user.address).prop('readonly', true);
-                            $("#state").val(user.address.state).prop('readonly', true);
-                            $("#pincode").val(user.address.zip).prop('readonly', true);
-                            $("#city").val(user.address.city).prop('readonly', true);
-                            $("#guest_type").val('1');
+            clearTimeout(debounceTimer);
 
-                        } else {
-                            $("#guest_name").val('').prop('readonly', false);
-                            $("#email").val('').prop('readonly', false);
-                            $("#c_d_c_number").val('').prop('readonly', false);
-                            $("#dob").val('').prop('readonly', false);
-                            $("#rank").val('').prop('readonly', false);
-                            $("#address").val('').prop('readonly', false);
-                            $("#state").val('').prop('readonly', false);
-                            $("#pincode").val('').prop('readonly', false);
-                            $("#city").val('').prop('readonly', false);
-                            $("#guest_type").val('0');
+            debounceTimer = setTimeout(function() {
+                var mobile = $("#c_d_c_number").val();
+                console.log(mobile);
+
+                if (mobile.length > 5) {
+                    $.ajax({
+                        url: '{{ route('admin.get.mobile') }}?mobile=' + mobile,
+                        type: "GET",
+                        success: function(data) {
+                            var user = JSON.parse(data);
+                            console.log(user);
+
+                            if (user) {
+                                $("#guest_name").val(user.firstname + ' ' + user.lastname).prop(
+                                    'readonly', true);
+                                $("#email").val(user.email).prop('readonly', true);
+                                $("#mobile").val(user.mobile).prop('readonly', true);
+                                $("#dob").val(user.dob).prop('readonly', true);
+                                $("#rank").val(user.rank).prop('readonly', true);
+                                $("#address").val(user.address).prop('readonly', true);
+                                $("#state").val(user.address.state).prop('readonly', true);
+                                $("#pincode").val(user.address.zip).prop('readonly', true);
+                                $("#city").val(user.address.city).prop('readonly', true);
+                                $("#guest_type").val('1');
+                            } else {
+                                $("#guest_name").val('').prop('readonly', false);
+                                $("#email").val('').prop('readonly', false);
+                                $("#mobile").val('').prop('readonly', false);
+                                $("#dob").val('').prop('readonly', false);
+                                $("#rank").val('').prop('readonly', false);
+                                $("#address").val('').prop('readonly', false);
+                                $("#state").val('').prop('readonly', false);
+                                $("#pincode").val('').prop('readonly', false);
+                                $("#city").val('').prop('readonly', false);
+                                $("#guest_type").val('0');
+                            }
                         }
-
-                    }
-                });
-            }
-
-
-
+                    });
+                }
+            }, 500); // Adjust debounce delay (in ms) as needed
         });
     </script>
 @endpush
