@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-
+use Carbon\Carbon;
 class Booking extends Model
 {
     protected $casts = [
@@ -97,5 +97,11 @@ class Booking extends Model
         return new Attribute(
             get: fn () => "<span class='badge badge--$className'>" . trans($text) . "</span>",
         );
+    }
+
+     public function getCreatedAtAttribute($value)
+    {
+        // return Carbon::parse($value)->setTimezone(config('app.timezone'))->toDateTimeString();
+        return Carbon::parse($value)->timezone('Asia/Kolkata')->toDateTimeString();
     }
 }
