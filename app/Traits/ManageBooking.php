@@ -923,7 +923,7 @@ trait ManageBooking
             'maxdate' =>  $maxDate,
             'fare' =>  $fare
         ];
-
+        dd($data, $fare);
         $pdf = PDF::loadView('partials.invoice', $data);
 
         return $pdf->stream($booking->booking_number . '.pdf');
