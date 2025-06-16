@@ -531,6 +531,7 @@
                                     <span class="d-inline-block">{{ $numberOfDays + 1 }}</span>
                                 </li>
                                 <li>
+                                    @dd($fare)
                                     <span class="d-inline-block strong">@lang('Bed Rates') :</span>
                                     <span class="d-inline-block">{{ showAmount($fare) }}
                                         {{ __($general->cur_text) }}</span>
