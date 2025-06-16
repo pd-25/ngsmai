@@ -895,7 +895,8 @@ trait ManageBooking
 
         // Retrieve the maximum date for the specific record
         $maxDate = BookedRoom::where('booking_id', $bookingId)->whereIn('status' , [1,9])->max('booked_for');
-        $fare = BookedRoom::select('fare')->where('booking_id', $bookingId)->max('fare');
+        // $fare = BookedRoom::select('fare')->where('booking_id', $bookingId)->max('fare');
+        $fare = BookedRoom::select('fare')->where('booking_id', $bookingId)->first()->fare ?? 0;
 
         $booking = Booking::with([
             'bookedRoom' => function ($query) {
