@@ -28,7 +28,7 @@
                                     <th>@lang('Occupant')</th>
                                     <th>@lang('Room Number')</th>
                                     <th>@lang('Booked For')</th>
-                                    <th>@lang('Total Fare') | @lang('Total Days')</th>
+                                    <th>@lang('Total Fare') | @lang('Rate')</th>
                                     <th>@lang('Total Cost') | @lang('Paid')</th>
                                     <th>@lang('Due')</th>
                                     <th>@lang('Action')</th>
@@ -91,11 +91,13 @@
                                         @endphp
                                         <td data-label="@lang('Booked For')">
                                             {{-- {{ showDateTime($booking->booked_room_min_booked_for, 'd M, Y') }} --}}
-                                            {{ showDateTime($minBookedFor, 'd M, Y h:i:s A') }}
+                                            {{ showDateTime($minBookedFor, 'd M, Y') }}
                                             <br>
                                             <span class="text--info">@lang('to')</span>
                                             {{-- {{ showDateTime($booking->booked_room_max_booked_for, 'd M, Y') }} --}}
-                                            {{ showDateTime($maxBookedFor, 'd M, Y h:i:s A') }}
+                                            {{ showDateTime($maxBookedFor, 'd M, Y') }}
+                                            <div><b>Booked at</b>: {{ showDateTime($booking?->created_at, 'dM, Y h.iA') }}
+                                            </div>
                                         </td>
 
                                         <?php
