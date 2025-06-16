@@ -514,20 +514,21 @@
 
                                 </li>
 
-                                {{--
-                                client only want the origan fixed fare
-                                 </?php
+                                
+                                
+                                 <?php
                                     $startDate = Carbon::parse($mindate);
                                     $endDate = Carbon::parse($maxdate);
                                     
                                     // Calculate the difference between the two dates
                                     $numberOfDays = $startDate->diffInDays($endDate);
-                                    $fareForUpdatedPrice = $totalAmount / ($numberOfDays + 1);
-                                    if ($fareForUpdatedPrice > $fare) {
-                                        $fare = $fareForUpdatedPrice;
-                                    }
+                                    //client only want the origan fixed fare
+                                    //  $fareForUpdatedPrice = $totalAmount / ($numberOfDays + 1);
+                                    // if ($fareForUpdatedPrice > $fare) {
+                                    //     $fare = $fareForUpdatedPrice;
+                                    // }
                                 
-                                ?> --}}
+                                ?> 
                                 <li>
                                     <span class="d-inline-block strong">@lang('Number of Days') :</span>
                                     <span class="d-inline-block">{{ $numberOfDays + 1 }}</span>
