@@ -27,7 +27,7 @@
                         <table class="table--light style--two table">
                             <thead>
                                 <tr>
-                                    <th>@lang('S.N.')</th>
+                                    {{-- <th>@lang('S.N.')</th> --}}
                                     <th>@lang('Booking Number')</th>
                                     <th>@lang('Occupant')</th>
                                     <th>@lang('Room Number')</th>
@@ -49,9 +49,9 @@
                                         )->startOfDay();
                                     @endphp
                                     <tr>
-                                        <td>
+                                        {{-- <td>
                                             {{ $bookings->firstItem() + $loop->index }}
-                                        </td>
+                                        </td> --}}
 
                                         <td data-label="@lang('Booking Number')">
                                             <span class="fw-bold">{{ $booking->booking_number }}</span>

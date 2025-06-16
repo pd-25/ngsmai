@@ -112,7 +112,7 @@ trait ManageBooking
         $dateString = explode('To', $request->date);
         $checkInDate = trim($dateString[0]);
         $checkOutDate = trim($dateString[1]);
-
+        /*
         // Define the check-in time threshold (12 PM)
         $checkInThreshold = Carbon::createFromTime(12, 0, 0);
 
@@ -140,7 +140,14 @@ trait ManageBooking
 
         // Output the final check-in and check-out dates
         // dd($finalCheckInDate, $finalCheckOutDate);
+        */
+        // Parse both dates directly (no time threshold logic)
+        $checkInCarbon = Carbon::createFromFormat($datepickerFormat, $checkInDate);
+        $checkOutCarbon = Carbon::createFromFormat($datepickerFormat, $checkOutDate);
 
+        // Normalize both to start of day (12:00 AM)
+        $finalCheckInDate = $checkInCarbon->startOfDay()->format('Y-m-d H:i:s');
+        $finalCheckOutDate = $checkOutCarbon->startOfDay()->format('Y-m-d H:i:s');
         $request->merge([
             'checkin_date'  => $finalCheckInDate,
             'checkout_date' => $finalCheckOutDate,
