@@ -78,6 +78,7 @@ trait ManageBooking
                     ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
             })
             ->whereDate('max_dates.last_date', $today)
+            ->where('bookings.is_manual_checkout', 0)
             // ->where('bookings.receptionist_id', auth()->guard('receptionist')->id())
             ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
             ->get();
