@@ -71,7 +71,11 @@ trait ManageBooking
         $today = Carbon::today()->toDateString();
         $tomorrow = Carbon::tomorrow()->toDateString();
         $todaysCheckout = BookedRoom::with("booking.user")->select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
-            ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
+            // ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
+            ->join('bookings', function ($join) {
+                $join->on('booked_rooms.booking_id', '=', 'bookings.id')
+                    ->where('bookings.is_manual_checkout', 0); // move the condition into the join
+            })
             ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
             ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
                 $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
