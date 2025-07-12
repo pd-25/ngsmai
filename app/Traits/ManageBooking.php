@@ -884,8 +884,8 @@ trait ManageBooking
         $booking->save();
 
         $notify[] = ['success', 'Booking checked out successfully'];
-        // return redirect()->route($this->userType . '.booking.checkout', $id)->withNotify($notify);
-        return redirect()->back()->withNotify($notify);
+        return redirect()->route($this->userType . '.booking.all', $id)->withNotify($notify);
+        // return redirect()->back()->withNotify($notify);
     }
 
 
