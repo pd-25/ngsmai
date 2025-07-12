@@ -86,7 +86,7 @@ trait ManageBooking
             // ->where('bookings.receptionist_id', auth()->guard('receptionist')->id())
             ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
             ->get();
-            dd($todaysCheckout, $todaysCheckout->toRawSql());
+            // dd($todaysCheckout, $todaysCheckout->toRawSql());
         $tomorrowsCheckout = BookedRoom::with("booking.user")->select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
             ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
             ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')

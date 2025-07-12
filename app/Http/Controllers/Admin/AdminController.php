@@ -81,21 +81,21 @@ class AdminController extends Controller
 
 
         $trxReport['date'] = collect([]);
-        $plusTrx = PaymentLog::where('type','RECEIVED')->where('created_at', '>=', Carbon::now()->subDays(30))
-                                       ->selectRaw("SUM(amount) as amount, DATE_FORMAT(created_at,'%Y-%m-%d') as date")
-                                       ->orderBy('created_at')
-                                       ->groupBy('date')
-                                       ->get();
+        $plusTrx = PaymentLog::where('type', 'RECEIVED')->where('created_at', '>=', Carbon::now()->subDays(30))
+            ->selectRaw("SUM(amount) as amount, DATE_FORMAT(created_at,'%Y-%m-%d') as date")
+            ->orderBy('created_at')
+            ->groupBy('date')
+            ->get();
 
         $plusTrx->map(function ($trxData) use ($trxReport) {
             $trxReport['date']->push($trxData->date);
         });
 
-        $minusTrx = PaymentLog::where('type','RETURNED')->where('created_at', '>=', Carbon::now()->subDays(30))
-                                       ->selectRaw("SUM(amount) as amount, DATE_FORMAT(created_at,'%Y-%m-%d') as date")
-                                       ->orderBy('created_at')
-                                       ->groupBy('date')
-                                       ->get();
+        $minusTrx = PaymentLog::where('type', 'RETURNED')->where('created_at', '>=', Carbon::now()->subDays(30))
+            ->selectRaw("SUM(amount) as amount, DATE_FORMAT(created_at,'%Y-%m-%d') as date")
+            ->orderBy('created_at')
+            ->groupBy('date')
+            ->get();
 
         $minusTrx->map(function ($trxData) use ($trxReport) {
             $trxReport['date']->push($trxData->date);
@@ -120,32 +120,36 @@ class AdminController extends Controller
                 }
             }
         }
-        
+
         $today = Carbon::today()->toDateString();
         $tomorrow = Carbon::tomorrow()->toDateString();
-       $todaysCheckout = BookedRoom::with("booking.user")->select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
-    ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
-    ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
-    ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
-        $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
-             ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
-    })
-    ->whereDate('max_dates.last_date', $today)
-    ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
-    ->get();
-$tomorrowsCheckout = BookedRoom::with("booking.user")->select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
-    ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
-    ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
-    ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
-        $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
-             ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
-    })
-    ->whereDate('max_dates.last_date', $tomorrow)
-    ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
-    ->get();
-    // dd($tomorrowsCheckout);
+        $todaysCheckout = BookedRoom::with("booking.user")->select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
+            // ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
+            ->join('bookings', function ($join) {
+                $join->on('booked_rooms.booking_id', '=', 'bookings.id')
+                    ->where('bookings.is_manual_checkout', 0); // move the condition into the join
+            })
+            ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
+            ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
+                $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
+                    ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
+            })
+            ->whereDate('max_dates.last_date', $today)
+            ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
+            ->get();
+        $tomorrowsCheckout = BookedRoom::with("booking.user")->select('booked_rooms.booking_id', 'bookings.booking_number', 'last_date', DB::raw('GROUP_CONCAT(rooms.room_number) as rooms'))
+            ->join('bookings', 'booked_rooms.booking_id', '=', 'bookings.id')
+            ->join('rooms', 'booked_rooms.room_id', '=', 'rooms.id')
+            ->join(DB::raw('(SELECT booking_id, MAX(booked_for) as last_date FROM booked_rooms GROUP BY booking_id) as max_dates'), function ($join) {
+                $join->on('booked_rooms.booking_id', '=', 'max_dates.booking_id')
+                    ->on('booked_rooms.booked_for', '=', 'max_dates.last_date');
+            })
+            ->whereDate('max_dates.last_date', $tomorrow)
+            ->groupBy('booked_rooms.booking_id', 'bookings.booking_number', 'last_date')
+            ->get();
+        // dd($tomorrowsCheckout);
 
-        return view('admin.dashboard', compact('pageTitle', 'widget', 'chart', 'deposit', 'report', 'bookingMonth', 'months', 'hotel','trxReport','plusTrx','minusTrx', 'todaysCheckout', 'tomorrowsCheckout'));
+        return view('admin.dashboard', compact('pageTitle', 'widget', 'chart', 'deposit', 'report', 'bookingMonth', 'months', 'hotel', 'trxReport', 'plusTrx', 'minusTrx', 'todaysCheckout', 'tomorrowsCheckout'));
     }
 
 
@@ -157,7 +161,7 @@ $tomorrowsCheckout = BookedRoom::with("booking.user")->select('booked_rooms.book
     }
     public function course()
     {
-        
+
         return view('admin.caurse.add_course');
     }
 
