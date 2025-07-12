@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class PaymentLog extends Model
 {
@@ -21,5 +23,10 @@ class PaymentLog extends Model
     public function receptionist()
     {
         return $this->belongsTo(Receptionist::class);
+    }
+     public function getCreatedAtAttribute($value)
+    {
+        // return Carbon::parse($value)->setTimezone(config('app.timezone'))->toDateTimeString();
+        return Carbon::parse($value)->timezone('Asia/Kolkata')->toDateTimeString();
     }
 }
