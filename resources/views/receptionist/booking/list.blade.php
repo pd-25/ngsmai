@@ -68,6 +68,9 @@
                                                 <small class="ms-2" title="{{ $booking->cancel_reason }}"><i
                                                         class="fa fa-circle text--danger" aria-hidden="true"></i>
                                                     @lang('Cancelled')</small>
+                                            @elseif($booking->is_manual_checkout == 1)
+                                                <small class="ms-2"><i class="fa fa-circle text--primary"
+                                                        aria-hidden="true"></i> @lang('Manual Checkout')</small>
                                             @else
                                                 <small class="ms-2"><i class="fa fa-circle text--dark"
                                                         aria-hidden="true"></i> @lang('Checked Out')</small>
@@ -84,7 +87,7 @@
                                                 <br>
                                                 {{-- <span class="fw-bold"></?php echo isset($booking->user->email) ? $booking->user->email : $booking->guest_details->email; ?></span> --}}
                                                 <span class="fw-bold">{{ $booking?->user?->cdc }}</span>
-                                                @else
+                                            @else
                                                 <span class="small">{{ $booking->guest_details->name }}</span>
                                                 <br>
                                                 <span class="fw-bold">{{ $booking->guest_details->email }}</span>
@@ -120,7 +123,7 @@
                                         <td data-label="@lang('Total Fare') | @lang('Total Days')">
                                             {{ $general->cur_sym }}{{ __(showAmount($booking->total_amount)) }}
                                             <br>
-                                            {{showAmount($booking->bookedRoom[0]->fare)}}
+                                            {{ showAmount($booking->bookedRoom[0]->fare) }}
                                             {{-- {{ $numberOfDays + 1 }} Days --}}
                                             {{-- {{ $general->cur_sym }}{{ showAmount($booking->used_extra_service_sum_total_amount ?? 0) }} --}}
                                         </td>
@@ -129,6 +132,8 @@
                                             $totalCost =
                                                 $booking->total_amount + $booking->used_extra_service_sum_total_amount;
                                             $due = $totalCost - $booking->paid_amount;
+                                            $dueClass = $due < 0 ? 'text--danger' : 'text--success';
+                                            $tooltipText = $due < 0 ? 'To refund' : 'To receive';
                                         @endphp
 
                                         <td data-label="@lang('Total Cost') | @lang('Paid')">
@@ -138,8 +143,12 @@
                                                 class="@if ($due >= 0) text--success @else text--danger @endif">{{ $general->cur_sym }}{{ showAmount($booking->paid_amount) }}</span>
                                         </td>
 
-                                        <td data-label="@lang('Due')"
+                                        {{-- <td data-label="@lang('Due')"
                                             class="@if ($due < 0) text--danger @endif">
+                                            {{ $general->cur_sym }}{{ showAmount($due) }}
+                                        </td> --}}
+                                        <td data-label="@lang('Due')" class="{{ $dueClass }}"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $tooltipText }}">
                                             {{ $general->cur_sym }}{{ showAmount($due) }}
                                         </td>
 

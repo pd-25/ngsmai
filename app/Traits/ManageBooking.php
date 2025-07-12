@@ -879,6 +879,7 @@ trait ManageBooking
         $booking->bookedRoom()->where('status', '!=', 3)->update(['status' => 9]);
         $booking->status = 9;
         $booking->checked_out_at = now();
+        $booking->is_manual_checkout = 1; // Mark as manual checkout
 
         $booking->save();
 

@@ -1,5 +1,6 @@
 @php
-$roomFare = $booking->booked_room_sum_fare;
+// $roomFare = $booking->booked_room_sum_fare;
+$roomFare = $booking->total_amount ?? 0;
 $extraServiceCost = $booking->used_extra_service_sum_total_amount ?? 0;
 
 $totalCost = $extraServiceCost + $roomFare;
